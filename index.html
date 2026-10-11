@@ -272,14 +272,16 @@ ctx.filter = "none";
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
   import {
-    getFirestore,
-    doc,
-    setDoc,
-    getDoc,
-    updateDoc,
-    serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  serverTimestamp,
+  onSnapshot,
+  collection,
+  addDoc
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
   const firebaseConfig = {
     apiKey: "AIzaSyBZc_v8rdJ9KsshNE57mZxRAheYjXNu6VM",
     authDomain: "ourlittlemoments2026.firebaseapp.com",
