@@ -272,16 +272,17 @@ ctx.filter = "none";
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
   import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc,
-  serverTimestamp,
-  onSnapshot,
-  collection,
-  addDoc
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+    updateDoc,
+    serverTimestamp,
+    onSnapshot,
+    collection,
+    addDoc
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
   const firebaseConfig = {
     apiKey: "AIzaSyBZc_v8rdJ9KsshNE57mZxRAheYjXNu6VM",
     authDomain: "ourlittlemoments2026.firebaseapp.com",
@@ -295,95 +296,326 @@ ctx.filter = "none";
   const auth = getAuth(app);
   const db = getFirestore(app);
 
+  const status = document.getElementById("status");
   const roomStatus = document.getElementById("roomStatus");
-  const roomCodeInput = document.getElementById("roomCode");
-  const createRoom = document.getElementById("createRoom");
-  const joinRoom = document.getElementById("joinRoom");
-  const copyRoom = document.getElementById("copyRoom");
+  const roomCode = document.getElementById("roomCode");
+  const cameraButton = document.getElementById("connectCameras");
+  const partnerVideo = document.getElementById("partnerCamera");
+  const partnerPlaceholder = document.getElementById("partner");
+
+  let peer = null;
+  let localStream = null;
+  let activeRoom = null;
+  let stopRoomListener = null;
+  let stopCandidateListener = null;
+  let makingOffer = false;
+  let handlingOffer = false;
+  let remoteDescriptionReady = false;
+  const pendingCandidates = [];
+
+  const rtcConfig = {
+    iceServers: [
+      { urls: "stun:stun.l.google.com:19302" }
+    ]
+  };
+
+  function showStatus(message) {
+    roomStatus.textContent = message;
+  }
+
+  async function startCamera() {
+    const localVideo = document.getElementById("camera");
+
+    localStream = localVideo.srcObject;
+
+    if (!localStream) {
+      localStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "user" },
+        audio: false
+      });
+      localVideo.srcObject = localStream;
+      await localVideo.play();
+    }
+
+    return localStream;
+  }
+
+  async function flushCandidates() {
+    while (pendingCandidates.length && remoteDescriptionReady) {
+      const candidate = pendingCandidates.shift();
+      await peer.addIceCandidate(candidate);
+    }
+  }
+
+  function closeConnection() {
+    if (stopRoomListener) stopRoomListener();
+    if (stopCandidateListener) stopCandidateListener();
+    if (peer) peer.close();
+
+    peer = null;
+    activeRoom = null;
+    stopRoomListener = null;
+    stopCandidateListener = null;
+    remoteDescriptionReady = false;
+    pendingCandidates.length = 0;
+
+    partnerVideo.srcObject = null;
+    partnerVideo.style.display = "none";
+    partnerPlaceholder.style.display = "block";
+  }
+
+  async function connectCameras() {
+    if (!auth.currentUser) {
+      showStatus("Still signing in. Please wait a moment.");
+      return;
+    }
+
+    const roomId = roomCode.value.trim();
+
+    if (!roomId) {
+      showStatus("Enter your room code first.");
+      return;
+    }
+
+    if (activeRoom === roomId && peer) {
+      showStatus("Camera connection is already starting.");
+      return;
+    }
+
+    closeConnection();
+
+    try {
+      const roomRef = doc(db, "rooms", roomId);
+      const roomSnap = await getDoc(roomRef);
+
+      if (!roomSnap.exists()) {
+        showStatus("Room not found. Check the room code.");
+        return;
+      }
+
+      const room = roomSnap.data();
+      const myUid = auth.currentUser.uid;
+
+      if (room.hostUid !== myUid && room.guestUid !== myUid) {
+        showStatus("Join this room before connecting your camera.");
+        return;
+      }
+
+      if (!room.guestUid) {
+        showStatus("Waiting for the other person to join this room.");
+        return;
+      }
+
+      activeRoom = roomId;
+      const isHost = room.hostUid === myUid;
+
+      await startCamera();
+
+      peer = new RTCPeerConnection(rtcConfig);
+
+      localStream.getTracks().forEach(track => {
+        peer.addTrack(track, localStream);
+      });
+
+      peer.ontrack = event => {
+        partnerVideo.srcObject = event.streams[0];
+        partnerVideo.style.display = "block";
+        partnerPlaceholder.style.display = "none";
+        partnerVideo.play().catch(() => {});
+        showStatus("Your cameras are connected! ❤️");
+      };
+
+      peer.onconnectionstatechange = () => {
+        if (peer && peer.connectionState === "connected") {
+          showStatus("Your cameras are connected! ❤️");
+        } else if (peer &&
+          ["failed", "disconnected"].includes(peer.connectionState)) {
+          showStatus(
+            "Connection interrupted. Try reconnecting on both phones."
+          );
+        }
+      };
+
+      const ownCandidates = collection(
+        db, "rooms", roomId,
+        isHost ? "hostCandidates" : "guestCandidates"
+      );
+
+      peer.onicecandidate = async event => {
+        if (!event.candidate) return;
+
+        try {
+          await addDoc(ownCandidates, event.candidate.toJSON());
+        } catch (error) {
+          console.error("ICE candidate error:", error);
+        }
+      };
+
+      const otherCandidates = collection(
+        db, "rooms", roomId,
+        isHost ? "guestCandidates" : "hostCandidates"
+      );
+
+      stopCandidateListener = onSnapshot(otherCandidates, snapshot => {
+        snapshot.docChanges().forEach(change => {
+          if (change.type !== "added" || !peer) return;
+
+          const candidate = new RTCIceCandidate(change.doc.data());
+
+          if (remoteDescriptionReady) {
+            peer.addIceCandidate(candidate).catch(console.error);
+          } else {
+            pendingCandidates.push(candidate);
+          }
+        });
+      });
+
+      stopRoomListener = onSnapshot(roomRef, async snapshot => {
+        if (!snapshot.exists() || !peer) return;
+
+        const data = snapshot.data();
+
+        try {
+          if (isHost && data.answer && !peer.currentRemoteDescription) {
+            await peer.setRemoteDescription(data.answer);
+            remoteDescriptionReady = true;
+            await flushCandidates();
+          }
+
+          if (!isHost && data.offer &&
+              !peer.currentRemoteDescription && !handlingOffer) {
+            handlingOffer = true;
+
+            await peer.setRemoteDescription(data.offer);
+            remoteDescriptionReady = true;
+            await flushCandidates();
+
+            const answer = await peer.createAnswer();
+            await peer.setLocalDescription(answer);
+
+            await updateDoc(roomRef, {
+              answer: {
+                type: answer.type,
+                sdp: answer.sdp
+              },
+              updatedAt: serverTimestamp()
+            });
+
+            showStatus("Answer sent! Connecting your cameras...");
+            handlingOffer = false;
+          }
+        } catch (error) {
+          handlingOffer = false;
+          console.error("Signaling error:", error);
+          showStatus("Couldn't complete the connection. Check the console.");
+        }
+      });
+
+      if (isHost && !room.offer) {
+        if (makingOffer) return;
+        makingOffer = true;
+
+        const offer = await peer.createOffer();
+        await peer.setLocalDescription(offer);
+
+        await updateDoc(roomRef, {
+          offer: {
+            type: offer.type,
+            sdp: offer.sdp
+          },
+          updatedAt: serverTimestamp()
+        });
+
+        makingOffer = false;
+        showStatus("Connection offer sent! Waiting for the other camera...");
+      } else {
+        showStatus("Waiting for the camera connection...");
+      }
+    } catch (error) {
+      console.error("Camera connection error:", error);
+      showStatus(
+        "Couldn't connect. Check camera permission and room membership."
+      );
+      makingOffer = false;
+    }
+  }
+
+  document.getElementById("createRoom").onclick = async () => {
+    try {
+      const roomId = crypto.randomUUID();
+
+      await setDoc(doc(db, "rooms", roomId), {
+        hostUid: auth.currentUser.uid,
+        guestUid: null,
+        status: "waiting",
+        createdAt: serverTimestamp()
+      });
+
+      roomCode.value = roomId;
+      showStatus("Room created! Share this code with your person ❤️");
+      document.getElementById("copyRoom").style.display = "block";
+    } catch (error) {
+      console.error(error);
+      showStatus("Couldn't create the room. Please try again.");
+    }
+  };
+
+  document.getElementById("joinRoom").onclick = async () => {
+    try {
+      const roomId = roomCode.value.trim();
+
+      if (!roomId) {
+        showStatus("Enter the room code first.");
+        return;
+      }
+
+      const roomRef = doc(db, "rooms", roomId);
+      const roomSnap = await getDoc(roomRef);
+
+      if (!roomSnap.exists()) {
+        showStatus("Room not found. Check the code and try again.");
+        return;
+      }
+
+      const room = roomSnap.data();
+      const myUid = auth.currentUser.uid;
+
+      if (room.hostUid === myUid || room.guestUid === myUid) {
+        showStatus("You're already in this room ❤️");
+        return;
+      }
+
+      if (room.guestUid !== null) {
+        showStatus("This room already has two people.");
+        return;
+      }
+
+      await updateDoc(roomRef, { guestUid: myUid });
+      showStatus("You joined the room! Now tap Connect our cameras 📹");
+    } catch (error) {
+      console.error(error);
+      showStatus("Couldn't join. Check the code and try again.");
+    }
+  };
+
+  document.getElementById("copyRoom").onclick = async () => {
+    try {
+      await navigator.clipboard.writeText(roomCode.value);
+      showStatus("Room code copied! Send it to your person ❤️");
+    } catch (error) {
+      showStatus("Select and copy the room code manually.");
+    }
+  };
+
+  cameraButton.onclick = connectCameras;
 
   signInAnonymously(auth)
     .then(() => {
-      document.getElementById("status").textContent =
-        "Secure connection ready ❤️";
-
-      createRoom.onclick = async () => {
-        try {
-          const roomId = crypto.randomUUID();
-
-          await setDoc(doc(db, "rooms", roomId), {
-            hostUid: auth.currentUser.uid,
-            guestUid: null,
-            status: "waiting",
-            createdAt: serverTimestamp()
-          });
-
-          roomCodeInput.value = roomId;
-          roomStatus.textContent =
-            "Room created! Share this code with your person ❤️";
-          copyRoom.style.display = "block";
-        } catch (error) {
-          console.error(error);
-          roomStatus.textContent =
-            "Couldn't create the room. Please try again.";
-        }
-      };
-
-      joinRoom.onclick = async () => {
-        try {
-          const roomId = roomCodeInput.value.trim();
-
-          if (!roomId) {
-            roomStatus.textContent = "Enter the room code first.";
-            return;
-          }
-
-          const roomRef = doc(db, "rooms", roomId);
-          const roomSnap = await getDoc(roomRef);
-
-          if (!roomSnap.exists()) {
-            roomStatus.textContent =
-              "Room not found. Check the code and try again.";
-            return;
-          }
-
-          const room = roomSnap.data();
-          const myUid = auth.currentUser.uid;
-
-          if (room.hostUid === myUid || room.guestUid === myUid) {
-            roomStatus.textContent = "You're already in this room ❤️";
-            return;
-          }
-
-          if (room.guestUid !== null) {
-            roomStatus.textContent = "This room already has two people.";
-            return;
-          }
-
-          await updateDoc(roomRef, { guestUid: myUid });
-
-          roomStatus.textContent =
-            "You joined the room! ❤️ Camera connection comes next.";
-        } catch (error) {
-          console.error(error);
-          roomStatus.textContent =
-            "Couldn't join. Check the room code and try again.";
-        }
-      };
-
-      copyRoom.onclick = async () => {
-        try {
-          await navigator.clipboard.writeText(roomCodeInput.value);
-          roomStatus.textContent = "Room code copied! Send it to your person ❤️";
-        } catch (error) {
-          roomStatus.textContent =
-            "Select and copy the room code manually.";
-        }
-      };
+      status.textContent = "Secure connection ready ❤️";
     })
-    .catch((error) => {
-      console.error(error);
-      document.getElementById("status").textContent =
-        "Connection setup failed. Please refresh and try again.";
+    .catch(error => {
+      console.error("Firebase sign-in error:", error);
+      status.textContent = "Connection setup failed. Please refresh.";
     });
   </script>
 </body>
