@@ -261,14 +261,15 @@ ctx.filter = "none";
     getAuth,
     signInAnonymously
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
   import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+    updateDoc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBZc_v8rdJ9KsshNE57mZxRAheYjXNu6VM",
@@ -281,17 +282,98 @@ ctx.filter = "none";
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const roomStatus = document.getElementById("roomStatus");
+  const roomCodeInput = document.getElementById("roomCode");
+  const createRoom = document.getElementById("createRoom");
+  const joinRoom = document.getElementById("joinRoom");
+  const copyRoom = document.getElementById("copyRoom");
 
   signInAnonymously(auth)
     .then(() => {
       document.getElementById("status").textContent =
         "Secure connection ready ❤️";
+
+      createRoom.onclick = async () => {
+        try {
+          const roomId = crypto.randomUUID();
+
+          await setDoc(doc(db, "rooms", roomId), {
+            hostUid: auth.currentUser.uid,
+            guestUid: null,
+            status: "waiting",
+            createdAt: serverTimestamp()
+          });
+
+          roomCodeInput.value = roomId;
+          roomStatus.textContent =
+            "Room created! Share this code with your person ❤️";
+          copyRoom.style.display = "block";
+        } catch (error) {
+          console.error(error);
+          roomStatus.textContent =
+            "Couldn't create the room. Please try again.";
+        }
+      };
+
+      joinRoom.onclick = async () => {
+        try {
+          const roomId = roomCodeInput.value.trim();
+
+          if (!roomId) {
+            roomStatus.textContent = "Enter the room code first.";
+            return;
+          }
+
+          const roomRef = doc(db, "rooms", roomId);
+          const roomSnap = await getDoc(roomRef);
+
+          if (!roomSnap.exists()) {
+            roomStatus.textContent =
+              "Room not found. Check the code and try again.";
+            return;
+          }
+
+          const room = roomSnap.data();
+          const myUid = auth.currentUser.uid;
+
+          if (room.hostUid === myUid || room.guestUid === myUid) {
+            roomStatus.textContent = "You're already in this room ❤️";
+            return;
+          }
+
+          if (room.guestUid !== null) {
+            roomStatus.textContent = "This room already has two people.";
+            return;
+          }
+
+          await updateDoc(roomRef, { guestUid: myUid });
+
+          roomStatus.textContent =
+            "You joined the room! ❤️ Camera connection comes next.";
+        } catch (error) {
+          console.error(error);
+          roomStatus.textContent =
+            "Couldn't join. Check the room code and try again.";
+        }
+      };
+
+      copyRoom.onclick = async () => {
+        try {
+          await navigator.clipboard.writeText(roomCodeInput.value);
+          roomStatus.textContent = "Room code copied! Send it to your person ❤️";
+        } catch (error) {
+          roomStatus.textContent =
+            "Select and copy the room code manually.";
+        }
+      };
     })
     .catch((error) => {
-      console.error("Firebase sign-in error:", error);
+      console.error(error);
       document.getElementById("status").textContent =
-        "Connection setup failed. Please try again.";
+        "Connection setup failed. Please refresh and try again.";
     });
-    </script>
+  </script>
 </body>
 </html>
