@@ -228,5 +228,37 @@ ctx.filter = "none";
   }, 1000);
 };
 </script>
+  <script type="module">
+  import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
+  import {
+    getAuth,
+    signInAnonymously
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBZc_v8rdJ9KsshNE57mZxRAheYjXNu6VM",
+    authDomain: "ourlittlemoments2026.firebaseapp.com",
+    projectId: "ourlittlemoments2026",
+    storageBucket: "ourlittlemoments2026.firebasestorage.app",
+    messagingSenderId: "1075558147416",
+    appId: "1:1075558147416:web:5f4cb3997a0dffc9edf12d"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  signInAnonymously(auth)
+    .then(() => {
+      document.getElementById("status").textContent =
+        "Secure connection ready ❤️";
+    })
+    .catch((error) => {
+      console.error("Firebase sign-in error:", error);
+      document.getElementById("status").textContent =
+        "Connection setup failed. Please try again.";
+    });
+    </script>
 </body>
 </html>
