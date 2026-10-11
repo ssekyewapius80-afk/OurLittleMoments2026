@@ -199,7 +199,9 @@ capture.onclick = () => {
     ctx.save();
     ctx.translate(w / 2, 0);
     ctx.scale(-1, 1);
-    ctx.drawImage(camera, 0, 0, w / 2, h);
+    ctx.filter = filterStyles[currentFilter];
+ctx.drawImage(camera, 0, 0, w / 2, h);
+ctx.filter = "none";
     ctx.restore();
 
     ctx.fillStyle = "#fff7f8";
