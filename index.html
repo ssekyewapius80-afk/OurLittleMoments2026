@@ -126,6 +126,32 @@ const statusText = document.getElementById("status");
 const canvas = document.getElementById("photo");
 const save = document.getElementById("save");
 let stream;
+  
+let currentFilter = "none";
+
+const filterStyles = {
+  none: "none",
+  romance: "brightness(1.08) saturate(0.85) sepia(0.12)",
+  vintage: "sepia(0.45) contrast(0.9) saturate(0.75)",
+  bw: "grayscale(1)",
+  sunset: "sepia(0.25) saturate(1.35) brightness(1.05)",
+  pink: "saturate(1.15) hue-rotate(325deg) brightness(1.05)"
+};
+
+document.querySelectorAll(".filter-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    currentFilter = button.dataset.filter;
+
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.classList.toggle("active", btn === button);
+    });
+
+    camera.style.filter = filterStyles[currentFilter];
+    statusText.textContent =
+      button.textContent + " filter selected 💗";
+  });
+});
+
 
 start.onclick = async () => {
   try {
