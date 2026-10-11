@@ -47,6 +47,30 @@ button:disabled{opacity:.5}
 #status{font-size:14px;min-height:24px}
 canvas{display:none;width:100%;border-radius:12px;margin-top:12px}
 footer{font-size:12px;margin:25px 0;color:#987986}
+  
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+.filter-btn {
+  width: auto;
+  margin: 0;
+  padding: 10px 14px;
+  background: #f8e3ea;
+  color: #76364d;
+  border: 1px solid transparent;
+}
+
+.filter-btn.active {
+  background: #b84468;
+  color: white;
+  border-color: #8d294c;
+}
+
 </style>
 </head>
 <body>
@@ -72,6 +96,15 @@ footer{font-size:12px;margin:25px 0;color:#987986}
         <div class="label">Your person</div>
       </div>
     </div>
+
+<div class="filters">
+  <button class="filter-btn active" data-filter="none">Original</button>
+  <button class="filter-btn" data-filter="romance">Soft Romance</button>
+  <button class="filter-btn" data-filter="vintage">Vintage</button>
+  <button class="filter-btn" data-filter="bw">Black & White</button>
+  <button class="filter-btn" data-filter="sunset">Golden Hour</button>
+  <button class="filter-btn" data-filter="pink">Pink Dream</button>
+</div>
 
     <p id="status">Your little memory starts here.</p>
     <button class="primary" id="start">Turn on my camera</button>
