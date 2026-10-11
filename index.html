@@ -106,7 +106,32 @@ footer{font-size:12px;margin:25px 0;color:#987986}
   <button class="filter-btn" data-filter="pink">Pink Dream</button>
 </div>
 
-    <p id="status">Your little memory starts here.</p>
+    <div class="card">
+  <h3>Our private room 💗</h3>
+  <p>Create a room for yourself, or join one your person created.</p>
+
+  <button class="primary" id="createRoom">
+    Create our room
+  </button>
+
+  <input
+    id="roomCode"
+    type="text"
+    placeholder="Paste room code here"
+    style="width:100%;padding:14px;border:1px solid #e9c5d0;border-radius:14px;margin:8px 0;"
+  >
+
+  <button class="secondary" id="joinRoom">
+    Join our room
+  </button>
+
+  <p id="roomStatus">Your private room is waiting for you.</p>
+  <button class="secondary" id="copyRoom" style="display:none">
+    Copy room code
+  </button>
+</div>
+
+<p id="status">Your little memory starts here.</p>
     <button class="primary" id="start">Turn on my camera</button>
     <button class="secondary" id="capture" disabled>Take our photo 📸</button>
     <canvas id="photo"></canvas>
@@ -236,6 +261,14 @@ ctx.filter = "none";
     getAuth,
     signInAnonymously
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+  import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBZc_v8rdJ9KsshNE57mZxRAheYjXNu6VM",
