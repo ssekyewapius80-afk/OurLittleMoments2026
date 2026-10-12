@@ -276,9 +276,7 @@ $("createRoom").addEventListener("click", async () => {
     await createRoom();
   } catch (error) {
     console.error(error);
-    setRoomStatus("Couldn't create the room. Check the Firestore rules and try again.");
-  }
-});
+    setRoomStatus("Room error: " + (error.code || error.message || String(error)));
 
 async function joinRoom() {
   await authReady;
