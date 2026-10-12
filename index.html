@@ -156,7 +156,12 @@ let roomUnsubscribe = null;
 let candidateUnsubscribe = null;
 let authUser = null;
 let authReadyResolve;
-const authReady = new Promise(resolve => authReadyResolve = resolve);
+let authReadyResolve;
+
+const authReady = new Promise(resolve => {
+  authReadyResolve = resolve;
+});
+
 let currentSessionId = null;
 let remoteDescriptionReady = false;
 let handlingOffer = false;
