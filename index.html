@@ -257,29 +257,47 @@ function roomRef(roomId = activeRoom) {
 }
 
 async function createRoom() {
+  setRoomStatus("Creating your room...");
+
   await authReady;
-  if (!authUser) throw new Error("Authentication isn't ready yet.");
+
+  if (!authUser) {
+    throw new Error("Firebase sign-in isn't ready.");
+  }
+
+  if (!crypto.randomUUID) {
+    throw new Error("This browser cannot generate a room code.");
+  }
+
   const roomId = crypto.randomUUID();
+
   await setDoc(roomRef(roomId), {
     hostUid: authUser.uid,
     guestUid: null,
     status: "waiting",
     createdAt: serverTimestamp()
   });
+
   roomCode.value = roomId;
   activeRoom = roomId;
   $("copyRoom").hidden = false;
+
   const url = new URL(location.href);
   url.searchParams.set("room", roomId);
-  setRoomStatus("Room created! Copy the code or share the link with your person ❤️");
+
   history.replaceState(null, "", url);
+
+  setRoomStatus(
+    "Room created! You're the host. Send this code to Cynthia ❤️"
+  );
 }
 
 $("createRoom").addEventListener("click", async () => {
   try {
     await createRoom();
   } catch (error) {
-    console.error(error);
+    console.error("Room creation failed:", error);
+
     setRoomStatus(
       "Room error: " + (error.code || error.message || String(error))
     );
