@@ -297,7 +297,6 @@ $("createRoom").addEventListener("click", async () => {
     await createRoom();
   } catch (error) {
     console.error("Room creation failed:", error);
-
     setRoomStatus(
       "Room error: " + (error.code || error.message || String(error))
     );
