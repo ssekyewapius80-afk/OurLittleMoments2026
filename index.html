@@ -156,7 +156,6 @@ let roomUnsubscribe = null;
 let candidateUnsubscribe = null;
 let authUser = null;
 let authReadyResolve;
-let authReadyResolve;
 
 const authReady = new Promise(resolve => {
   authReadyResolve = resolve;
@@ -281,7 +280,11 @@ $("createRoom").addEventListener("click", async () => {
     await createRoom();
   } catch (error) {
     console.error(error);
-    setRoomStatus("Room error: " + (error.code || error.message || String(error)));
+    setRoomStatus(
+      "Room error: " + (error.code || error.message || String(error))
+    );
+  }
+});
 
 async function joinRoom() {
   await authReady;
