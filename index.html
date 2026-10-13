@@ -141,7 +141,9 @@ const firebaseConfig = {
   appId: "1:1075558147416:web:5f4cb3997a0dffc9edf12d"
 };
 // Optional but strongly recommended for phones on different networks: Metered *credential API key* (never the Secret Key).
-const METERED_CREDENTIAL_API_KEY = "";
+const 6451288b9fd32281d64b16017982d9f0e689 = "";
+// The name of your Metered app, i.e. the part before ".metered.live" in your dashboard.
+const METERED_APP_NAME = "our-little-moments";
 
 const $ = id => document.getElementById(id);
 const roomCode = $("roomCode"), localVideo = $("localVideo"), remoteVideo = $("remoteVideo");
@@ -183,7 +185,7 @@ async function getIce() {
   const key = METERED_CREDENTIAL_API_KEY.trim();
   if (!key) return servers;
   try {
-    const r = await fetch("https://our-little-moments.metered.live/api/v1/turn/credentials?apiKey=" + encodeURIComponent(key));
+    const r = await fetch("https://" + METERED_APP_NAME + ".metered.live/api/v1/turn/credentials?apiKey=" + encodeURIComponent(key));
     if (!r.ok) throw new Error("HTTP " + r.status);
     const d = await r.json();
     return [...servers, ...(Array.isArray(d) ? d : d.iceServers || [])];
