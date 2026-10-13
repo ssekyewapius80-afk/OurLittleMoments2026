@@ -42,7 +42,12 @@ input:focus,select:focus{border-color:var(--pink);box-shadow:0 0 0 3px #d85b8319
 .camera-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;color:#ffe8ef;font-family:"Playfair Display",Georgia,serif;font-size:1.2rem;pointer-events:none;z-index:1}
 .camera-tile.has-video .camera-placeholder{display:none}
 .countdown{text-align:center;font-family:"Playfair Display",Georgia,serif;font-size:clamp(2rem,10vw,4.5rem);color:var(--pink-dark);min-height:1.2em}
-canvas{display:none}
+#captureCanvas{display:none}
+.together{position:relative;margin:14px auto 0;max-width:420px;aspect-ratio:4/5;border-radius:18px;overflow:hidden;background:#2b1d27}
+.together canvas{position:absolute;inset:0;width:100%;height:100%;filter:var(--vf,none);visibility:hidden}
+.together.on canvas{visibility:visible}
+.together.on .camera-placeholder{display:none}
+#bgFile{margin-top:8px;font-size:.85rem}
 #previewWrap{display:none;margin-top:14px}
 #photoPreview{width:100%;max-width:560px;display:block;margin:auto;border-radius:16px;border:1px solid var(--line)}
 #savePhoto{text-align:center;text-decoration:none;background:var(--pink);color:#fff;border-radius:13px;padding:12px 16px;font-weight:700;margin:12px auto 0;width:fit-content;display:block}
@@ -65,7 +70,7 @@ footer{text-align:center;color:#9b8791;font-size:.8rem;padding:15px}
   <p class="help">One of you creates a room and shares the link. The other opens it and taps Join room.</p>
   <div class="grid2">
     <div class="field"><label for="roomCode">Room code</label><input id="roomCode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Create a room or paste a code"></div>
-    <div class="field"><label for="layout">Photo layout</label><select id="layout"><option value="together">Side by side</option><option value="classic">Stacked</option></select></div>
+    <div class="field"><label for="layout">Photo style</label><select id="layout"><option value="strip">Photo strip (4 shots)</option><option value="single">Single photo</option></select></div>
   </div>
   <div class="actions">
     <button id="createRoom" class="primary">Create our room 💗</button>
@@ -100,7 +105,9 @@ footer{text-align:center;color:#9b8791;font-size:.8rem;padding:15px}
 
 <section class="card">
   <h2 class="section-title">Make the memory</h2>
-  <p class="help">Pick a mood, then take the photo. It combines both live cameras into one keepsake.</p>
+  <p class="help">Once you're connected, you both appear together on one shared backdrop below. Pick a backdrop and mood, then take the photo.</p>
+  <div class="together" id="together"><canvas id="togetherLive" width="720" height="900"></canvas><div class="camera-placeholder" id="togetherNote">Connect your cameras and you'll appear together here 💗</div></div>
+  <div class="field" style="margin:14px 0 4px"><label for="backdrop">Backdrop</label><select id="backdrop"><option value="sunset">Golden sunset</option><option value="night">Night city</option><option value="cozy">Cozy café lights</option><option value="hearts">Pink hearts</option><option value="photo">My own photo…</option></select><input type="file" id="bgFile" accept="image/*" hidden></div>
   <div class="grid2">
     <div class="field"><label for="filter">Photo filter</label><select id="filter"><option value="none">Original</option><option value="soft">Soft romance</option><option value="vintage">Vintage</option><option value="bw">Black &amp; white</option><option value="golden">Golden hour</option><option value="pink">Pink dream</option></select></div>
     <div class="field"><label for="theme">Frame style</label><select id="theme"><option value="rose">Romantic rose</option><option value="sunset">Golden sunset</option><option value="film">Classic film</option><option value="minimal">Soft minimal</option></select></div>
@@ -195,7 +202,7 @@ async function getIce() {
 function closePeer() {
   if (candUnsub) candUnsub(); candUnsub = null;
   if (pc) { try { pc.onicecandidate = pc.ontrack = pc.onconnectionstatechange = null; pc.close(); } catch {} }
-  pc = null; session = "";
+  pc = null; session = ""; stopTogether();
   remoteVideo.srcObject = null; refreshTile(remoteVideo, $("remoteTile"));
 }
 function stopCamera() {
@@ -405,37 +412,136 @@ function drawCover(c, v, x, y, w, h, mirror, filter) {
 }
 const drawText = (c, t, x, y, size, color, font = "Georgia") => { c.fillStyle = color; c.font = `600 ${size}px ${font}`; c.textAlign = "center"; c.fillText(t, x, y); };
 
-function takePhoto() {
+// ===== Together magic: cut each person out and place both on one shared backdrop =====
+const SEG_MODEL = "https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_segmenter/float16/latest/selfie_segmenter.tflite";
+const CW = 360, CH = 480, OW = 720, OH = 900;
+const mkCut = () => { const c = document.createElement("canvas"); c.width = CW; c.height = CH; return { c, x: c.getContext("2d", { willReadFrequently: true }) }; };
+const cuts = [mkCut(), mkCut()];
+const live = $("togetherLive"), lx = live.getContext("2d");
+let seg = null, segP = null, loopOn = false, runId = 0, lastT = 0, errs = 0, bg = null, bgKey = "", customBg = null;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function loadSeg() {
+  return segP || (segP = (async () => {
+    try {
+      const V = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
+      const { ImageSegmenter, FilesetResolver } = await import(V + "/vision_bundle.mjs");
+      const fs = await FilesetResolver.forVisionTasks(V + "/wasm");
+      const make = d => ImageSegmenter.createFromOptions(fs, { baseOptions: { modelAssetPath: SEG_MODEL, delegate: d }, runningMode: "IMAGE", outputConfidenceMasks: true, outputCategoryMask: false });
+      try { seg = await make("GPU"); } catch { seg = await make("CPU"); }
+    } catch (e) { console.error(e); seg = null; camSay("Together magic couldn't load (" + errText(e) + "). Photos will be side by side.", true); }
+  })());
+}
+
+// Segment one camera and turn everything that isn't the person transparent.
+function cut(v, k) {
+  const { c, x } = cuts[k];
+  if (!v.videoWidth) { x.clearRect(0, 0, CW, CH); return; }
+  drawCover(x, v, 0, 0, CW, CH, false, "none");
+  seg.segment(c, r => {
+    const mask = r.confidenceMasks[r.confidenceMasks.length - 1], m = mask.getAsFloat32Array(), mw = mask.width, mh = mask.height;
+    let ce = 0, nc = 0, ed = 0, ne = 0; // person is usually centered; if edges look more "person" than the middle, flip the mask
+    for (let j = 0; j < mh; j += 8) for (let i = 0; i < mw; i += 8) {
+      const p = m[j * mw + i], fx = i / mw, fy = j / mh;
+      if (fx > .3 && fx < .7 && fy > .3 && fy < .8) { ce += p; nc++; } else if (fx < .1 || fx > .9 || fy < .1) { ed += p; ne++; }
+    }
+    const inv = ne && nc && ed / ne > ce / nc;
+    const im = x.getImageData(0, 0, CW, CH), d = im.data;
+    for (let j = 0; j < CH; j++) {
+      const row = Math.min(mh - 1, (j * mh / CH) | 0) * mw;
+      for (let i = 0; i < CW; i++) {
+        let p = m[row + Math.min(mw - 1, (i * mw / CW) | 0)]; if (inv) p = 1 - p;
+        p = (p - .35) / .3; d[(j * CW + i) * 4 + 3] = p <= 0 ? 0 : p >= 1 ? 255 : p * 255;
+      }
+    }
+    x.putImageData(im, 0, 0);
+  });
+}
+
+function makeBg(k) {
+  const c = document.createElement("canvas"); c.width = OW; c.height = OH;
+  const g = c.getContext("2d"); let s = 7;
+  const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  const grad = (a, b, d) => { const q = g.createLinearGradient(0, 0, 0, OH); q.addColorStop(0, a); q.addColorStop(.55, b); q.addColorStop(1, d); g.fillStyle = q; g.fillRect(0, 0, OW, OH); };
+  const glow = (x, y, r, col) => { const q = g.createRadialGradient(x, y, 0, x, y, r); q.addColorStop(0, col); q.addColorStop(1, "rgba(0,0,0,0)"); g.fillStyle = q; g.fillRect(x - r, y - r, r * 2, r * 2); };
+  if (k === "photo" && customBg) { const sc = Math.max(OW / customBg.width, OH / customBg.height), w = customBg.width * sc, h = customBg.height * sc; g.drawImage(customBg, (OW - w) / 2, (OH - h) / 2, w, h); }
+  else if (k === "night") {
+    grad("#0c1030", "#2b2a6b", "#7a4a86"); g.fillStyle = "#fff";
+    for (let i = 0; i < 90; i++) { g.globalAlpha = rnd() * .8 + .2; g.fillRect(rnd() * OW, rnd() * OH * .5, 2, 2); }
+    g.globalAlpha = 1; glow(560, 170, 110, "rgba(255,246,216,.7)");
+    for (let x = 0; x < OW; x += 48) { const h = 160 + rnd() * 300; g.fillStyle = "#140f2e"; g.fillRect(x, OH - h, 44, h); g.fillStyle = "#ffd66b"; for (let y = OH - h + 14; y < OH - 10; y += 26) if (rnd() > .55) g.fillRect(x + 8 + (rnd() > .5 ? 18 : 0), y, 8, 10); }
+  } else if (k === "cozy") { grad("#3a2418", "#6b4126", "#2a170f"); for (let i = 0; i < 38; i++) glow(rnd() * OW, rnd() * OH, 24 + rnd() * 70, "rgba(255,200,110," + (.18 + rnd() * .3) + ")"); }
+  else if (k === "hearts") { grad("#ffe3ec", "#ffc2d6", "#ff9fbd"); g.textAlign = "center"; for (let i = 0; i < 42; i++) { g.globalAlpha = .25 + rnd() * .4; g.fillStyle = rnd() > .5 ? "#fff" : "#e0557f"; g.font = (28 + rnd() * 70) + "px sans-serif"; g.fillText("♥", rnd() * OW, rnd() * OH); } g.globalAlpha = 1; }
+  else { grad("#ffb36b", "#ff7a8a", "#7a4a9c"); glow(360, 420, 330, "rgba(255,241,184,.4)"); g.fillStyle = "#fff4c2"; g.beginPath(); g.arc(360, 420, 120, 0, 7); g.fill(); }
+  return c;
+}
+
+// Host always on the left, guest on the right, so both phones build the same picture.
+function frame() {
+  const hostV = role === "guest" ? remoteVideo : localVideo, guestV = role === "guest" ? localVideo : remoteVideo;
+  if (seg) {
+    cut(hostV, 0); cut(guestV, 1);
+    const k = $("backdrop").value; if (!bg || k !== bgKey) { bg = makeBg(k); bgKey = k; }
+    lx.drawImage(bg, 0, 0);
+    const sc = 1.45, w = CW * sc, h = CH * sc;
+    lx.drawImage(cuts[0].c, 0, OH - h, w, h); lx.drawImage(cuts[1].c, OW - w, OH - h, w, h);
+  } else {
+    lx.fillStyle = "#2b1d27"; lx.fillRect(0, 0, OW, OH);
+    drawCover(lx, hostV, 0, 0, OW / 2, OH, false, "none"); drawCover(lx, guestV, OW / 2, 0, OW / 2, OH, false, "none");
+  }
+}
+function tick(t, id) {
+  if (id !== runId) return;
+  requestAnimationFrame(t2 => tick(t2, id));
+  if (t - lastT < 70) return; lastT = t;
+  try { frame(); errs = 0; }
+  catch (e) { console.error(e); if (++errs > 5 && seg) { seg = null; camSay("Together magic stopped working on this phone. Photos will be side by side.", true); } }
+}
+async function startTogether() {
+  if (loopOn) return; loopOn = true; const id = ++runId;
+  $("togetherNote").textContent = "Getting the magic ready… (the first time takes a moment)";
+  await loadSeg();
+  if (id !== runId) return;
+  $("together").classList.add("on");
+  requestAnimationFrame(t => tick(t, id));
+}
+function stopTogether() { loopOn = false; runId++; $("together").classList.remove("on"); $("togetherNote").textContent = "Connect your cameras and you'll appear together here 💗"; }
+
+async function takePhoto() {
   if (!stream || !localVideo.videoWidth) return camSay("Turn your camera on before taking a photo.", true);
   if (!remoteVideo.videoWidth) return camSay("Connect your person's camera first so the photo can place you together.", true);
-  $("takePhoto").disabled = true;
-  let n = 3; $("countdown").textContent = n;
-  const t = setInterval(() => {
-    if (--n > 0) return $("countdown").textContent = n;
-    clearInterval(t); $("countdown").textContent = "💗";
-    try { renderPhoto(); } catch (e) { console.error(e); camSay("Photo failed: " + errText(e), true); }
-    $("takePhoto").disabled = false;
-  }, 850);
+  $("takePhoto").disabled = true; clearPhoto();
+  const n = $("layout").value === "single" ? 1 : 4, shots = [];
+  try {
+    if (!loopOn) await startTogether();
+    for (let i = 0; i < n; i++) {
+      for (let c = i ? 2 : 3; c > 0; c--) { $("countdown").textContent = c; await sleep(800); }
+      $("countdown").textContent = "📸";
+      try { frame(); } catch {}
+      const s = document.createElement("canvas"); s.width = OW; s.height = OH; s.getContext("2d").drawImage(live, 0, 0); shots.push(s);
+      await sleep(350);
+    }
+    $("countdown").textContent = "💗"; buildOutput(shots);
+  } catch (e) { console.error(e); camSay("Photo failed: " + errText(e), true); }
+  finally { $("takePhoto").disabled = false; }
 }
-function renderPhoto() {
-  const w = 1200, h = 1500, m = 58, gap = 20, headH = 200, footH = 150;
+function buildOutput(shots) {
+  const n = shots.length, one = n === 1, m = one ? 50 : 44, fw = one ? 1000 : 640, fh = Math.round(fw * OH / OW), gap = 18, head = one ? 150 : m, foot = one ? 130 : 120;
+  const w = fw + m * 2, h = head + n * fh + (n - 1) * gap + foot;
   canvas.width = w; canvas.height = h;
   const p = { rose: ["#fff0f5", "#8e3d5b", "#e9a0b8"], sunset: ["#fff2e5", "#9c5639", "#e5a15c"], film: ["#f6f0e6", "#403a32", "#c9b89c"], minimal: ["#fffdfb", "#66545a", "#eadce1"] }[$("theme").value];
-  ctx.filter = "none"; ctx.fillStyle = p[0]; ctx.fillRect(0, 0, w, h);
-  drawText(ctx, "Our Little Moments", w / 2, 92, 56, p[1]);
-  drawText(ctx, "together, even when we're apart", w / 2, 145, 25, p[1], "sans-serif");
-  const f = $("filter").value, y = headH, ph = h - headH - footH;
-  if ($("layout").value === "classic") {
-    const ch = (ph - gap) / 2;
-    drawCover(ctx, localVideo, m, y, w - m * 2, ch, true, f);
-    drawCover(ctx, remoteVideo, m, y + ch + gap, w - m * 2, ch, false, f);
-  } else {
-    const cw = (w - m * 2 - gap) / 2;
-    drawCover(ctx, localVideo, m, y, cw, ph, true, f);
-    drawCover(ctx, remoteVideo, m + cw + gap, y, cw, ph, false, f);
-  }
-  ctx.fillStyle = p[2]; ctx.fillRect(m, h - footH + 18, w - m * 2, 3);
-  drawText(ctx, "♡  made for us  ♡", w / 2, h - 55, 34, p[1]);
+  ctx.fillStyle = p[0]; ctx.fillRect(0, 0, w, h);
+  if (one) { drawText(ctx, "Our Little Moments", w / 2, 86, 52, p[1]); drawText(ctx, "together, even when we're apart", w / 2, 128, 24, p[1], "sans-serif"); }
+  const f = $("filter").value;
+  shots.forEach((s, i) => {
+    const y = head + i * (fh + gap);
+    ctx.save(); if (NATIVE) ctx.filter = FILTERS[f] || "none"; ctx.drawImage(s, m, y, fw, fh); ctx.restore();
+    if (!NATIVE) tintPixels(ctx, m, y, fw, fh, f);
+    if (!one) { ctx.fillStyle = "rgba(0,0,0,.35)"; ctx.fillRect(m + 12, y + 12, 56, 34); drawText(ctx, String(i + 1).padStart(2, "0"), m + 40, y + 37, 22, "#fff", "monospace"); }
+  });
+  ctx.fillStyle = p[2]; ctx.fillRect(m, h - foot + 14, w - m * 2, 3);
+  drawText(ctx, one ? "♡  made for us  ♡" : "us · " + (room || "together"), w / 2, h - foot / 2 + 12, one ? 34 : 28, p[1], one ? "Georgia" : "monospace");
+  $("photoPreview").style.maxWidth = one ? "560px" : "340px";
   canvas.toBlob(b => {
     if (!b) return camSay("Couldn't create the photo. Try again.", true);
     if (photoUrl) URL.revokeObjectURL(photoUrl);
@@ -445,6 +551,10 @@ function renderPhoto() {
     camSay("Your memory is ready. Save it to your phone 💗");
   }, "image/png");
 }
+
+remoteVideo.addEventListener("playing", startTogether);
+$("backdrop").addEventListener("change", () => { $("bgFile").hidden = $("backdrop").value !== "photo"; if (!$("bgFile").hidden) $("bgFile").click(); });
+$("bgFile").addEventListener("change", e => { const f = e.target.files[0]; if (!f) return; const img = new Image(); img.onload = () => { customBg = img; bgKey = ""; }; img.src = URL.createObjectURL(f); });
 
 $("createRoom").onclick = createRoom; $("joinRoom").onclick = joinRoom; $("copyRoom").onclick = copyInvite;
 $("leaveRoom").onclick = leaveRoom; $("startCamera").onclick = startCamera; $("connectCameras").onclick = connectCameras; $("takePhoto").onclick = takePhoto;
