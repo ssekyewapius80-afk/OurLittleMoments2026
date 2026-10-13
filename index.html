@@ -117,11 +117,20 @@ footer{text-align:center;color:#9b8791;font-size:.8rem;padding:15px}
 <footer>Made with love, for two hearts 💗</footer>
 </main>
 
+<script>
+window.__started=false;
+function showErr(m){var s=document.getElementById('roomStatus');if(s){s.textContent='Error: '+m;s.className='status error';}}
+window.addEventListener('error',function(e){showErr((e.message||'script failed')+(e.filename?' ('+e.filename.split('/').pop()+':'+e.lineno+')':''));});
+window.addEventListener('unhandledrejection',function(e){showErr(String((e.reason&&e.reason.message)||e.reason));});
+if(location.protocol==='file:')showErr('You opened a local file. Open your https:// website link instead.');
+setTimeout(function(){if(!window.__started)showErr('The page script did not start. Open the https:// link in Chrome or Safari (not a downloaded file or an in-app browser), and make sure the whole file was pasted.');},4000);
+</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
+window.__started = true;
 const firebaseConfig = {
   apiKey: "AIzaSyBZc_v8rdJ9KsshNE57mZxRAheYjXNu6VM",
   authDomain: "ourlittlemoments2026.firebaseapp.com",
@@ -170,7 +179,7 @@ const refreshTile = (video, tile) => tile.classList.toggle("has-video", !!video.
 
 async function getIce() {
   const servers = [{ urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"] }];
-  const key = 6451288b9fd32281d64b16017982d9f0e689.trim();
+  const key = METERED_CREDENTIAL_API_KEY.trim();
   if (!key) return servers;
   try {
     const r = await fetch("https://our-little-moments.metered.live/api/v1/turn/credentials?apiKey=" + encodeURIComponent(key));
