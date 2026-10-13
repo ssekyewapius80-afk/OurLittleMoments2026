@@ -9,13 +9,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--pink:#d85b83;--pink-dark:#a7355b;--ink:#382832;--muted:#806c77;--paper:#fffafc;--line:#f0dbe3;--rose:#ffe8ef;--shadow:0 12px 34px #7c36531a}
+:root{--pink:#d85b83;--pink-dark:#a7355b;--ink:#382832;--muted:#806c77;--line:#f0dbe3;--shadow:0 12px 34px #7c36531a}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(circle at 8% 0%,#ffe6ee 0,transparent 30%),linear-gradient(180deg,#fff8fb,#fffdfd 65%);color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;min-height:100vh}
+body{margin:0;background:radial-gradient(circle at 8% 0,#ffe6ee 0,transparent 30%),linear-gradient(180deg,#fff8fb,#fffdfd 65%);color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;min-height:100vh}
 button,input,select{font:inherit}
 button{cursor:pointer;border:0;border-radius:14px;padding:12px 15px;font-weight:700;transition:transform .15s,opacity .15s}
 button:active{transform:scale(.98)}button:disabled{opacity:.5;cursor:not-allowed}
-.primary{background:var(--pink);color:white;box-shadow:0 7px 18px #d85b8333}.secondary{background:#fff;color:var(--pink-dark);border:1px solid var(--line)}.quiet{background:#fff7fa;color:var(--ink);border:1px solid var(--line)}.danger{background:#fff0f1;color:#a52f48;border:1px solid #f4cbd4}
+.primary{background:var(--pink);color:#fff;box-shadow:0 7px 18px #d85b8333}.secondary{background:#fff;color:var(--pink-dark);border:1px solid var(--line)}.quiet{background:#fff7fa;color:var(--ink);border:1px solid var(--line)}
 main{max-width:980px;margin:auto;padding:22px 15px 42px}
 header{text-align:center;padding:16px 8px 20px}
 .eyebrow{font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--pink-dark);font-weight:700}
@@ -28,28 +28,26 @@ header p{color:var(--muted);max-width:540px;margin:10px auto 0;line-height:1.6}
 .field{display:flex;flex-direction:column;gap:7px;min-width:0}
 label{font-size:.83rem;font-weight:700;color:#674654}
 input,select{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px;color:var(--ink);outline:none}
-input:focus,select:focus{border-color:#d85b83;box-shadow:0 0 0 3px #d85b8319}
+input:focus,select:focus{border-color:var(--pink);box-shadow:0 0 0 3px #d85b8319}
 .actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
 .actions button{flex:1 1 135px}
 .status{padding:11px 13px;background:#fff3f7;border:1px solid var(--line);border-radius:13px;color:#79475b;font-size:.88rem;line-height:1.45;overflow-wrap:anywhere;margin-top:12px}
 .status.error{background:#fff0f1;color:#9a2d43;border-color:#f0c5ce}
 .camera-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .camera-tile{position:relative;overflow:hidden;background:#2b1d27;border-radius:18px;aspect-ratio:3/4;min-height:180px}
-.camera-tile video{width:100%;height:100%;object-fit:cover;display:block;transform:scaleX(-1)}
+.camera-tile video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transform:scaleX(-1)}
 .camera-tile.remote video{transform:none}
-.camera-label{position:absolute;left:10px;bottom:10px;background:#24151dc9;color:white;padding:7px 10px;border-radius:100px;font-size:.78rem;backdrop-filter:blur(8px)}
-.camera-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;color:#ffe8ef;font-family:"Playfair Display",Georgia,serif;font-size:1.2rem;pointer-events:none}
-.camera-tile video:not([src]){visibility:hidden}
+.camera-label{position:absolute;left:10px;bottom:10px;background:#24151dc9;color:#fff;padding:7px 10px;border-radius:100px;font-size:.78rem;z-index:2}
+.camera-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;color:#ffe8ef;font-family:"Playfair Display",Georgia,serif;font-size:1.2rem;pointer-events:none;z-index:1}
 .camera-tile.has-video .camera-placeholder{display:none}
 .countdown{text-align:center;font-family:"Playfair Display",Georgia,serif;font-size:clamp(2rem,10vw,4.5rem);color:var(--pink-dark);min-height:1.2em}
 canvas{display:none}
 #previewWrap{display:none;margin-top:14px}
 #photoPreview{width:100%;max-width:560px;display:block;margin:auto;border-radius:16px;border:1px solid var(--line)}
-#savePhoto{display:none;text-align:center;text-decoration:none;background:var(--pink);color:white;border-radius:13px;padding:12px 16px;font-weight:700;margin:12px auto 0;width:fit-content}
-#savePhoto[hidden]{display:none!important}
+#savePhoto{text-align:center;text-decoration:none;background:var(--pink);color:#fff;border-radius:13px;padding:12px 16px;font-weight:700;margin:12px auto 0;width:fit-content;display:block}
+#savePhoto[hidden],#copyRoom[hidden]{display:none!important}
 .small-note{font-size:.78rem;color:#8c7882;line-height:1.5;margin:12px 0 0}
 footer{text-align:center;color:#9b8791;font-size:.8rem;padding:15px}
-.pill{display:inline-flex;align-items:center;gap:6px;background:#fff1f6;border:1px solid var(--line);border-radius:99px;padding:6px 10px;font-size:.75rem;color:#8e4964;font-weight:700}
 @media(max-width:620px){main{padding:12px 11px 28px}.card{padding:14px;border-radius:20px}.grid2{grid-template-columns:1fr}.camera-grid{gap:8px}.camera-tile{min-height:150px;border-radius:14px}.actions button{flex-basis:calc(50% - 9px)}}
 </style>
 </head>
@@ -63,10 +61,10 @@ footer{text-align:center;color:#9b8791;font-size:.8rem;padding:15px}
 
 <section class="card">
   <h2 class="section-title">Our private room</h2>
-  <p class="help">One of you creates a room and shares the code or link. The other opens the same page and joins using that code.</p>
+  <p class="help">One of you creates a room and shares the link. The other opens it and taps Join room.</p>
   <div class="grid2">
-    <div class="field"><label for="roomCode">Room code</label><input id="roomCode" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Create a room or paste a code"></div>
-    <div class="field"><label for="layout">Photo layout</label><select id="layout"><option value="together">Together · side by side</option><option value="portrait">Portrait strip</option><option value="classic">Classic photo booth</option></select></div>
+    <div class="field"><label for="roomCode">Room code</label><input id="roomCode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Create a room or paste a code"></div>
+    <div class="field"><label for="layout">Photo layout</label><select id="layout"><option value="together">Side by side</option><option value="classic">Stacked</option></select></div>
   </div>
   <div class="actions">
     <button id="createRoom" class="primary">Create our room 💗</button>
@@ -79,7 +77,7 @@ footer{text-align:center;color:#9b8791;font-size:.8rem;padding:15px}
 
 <section class="card">
   <h2 class="section-title">Come into the frame</h2>
-  <p class="help">Allow camera access on both phones. Keep this page open while connecting. If the connection does not work on a network, try switching one phone between Wi‑Fi and mobile data.</p>
+  <p class="help">Both phones: turn the camera on. Then the room creator taps Connect our cameras. Keep this page open.</p>
   <div class="camera-grid">
     <div class="camera-tile" id="localTile">
       <video id="localVideo" autoplay playsinline muted></video>
@@ -87,7 +85,7 @@ footer{text-align:center;color:#9b8791;font-size:.8rem;padding:15px}
       <div class="camera-label">You</div>
     </div>
     <div class="camera-tile remote" id="remoteTile">
-      <video id="remoteVideo" autoplay playsinline></video>
+      <video id="remoteVideo" autoplay playsinline muted></video>
       <div class="camera-placeholder">Waiting for<br>your person 💗</div>
       <div class="camera-label">Your person</div>
     </div>
@@ -101,20 +99,18 @@ footer{text-align:center;color:#9b8791;font-size:.8rem;padding:15px}
 
 <section class="card">
   <h2 class="section-title">Make the memory</h2>
-  <p class="help">Choose a mood, then take a photo. The photo combines the two live video feeds into one keepsake. The remote feed must be connected for a true together photo.</p>
+  <p class="help">Pick a mood, then take the photo. It combines both live cameras into one keepsake.</p>
   <div class="grid2">
-    <div class="field"><label for="filter">Photo filter</label><select id="filter"><option value="none">Original</option><option value="soft">Soft romance</option><option value="vintage">Vintage</option><option value="bw">Black & white</option><option value="golden">Golden hour</option><option value="pink">Pink dream</option></select></div>
+    <div class="field"><label for="filter">Photo filter</label><select id="filter"><option value="none">Original</option><option value="soft">Soft romance</option><option value="vintage">Vintage</option><option value="bw">Black &amp; white</option><option value="golden">Golden hour</option><option value="pink">Pink dream</option></select></div>
     <div class="field"><label for="theme">Frame style</label><select id="theme"><option value="rose">Romantic rose</option><option value="sunset">Golden sunset</option><option value="film">Classic film</option><option value="minimal">Soft minimal</option></select></div>
   </div>
   <div class="countdown" id="countdown" aria-live="polite"></div>
-  <div class="actions">
-    <button id="takePhoto" class="primary">Take our photo 📸</button>
-  </div>
+  <div class="actions"><button id="takePhoto" class="primary">Take our photo 📸</button></div>
   <div id="previewWrap">
     <img id="photoPreview" alt="Our combined photo preview">
-    <a id="savePhoto" href="#" download="our-little-moment.png">Save our photo</a>
+    <a id="savePhoto" href="#" download="our-little-moment.png" hidden>Save our photo</a>
   </div>
-  <p class="small-note">If joining fails, the room status now shows the actual Firebase error. A “permission-denied” error means Firestore security rules must allow authenticated room members to read and update the room. Do not make the database publicly writable without access controls. Privacy note: camera video is sent directly between the two phones when connected. The website does not upload your photos. Firestore stores room connection signals and room codes until you leave; use the rules supplied with the setup instructions.</p>
+  <p class="small-note">Video goes directly between the two phones. Photos are never uploaded. Firestore only holds room codes and connection signals.</p>
 </section>
 
 <canvas id="captureCanvas"></canvas>
@@ -124,10 +120,7 @@ footer{text-align:center;color:#9b8791;font-size:.8rem;padding:15px}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import {
-  getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc,
-  onSnapshot, serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBZc_v8rdJ9KsshNE57mZxRAheYjXNu6VM",
@@ -137,587 +130,289 @@ const firebaseConfig = {
   messagingSenderId: "1075558147416",
   appId: "1:1075558147416:web:5f4cb3997a0dffc9edf12d"
 };
-
-// Optional: paste the Metered *credential API key* here for better connectivity.
-// Leave blank to use public STUN servers only. Never paste your Metered workspace Secret Key.
+// Optional but strongly recommended for phones on different networks: Metered *credential API key* (never the Secret Key).
 const METERED_CREDENTIAL_API_KEY = "";
 
 const $ = id => document.getElementById(id);
-const roomCode = $("roomCode");
-const roomStatus = $("roomStatus");
-const cameraStatus = $("cameraStatus");
-const localVideo = $("localVideo");
-const remoteVideo = $("remoteVideo");
-const canvas = $("captureCanvas");
-const ctx = canvas.getContext("2d", { alpha: false });
+const roomCode = $("roomCode"), localVideo = $("localVideo"), remoteVideo = $("remoteVideo");
+const canvas = $("captureCanvas"), ctx = canvas.getContext("2d", { alpha: false });
+const say = (el, msg, err = false) => { el.textContent = msg; el.classList.toggle("error", err); };
+const roomSay = (m, e) => say($("roomStatus"), m, e);
+const camSay = (m, e) => say($("cameraStatus"), m, e);
+const errText = e => (e && (e.code || e.message)) ? `${e.code || "Error"}: ${e.message || ""}` : String(e);
 
-let app, auth, db;
-let authUser = null;
-let authReadyResolve;
-let authReadyReject;
-const authReady = new Promise((resolve, reject) => { authReadyResolve = resolve; authReadyReject = reject; });
-let authSettled = false;
-let activeRoom = "";
-let roomRole = "";
-let localStream = null;
-let peer = null;
-let roomUnsubscribe = null;
-let candidateUnsubscribe = null;
-let remoteCandidateUnsubscribe = null;
-let seenRemoteCandidates = new Set();
-let makingOffer = false;
-let ignoreOffer = false;
-let remoteDescriptionSet = false;
-let currentPhotoUrl = null;
-let lastRoomData = null;
+const app = initializeApp(firebaseConfig), auth = getAuth(app), db = getFirestore(app);
+let user = null, room = "", role = "", roomData = null;
+let stream = null, pc = null, session = "", answered = "", gotAnswer = "", answering = false;
+let roomUnsub = null, candUnsub = null, photoUrl = null;
 
-function setStatus(message, isError = false) {
-  cameraStatus.textContent = message;
-  cameraStatus.classList.toggle("error", isError);
-}
-function setRoomStatus(message, isError = false) {
-  roomStatus.textContent = message;
-  roomStatus.classList.toggle("error", isError);
-}
-function showTile(tile, video) {
-  tile.classList.toggle("has-video", !!(video.srcObject && video.readyState >= 2));
-}
-function roomRef(id = activeRoom) { return doc(db, "rooms", id); }
-function candidateCollection(role, id = activeRoom) {
-  return collection(db, "rooms", id, role === "host" ? "hostCandidates" : "guestCandidates");
-}
-function otherRole() { return roomRole === "host" ? "guest" : "host"; }
-function errorText(error) {
-  return (error && (error.code || error.message)) ? `${error.code || "Error"}: ${error.message || ""}` : String(error);
-}
-function makeRoomCode() {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  const bytes = new Uint8Array(8);
-  crypto.getRandomValues(bytes);
-  return Array.from(bytes, b => chars[b % chars.length]).join("");
-}
-function waitForAuth() {
-  return authReady.then(() => {
-    if (!authUser) throw new Error("Firebase sign-in failed. Refresh the page and check Firebase Authentication settings.");
-    return authUser;
+const authReady = new Promise(resolve => {
+  onAuthStateChanged(auth, async u => {
+    if (u) { user = u; resolve(u); roomSay("Ready. Create a room or join with a code ❤️"); }
+    else try { await signInAnonymously(auth); }
+    catch (e) { resolve(null); roomSay("Sign-in failed: " + errText(e) + ". Enable Anonymous sign-in in Firebase Authentication.", true); }
   });
+});
+const needAuth = async () => { if (!(await authReady)) throw new Error("Firebase sign-in failed. Refresh and check Firebase Authentication."); return user; };
+
+const roomRef = (id = room) => doc(db, "rooms", id);
+const candCol = r => collection(db, "rooms", room, r === "host" ? "hostCandidates" : "guestCandidates");
+const other = () => role === "host" ? "guest" : "host";
+const member = d => !!user && (d.hostUid === user.uid || d.guestUid === user.uid);
+const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const makeRoomCode = () => { const c = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789", b = crypto.getRandomValues(new Uint8Array(8)); return Array.from(b, x => c[x % c.length]).join(""); };
+const inviteUrl = id => { const u = new URL(location.href); u.searchParams.set("room", id); return u.toString(); };
+
+// Show/hide the "waiting" placeholder based on whether real video frames are playing.
+const refreshTile = (video, tile) => tile.classList.toggle("has-video", !!video.srcObject && video.videoWidth > 0);
+[[localVideo, "localTile"], [remoteVideo, "remoteTile"]].forEach(([v, t]) =>
+  ["loadedmetadata", "loadeddata", "playing", "resize", "emptied"].forEach(ev => v.addEventListener(ev, () => refreshTile(v, $(t)))));
+
+async function getIce() {
+  const servers = [{ urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"] }];
+  const key = 6451288b9fd32281d64b16017982d9f0e689.trim();
+  if (!key) return servers;
+  try {
+    const r = await fetch("https://our-little-moments.metered.live/api/v1/turn/credentials?apiKey=" + encodeURIComponent(key));
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const d = await r.json();
+    return [...servers, ...(Array.isArray(d) ? d : d.iceServers || [])];
+  } catch (e) { console.warn("TURN unavailable", e); return servers; }
 }
-function clearCandidateListeners() {
-  if (candidateUnsubscribe) candidateUnsubscribe();
-  if (remoteCandidateUnsubscribe && remoteCandidateUnsubscribe !== candidateUnsubscribe) remoteCandidateUnsubscribe();
-  candidateUnsubscribe = remoteCandidateUnsubscribe = null;
-}
-function clearListeners() {
-  if (roomUnsubscribe) roomUnsubscribe();
-  roomUnsubscribe = null;
-  clearCandidateListeners();
-}
+
 function closePeer() {
-  clearCandidateListeners();
-  if (peer) {
-    try { peer.onicecandidate = null; peer.ontrack = null; peer.onconnectionstatechange = null; peer.close(); } catch {}
-  }
-  peer = null;
-  seenRemoteCandidates = new Set();
-  remoteDescriptionSet = false;
-  makingOffer = false;
-  ignoreOffer = false;
-  remoteVideo.srcObject = null;
-  showTile($("remoteTile"), remoteVideo);
+  if (candUnsub) candUnsub(); candUnsub = null;
+  if (pc) { try { pc.onicecandidate = pc.ontrack = pc.onconnectionstatechange = null; pc.close(); } catch {} }
+  pc = null; session = "";
+  remoteVideo.srcObject = null; refreshTile(remoteVideo, $("remoteTile"));
 }
 function stopCamera() {
-  if (localStream) localStream.getTracks().forEach(track => track.stop());
-  localStream = null;
-  localVideo.srcObject = null;
-  showTile($("localTile"), localVideo);
+  if (stream) stream.getTracks().forEach(t => t.stop());
+  stream = null; localVideo.srcObject = null; refreshTile(localVideo, $("localTile"));
 }
 function clearPhoto() {
-  if (currentPhotoUrl) URL.revokeObjectURL(currentPhotoUrl);
-  currentPhotoUrl = null;
-  $("previewWrap").style.display = "none";
-  $("savePhoto").hidden = true;
-  $("photoPreview").removeAttribute("src");
-}
-function inviteUrl(id) {
-  const url = new URL(location.href);
-  url.searchParams.set("room", id);
-  return url.toString();
-}
-function showRoomCode(id) {
-  roomCode.value = id;
-  $("copyRoom").hidden = false;
-  history.replaceState(null, "", inviteUrl(id));
-}
-function resetUrl() {
-  const url = new URL(location.href);
-  url.searchParams.delete("room");
-  history.replaceState(null, "", url);
-}
-function roomMember(data) {
-  return !!authUser && (data.hostUid === authUser.uid || data.guestUid === authUser.uid);
+  if (photoUrl) URL.revokeObjectURL(photoUrl); photoUrl = null;
+  $("previewWrap").style.display = "none"; $("savePhoto").hidden = true; $("photoPreview").removeAttribute("src");
 }
 
-async function bootstrap() {
+// One peer connection per "session" id, so old offers/answers/candidates from earlier tries are ignored.
+async function makePeer(sess) {
+  closePeer(); session = sess;
+  const p = new RTCPeerConnection({ iceServers: await getIce(), iceCandidatePoolSize: 4 });
+  if (session !== sess) { p.close(); throw new Error("Connection restarted."); }
+  pc = p;
+  stream.getTracks().forEach(t => p.addTrack(t, stream));
+  const pending = [];
+  p.flush = () => { while (pending.length) p.addIceCandidate(pending.shift()).catch(() => {}); };
+  p.ontrack = e => {
+    remoteVideo.srcObject = e.streams[0] || new MediaStream([e.track]);
+    remoteVideo.play().catch(() => {});
+  };
+  p.onicecandidate = e => {
+    if (e.candidate) addDoc(candCol(role), { ...e.candidate.toJSON(), session: sess })
+      .catch(err => camSay("Could not send connection signal: " + errText(err), true));
+  };
+  p.onconnectionstatechange = () => {
+    if (pc !== p) return;
+    const s = p.connectionState;
+    if (s === "connected") camSay("You're connected! Get close and make a memory 💗");
+    else if (s === "connecting") camSay("Connecting your cameras…");
+    else if (s === "failed") camSay("Connection failed. The room creator can tap Connect again. If it keeps failing, add a Metered TURN key (needed when phones are on different networks).", true);
+    else if (s === "disconnected") camSay("Connection interrupted. Waiting for the network…");
+  };
+  candUnsub = onSnapshot(candCol(other()), snap => snap.docChanges().forEach(ch => {
+    if (ch.type !== "added") return;
+    const d = ch.doc.data();
+    if (d.session !== sess || !d.candidate) return;
+    const c = { candidate: d.candidate, sdpMid: d.sdpMid, sdpMLineIndex: d.sdpMLineIndex };
+    if (p.remoteDescription) p.addIceCandidate(c).catch(() => {}); else pending.push(c);
+  }), e => camSay("Signaling error: " + errText(e), true));
+  return p;
+}
+
+async function hostOffer() {
+  const sess = newId();
+  const p = await makePeer(sess);
+  const o = await p.createOffer();
+  await p.setLocalDescription(o);
+  await updateDoc(roomRef(), { offer: { type: o.type, sdp: o.sdp, session: sess }, answer: deleteField(), status: "connecting", updatedAt: serverTimestamp() });
+  camSay("Offer sent. Waiting for the other phone (it must have its camera on)…");
+}
+async function guestAnswer(o) {
+  if (answering || !stream || !o || o.session === answered) return;
+  answering = true;
   try {
-    app = initializeApp(firebaseConfig);
-    auth = getAuth(app);
-    db = getFirestore(app);
-    onAuthStateChanged(auth, async user => {
-      if (user) {
-        authUser = user;
-        if (!authSettled) { authSettled = true; authReadyResolve(user); }
-        setRoomStatus("Ready. Create a room or join using a code ❤️");
-      } else {
-        try { await signInAnonymously(auth); }
-        catch (error) {
-          console.error("Anonymous sign-in failed", error);
-          if (!authSettled) { authSettled = true; authReadyResolve(null); }
-          setRoomStatus("Sign-in failed: " + errorText(error) + ". Enable Anonymous sign-in in Firebase Authentication.", true);
-        }
-      }
-    });
-  } catch (error) {
-    console.error("Firebase startup failed", error);
-    if (!authSettled) { authSettled = true; authReadyResolve(null); }
-    setRoomStatus("Firebase setup error: " + errorText(error), true);
-  }
+    const p = await makePeer(o.session);
+    await p.setRemoteDescription({ type: o.type, sdp: o.sdp });
+    p.flush();
+    const a = await p.createAnswer();
+    await p.setLocalDescription(a);
+    await updateDoc(roomRef(), { answer: { type: a.type, sdp: a.sdp, session: o.session }, updatedAt: serverTimestamp() });
+    answered = o.session;
+    camSay("Answer sent. Connecting your cameras…");
+  } catch (e) { camSay("Could not connect: " + errText(e), true); console.error(e); }
+  finally { answering = false; }
+}
+async function hostAcceptAnswer(a) {
+  if (!pc || a.session !== session || gotAnswer === a.session) return;
+  gotAnswer = a.session;
+  try { await pc.setRemoteDescription({ type: a.type, sdp: a.sdp }); pc.flush(); camSay("Answer received. Connecting your cameras…"); }
+  catch (e) { camSay("Could not accept the answer: " + errText(e), true); }
+}
+
+function listen() {
+  if (roomUnsub) roomUnsub();
+  roomUnsub = onSnapshot(roomRef(), snap => {
+    if (!snap.exists()) return roomSay("This room no longer exists. Create a new one.", true);
+    roomData = snap.data();
+    if (!member(roomData)) return roomSay("You're not a member of this room. Join again with the right code.", true);
+    roomSay(roomData.guestUid
+      ? "You're both in the room. Turn cameras on, then the room creator taps Connect 💗"
+      : "Room created. Waiting for your person to join… send them the invite link.");
+    if (role === "guest" && roomData.offer) guestAnswer(roomData.offer);
+    if (role === "host" && roomData.answer) hostAcceptAnswer(roomData.answer);
+  }, e => roomSay("Room update error: " + errText(e), true));
+}
+function showRoom(id) {
+  roomCode.value = id; $("copyRoom").hidden = false;
+  history.replaceState(null, "", inviteUrl(id));
 }
 
 async function createRoom() {
-  $("createRoom").disabled = true;
-  setRoomStatus("Creating your room…");
+  $("createRoom").disabled = true; roomSay("Creating your room…");
   try {
-    const user = await waitForAuth();
-    closePeer();
-    activeRoom = makeRoomCode();
-    roomRole = "host";
-    await setDoc(roomRef(activeRoom), {
-      hostUid: user.uid,
-      guestUid: null,
-      status: "waiting",
-      createdAt: serverTimestamp()
-    });
-    showRoomCode(activeRoom);
-    listenToRoom();
-    setRoomStatus("Room created! You're the host. Send Cynthia the invite link or room code 💗");
-  } catch (error) {
-    activeRoom = "";
-    roomRole = "";
-    setRoomStatus("Couldn't create the room. " + errorText(error), true);
-    console.error("Room creation failed", error);
-  } finally {
-    $("createRoom").disabled = false;
-  }
+    const u = await needAuth();
+    closePeer(); const id = makeRoomCode();
+    await setDoc(roomRef(id), { hostUid: u.uid, guestUid: null, status: "waiting", createdAt: serverTimestamp() });
+    room = id; role = "host"; answered = gotAnswer = "";
+    showRoom(id); listen();
+  } catch (e) { room = role = ""; roomSay("Couldn't create the room. " + errText(e), true); console.error(e); }
+  finally { $("createRoom").disabled = false; }
 }
-
-async function joinRoom(throwOnError = false) {
-  $("joinRoom").disabled = true;
-  setRoomStatus("Joining room…");
+async function joinRoom() {
+  $("joinRoom").disabled = true; roomSay("Joining room…");
   try {
-    const user = await waitForAuth();
+    const u = await needAuth();
     const id = roomCode.value.trim().toUpperCase();
-    if (!id) throw new Error("Enter the room code first.");
-    if (!/^[A-HJ-NP-Z2-9]{8}$/.test(id)) throw new Error("That code should be 8 letters/numbers. Check it and try again.");
+    if (!/^[A-HJ-NP-Z2-9]{8}$/.test(id)) throw new Error("A room code is 8 letters/numbers. Check it and try again.");
     closePeer();
-    const ref = roomRef(id);
-    const snap = await getDoc(ref);
-    if (!snap.exists()) throw new Error("Room not found. Ask the host for the newest room code.");
-    const data = snap.data();
-    if (data.hostUid === user.uid) {
-      activeRoom = id;
-      roomRole = "host";
-      showRoomCode(id);
-      listenToRoom();
-      setRoomStatus("You're already the host of this room.");
-      return;
-    }
-    if (data.guestUid && data.guestUid !== user.uid) throw new Error("This room already has a guest. Create a new room.");
-    if (!data.guestUid) {
-      await updateDoc(ref, { guestUid: user.uid, status: "joined", joinedAt: serverTimestamp() });
-    }
-    const verified = await getDoc(ref);
-    if (!verified.exists() || verified.data().guestUid !== user.uid) {
-      throw new Error("Firebase did not confirm your phone joined. Check Firestore rules and try a new room.");
-    }
-    activeRoom = id;
-    roomRole = "guest";
-    showRoomCode(id);
-    listenToRoom();
-    setRoomStatus("Joined successfully! Your phone is registered in the room. Turn your camera on, then connect 💗");
-    return true;
-  } catch (error) {
-    activeRoom = "";
-    roomRole = "";
-    const detail = errorText(error);
-    const advice = (error && error.code === "permission-denied")
-      ? " Firebase Firestore rules are blocking room access."
-      : "";
-    setRoomStatus("Couldn't join the room. " + detail + advice, true);
-    console.error("Room join failed", error);
-    if (throwOnError) throw error;
-    return false;
-  } finally {
-    $("joinRoom").disabled = false;
-  }
+    const snap = await getDoc(roomRef(id));
+    if (!snap.exists()) throw new Error("Room not found. Ask for the newest invite link.");
+    const d = snap.data();
+    if (d.hostUid === u.uid) role = "host";
+    else if (!d.guestUid || d.guestUid === u.uid) { role = "guest"; if (!d.guestUid) await updateDoc(roomRef(id), { guestUid: u.uid }); }
+    else throw new Error("This room already has a guest. Create a new room.");
+    room = id; answered = gotAnswer = "";
+    showRoom(id); listen();
+  } catch (e) { roomSay("Couldn't join the room. " + errText(e), true); console.error(e); }
+  finally { $("joinRoom").disabled = false; }
 }
 
-function listenToRoom() {
-  if (!activeRoom) return;
-  if (roomUnsubscribe) roomUnsubscribe();
-  roomUnsubscribe = onSnapshot(roomRef(), snap => {
-    if (!snap.exists()) {
-      setRoomStatus("This room no longer exists. Create a new one.", true);
-      return;
-    }
-    lastRoomData = snap.data();
-    if (!roomMember(lastRoomData)) {
-      setRoomStatus("You are no longer a member of this room. Join again with the right code.", true);
-      return;
-    }
-    if (lastRoomData.guestUid) {
-      setRoomStatus(roomRole === "host" ? "Room ready. Cynthia has joined or another guest has joined. Connect your cameras 💗" : "You're in the room together. Connect your cameras 💗");
-    } else {
-      setRoomStatus("Room created. Waiting for Cynthia to join… Send her the invite link or code.");
-    }
-    if (lastRoomData.offer && roomRole === "guest" && peer && !peer.currentRemoteDescription) {
-      acceptOffer(lastRoomData.offer).catch(err => {
-        console.error(err);
-        setRoomStatus("Could not accept the camera offer: " + errorText(err), true);
-      });
-    }
-    if (lastRoomData.answer && roomRole === "host" && peer && !peer.currentRemoteDescription) {
-      acceptAnswer(lastRoomData.answer).catch(err => {
-        console.error(err);
-        setRoomStatus("Could not accept the camera answer: " + errorText(err), true);
-      });
-    }
-  }, error => {
-    console.error("Room listener failed", error);
-    setRoomStatus("Room update error: " + errorText(error), true);
-  });
-}
-
-async function getIceServers() {
-  const servers = [{ urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"] }];
-  if (!METERED_CREDENTIAL_API_KEY.trim()) return servers;
-  try {
-    const endpoint = "https://our-little-moments.metered.live/api/v1/turn/credentials?apiKey=" + encodeURIComponent(METERED_CREDENTIAL_API_KEY.trim());
-    const response = await fetch(endpoint);
-    if (!response.ok) throw new Error("TURN credentials request returned HTTP " + response.status);
-    const data = await response.json();
-    const turnServers = Array.isArray(data) ? data : (Array.isArray(data.iceServers) ? data.iceServers : []);
-    if (turnServers.length) return [...servers, ...turnServers];
-    console.warn("Metered returned no ICE servers; using STUN only.");
-  } catch (error) {
-    console.warn("TURN credentials unavailable; falling back to STUN", error);
-    setStatus("TURN service unavailable; trying STUN. Some networks may not connect.", true);
-  }
-  return servers;
-}
-
-async function addLocalTracks(pc) {
-  if (!localStream) throw new Error("Turn your camera on first.");
-  localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
-}
-async function sendCandidate(candidate) {
-  if (!activeRoom || !roomRole) return;
-  await addDoc(candidateCollection(roomRole), candidate.toJSON());
-}
-async function drainCandidateQueue(queue) {
-  if (!peer || !peer.remoteDescription) return;
-  while (queue.length) {
-    const candidate = queue.shift();
-    try { await peer.addIceCandidate(candidate); }
-    catch (error) { if (!ignoreOffer) console.warn("Could not add ICE candidate", error); }
-  }
-}
-let pendingCandidates = [];
-async function startCandidateListener() {
-  if (candidateUnsubscribe) candidateUnsubscribe();
-  pendingCandidates = [];
-  seenRemoteCandidates = new Set();
-  remoteCandidateUnsubscribe = onSnapshot(candidateCollection(otherRole()), async snapshot => {
-    for (const change of snapshot.docChanges()) {
-      if (change.type !== "added" || seenRemoteCandidates.has(change.doc.id)) continue;
-      seenRemoteCandidates.add(change.doc.id);
-      const data = change.doc.data();
-      if (!data || !data.candidate) continue;
-      const candidate = new RTCIceCandidate(data);
-      if (peer && peer.remoteDescription) {
-        try { await peer.addIceCandidate(candidate); }
-        catch (error) { if (!ignoreOffer) console.warn("ICE candidate error", error); }
-      } else pendingCandidates.push(candidate);
-    }
-  }, error => {
-    console.error("Candidate listener failed", error);
-    setStatus("Signaling error: " + errorText(error), true);
-  });
-  candidateUnsubscribe = remoteCandidateUnsubscribe;
-}
-async function makePeer() {
-  closePeer();
-  const user = await waitForAuth();
-  const snap = await getDoc(roomRef());
-  if (!snap.exists()) throw new Error("Room not found. Create or join a room again.");
-  const data = snap.data();
-  if (!roomMember(data)) throw new Error("This phone is not a member of the room. Join the room first.");
-  if (!data.guestUid) throw new Error("Waiting for the other person to join the room.");
-  const iceServers = await getIceServers();
-  peer = new RTCPeerConnection({ iceServers, iceCandidatePoolSize: 4 });
-  await addLocalTracks(peer);
-  peer.ontrack = event => {
-    const stream = event.streams && event.streams[0];
-    if (stream) {
-      remoteVideo.srcObject = stream;
-      remoteVideo.play().catch(() => {});
-      showTile($("remoteTile"), remoteVideo);
-      setStatus("Camera connected 💗");
-    }
-  };
-  peer.onicecandidate = event => {
-    if (event.candidate) sendCandidate(event.candidate).catch(error => {
-      console.error("Could not save ICE candidate", error);
-      setStatus("Could not send connection signal: " + errorText(error), true);
-    });
-  };
-  peer.onconnectionstatechange = () => {
-    if (!peer) return;
-    const state = peer.connectionState;
-    if (state === "connected") setStatus("You're connected! Get close and make a memory 💗");
-    else if (state === "connecting") setStatus("Connecting your cameras…");
-    else if (state === "failed") setStatus("Connection failed. Try again, or add a Metered TURN credential API key in the code.");
-    else if (state === "disconnected") setStatus("Connection interrupted. Waiting for the network…");
-    else if (state === "closed") setStatus("Camera connection closed.");
-  };
-  await startCandidateListener();
-  return peer;
-}
-async function acceptOffer(offerData) {
-  if (!peer) return;
-  if (peer.currentRemoteDescription) return;
-  await peer.setRemoteDescription(new RTCSessionDescription(offerData));
-  remoteDescriptionSet = true;
-  await drainCandidateQueue(pendingCandidates);
-  const answer = await peer.createAnswer();
-  await peer.setLocalDescription(answer);
-  await updateDoc(roomRef(), { answer: { type: peer.localDescription.type, sdp: peer.localDescription.sdp }, status: "connecting", updatedAt: serverTimestamp() });
-  setStatus("Answer sent. Connecting your cameras…");
-}
-async function acceptAnswer(answerData) {
-  if (!peer || peer.currentRemoteDescription) return;
-  await peer.setRemoteDescription(new RTCSessionDescription(answerData));
-  remoteDescriptionSet = true;
-  await drainCandidateQueue(pendingCandidates);
-  setStatus("Answer received. Connecting your cameras…");
-}
-async function connectCameras() {
-  $("connectCameras").disabled = true;
-  try {
-    if (!activeRoom) {
-      const queryRoom = new URL(location.href).searchParams.get("room");
-      if (queryRoom) roomCode.value = queryRoom.toUpperCase();
-      if (roomCode.value.trim()) await joinRoom(true);
-      else throw new Error("Create a room first, or enter the code Cynthia shared with you.");
-    }
-    if (!activeRoom) throw new Error("The room was not joined. Read the room status above for the exact reason, then fix that before connecting cameras.");
-    if (!localStream) await startCamera();
-    if (!localStream) throw new Error("Camera did not start. Allow camera permission first.");
-    const pc = await makePeer();
-    const snap = await getDoc(roomRef());
-    const data = snap.data();
-    if (roomRole === "host") {
-      makingOffer = true;
-      try {
-        const offer = await pc.createOffer();
-        await pc.setLocalDescription(offer);
-        await updateDoc(roomRef(), { offer: { type: pc.localDescription.type, sdp: pc.localDescription.sdp }, status: "connecting", updatedAt: serverTimestamp() });
-        setStatus("Offer sent. Waiting for the other phone to answer…");
-      } finally { makingOffer = false; }
-    } else if (data.offer) {
-      await acceptOffer(data.offer);
-    } else {
-      setStatus("Waiting for the host to start camera connection…");
-      const unsub = onSnapshot(roomRef(), async roomSnap => {
-        const roomData = roomSnap.data();
-        if (roomData && roomData.offer && peer && !peer.currentRemoteDescription) {
-          unsub();
-          try { await acceptOffer(roomData.offer); }
-          catch (error) { setStatus("Could not connect: " + errorText(error), true); }
-        }
-      });
-    }
-  } catch (error) {
-    console.error("Camera connection failed", error);
-    setStatus("Couldn't connect cameras. " + errorText(error), true);
-  } finally {
-    $("connectCameras").disabled = false;
-  }
-}
 async function startCamera() {
   $("startCamera").disabled = true;
   try {
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      throw new Error("This browser cannot access the camera. Open the GitHub Pages HTTPS link in Chrome.");
-    }
-    if (localStream) stopCamera();
-    localStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 960 } },
-      audio: true
-    });
-    localVideo.srcObject = localStream;
-    await localVideo.play();
-    showTile($("localTile"), localVideo);
-    setStatus("Camera and microphone are on. Next, connect your cameras.");
-  } catch (error) {
-    console.error("Camera start failed", error);
-    setStatus("Camera couldn't start. Allow camera and microphone permission in your browser. " + errorText(error), true);
-  } finally {
-    $("startCamera").disabled = false;
-  }
-}
-async function leaveRoom() {
-  closePeer();
-  clearListeners();
-  stopCamera();
-  clearPhoto();
-  activeRoom = "";
-  roomRole = "";
-  lastRoomData = null;
-  roomCode.value = "";
-  $("copyRoom").hidden = true;
-  resetUrl();
-  setRoomStatus("You left the room. Create a new room or join using a code.");
-  setStatus("Camera is off.");
-  $("countdown").textContent = "";
-}
-async function copyInvite() {
-  const id = activeRoom || roomCode.value.trim().toUpperCase();
-  if (!id) { setRoomStatus("Create or join a room first.", true); return; }
-  const url = inviteUrl(id);
-  try {
-    await navigator.clipboard.writeText(url);
-    setRoomStatus("Invite link copied. Send it to Cynthia 💗");
-  } catch {
-    roomCode.value = id;
-    setRoomStatus("Copy isn't available in this browser. Share this room code instead: " + id);
-  }
+    if (!navigator.mediaDevices?.getUserMedia) throw new Error("Camera needs a secure (https) page in Chrome or Safari.");
+    if (stream) stopCamera();
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 960 } }, audio: false });
+    localVideo.srcObject = stream;
+    await localVideo.play().catch(() => {});
+    refreshTile(localVideo, $("localTile"));
+    camSay("Camera is on. Next, connect your cameras.");
+    if (role === "guest" && roomData?.offer) guestAnswer(roomData.offer);
+  } catch (e) { stream = null; camSay("Camera couldn't start. Allow camera permission. " + errText(e), true); console.error(e); }
+  finally { $("startCamera").disabled = false; }
 }
 
-function applyFilter(context, filter, w, h) {
-  switch (filter) {
-    case "soft": context.filter = "brightness(1.06) saturate(1.12) contrast(.94)"; break;
-    case "vintage": context.filter = "sepia(.34) saturate(.86) contrast(.92)"; break;
-    case "bw": context.filter = "grayscale(1) contrast(1.08)"; break;
-    case "golden": context.filter = "sepia(.18) saturate(1.3) brightness(1.06)"; break;
-    case "pink": context.filter = "saturate(1.12) hue-rotate(325deg) brightness(1.04)"; break;
-    default: context.filter = "none";
-  }
+async function connectCameras() {
+  $("connectCameras").disabled = true;
+  try {
+    if (!room) { if (!roomCode.value.trim()) throw new Error("Create a room first, or paste the room code."); await joinRoom(); }
+    if (!room) throw new Error("Join the room first.");
+    if (!stream) await startCamera();
+    if (!stream) throw new Error("Camera did not start.");
+    if (role === "host") {
+      if (!roomData?.guestUid) throw new Error("Waiting for your person to join the room.");
+      await hostOffer();
+    } else if (roomData?.offer && roomData.offer.session !== answered) await guestAnswer(roomData.offer);
+    else camSay(roomData?.offer ? "Already answered. Ask the room creator to tap Connect again." : "Waiting for the room creator to tap Connect…");
+  } catch (e) { camSay("Couldn't connect cameras. " + errText(e), true); console.error(e); }
+  finally { $("connectCameras").disabled = false; }
 }
-function drawCover(context, video, x, y, w, h, mirror = false, filter = "none") {
-  if (!video || !video.videoWidth || !video.videoHeight) {
-    context.fillStyle = "#f6dbe5"; context.fillRect(x, y, w, h);
-    context.fillStyle = "#8d536b"; context.font = "bold 24px sans-serif"; context.textAlign = "center";
-    context.fillText("Waiting for camera", x + w / 2, y + h / 2);
-    return;
-  }
-  const vw = video.videoWidth, vh = video.videoHeight;
-  const scale = Math.max(w / vw, h / vh);
-  const sw = w / scale, sh = h / scale;
-  const sx = (vw - sw) / 2, sy = (vh - sh) / 2;
-  context.save();
-  context.beginPath(); context.rect(x, y, w, h); context.clip();
-  applyFilter(context, filter, w, h);
-  if (mirror) {
-    context.translate(x + w, y);
-    context.scale(-1, 1);
-    context.drawImage(video, sx, sy, sw, sh, 0, 0, w, h);
-  } else context.drawImage(video, sx, sy, sw, sh, x, y, w, h);
-  context.restore();
+
+function leaveRoom() {
+  closePeer(); if (roomUnsub) roomUnsub(); roomUnsub = null;
+  stopCamera(); clearPhoto();
+  room = role = ""; roomData = null; answered = gotAnswer = ""; roomCode.value = "";
+  $("copyRoom").hidden = true; $("countdown").textContent = "";
+  const u = new URL(location.href); u.searchParams.delete("room"); history.replaceState(null, "", u);
+  roomSay("You left the room. Create a new room or join with a code."); camSay("Camera is off.");
 }
-function drawText(context, text, x, y, size, color, font = "Georgia") {
-  context.fillStyle = color; context.font = `600 ${size}px ${font}`; context.textAlign = "center"; context.fillText(text, x, y);
+async function copyInvite() {
+  const id = room || roomCode.value.trim().toUpperCase();
+  if (!id) return roomSay("Create or join a room first.", true);
+  try { await navigator.clipboard.writeText(inviteUrl(id)); roomSay("Invite link copied. Send it to your person 💗"); }
+  catch { roomSay("Copy isn't available here. Share this code instead: " + id); }
 }
+
+const FILTERS = { soft: "brightness(1.06) saturate(1.12) contrast(.94)", vintage: "sepia(.34) saturate(.86) contrast(.92)", bw: "grayscale(1) contrast(1.08)", golden: "sepia(.18) saturate(1.3) brightness(1.06)", pink: "saturate(1.12) hue-rotate(325deg) brightness(1.04)" };
+function drawCover(c, v, x, y, w, h, mirror, filter) {
+  if (!v.videoWidth) { c.fillStyle = "#f6dbe5"; c.fillRect(x, y, w, h); return; }
+  const s = Math.max(w / v.videoWidth, h / v.videoHeight), sw = w / s, sh = h / s;
+  const sx = (v.videoWidth - sw) / 2, sy = (v.videoHeight - sh) / 2;
+  c.save(); c.beginPath(); c.rect(x, y, w, h); c.clip();
+  c.filter = FILTERS[filter] || "none";
+  if (mirror) { c.translate(x + w, y); c.scale(-1, 1); c.drawImage(v, sx, sy, sw, sh, 0, 0, w, h); }
+  else c.drawImage(v, sx, sy, sw, sh, x, y, w, h);
+  c.restore();
+}
+const drawText = (c, t, x, y, size, color, font = "Georgia") => { c.fillStyle = color; c.font = `600 ${size}px ${font}`; c.textAlign = "center"; c.fillText(t, x, y); };
+
 function takePhoto() {
-  if (!localStream || !localVideo.videoWidth) {
-    setStatus("Turn your camera on before taking a photo.", true); return;
-  }
-  if (remoteVideo.readyState < 2 || !remoteVideo.videoWidth) {
-    setStatus("Connect Cynthia's camera first so the photo can place you together.", true); return;
-  }
+  if (!stream || !localVideo.videoWidth) return camSay("Turn your camera on before taking a photo.", true);
+  if (!remoteVideo.videoWidth) return camSay("Connect your person's camera first so the photo can place you together.", true);
   $("takePhoto").disabled = true;
-  let count = 3;
-  $("countdown").textContent = count;
-  const timer = setInterval(() => {
-    count--;
-    if (count > 0) $("countdown").textContent = count;
-    else {
-      clearInterval(timer);
-      $("countdown").textContent = "💗";
-      try { renderPhoto(); }
-      catch (error) { console.error(error); setStatus("Photo failed: " + errorText(error), true); }
-      $("takePhoto").disabled = false;
-    }
+  let n = 3; $("countdown").textContent = n;
+  const t = setInterval(() => {
+    if (--n > 0) return $("countdown").textContent = n;
+    clearInterval(t); $("countdown").textContent = "💗";
+    try { renderPhoto(); } catch (e) { console.error(e); camSay("Photo failed: " + errText(e), true); }
+    $("takePhoto").disabled = false;
   }, 850);
 }
 function renderPhoto() {
-  const w = 1200, h = 1500, margin = 58, gap = 20, headerH = 200, footerH = 150;
+  const w = 1200, h = 1500, m = 58, gap = 20, headH = 200, footH = 150;
   canvas.width = w; canvas.height = h;
-  ctx.fillStyle = "#fff8fb"; ctx.fillRect(0, 0, w, h);
-  const theme = $("theme").value;
-  const palette = {
-    rose: { bg:"#fff0f5", ink:"#8e3d5b", accent:"#e9a0b8" },
-    sunset: { bg:"#fff2e5", ink:"#9c5639", accent:"#e5a15c" },
-    film: { bg:"#f6f0e6", ink:"#403a32", accent:"#c9b89c" },
-    minimal: { bg:"#fffdfb", ink:"#66545a", accent:"#eadce1" }
-  }[theme];
-  ctx.fillStyle = palette.bg; ctx.fillRect(0, 0, w, h);
-  drawText(ctx, "Our Little Moments", w/2, 92, 56, palette.ink);
-  drawText(ctx, "together, even when we're apart", w/2, 145, 25, palette.ink, "sans-serif");
-  const filter = $("filter").value;
-  const layout = $("layout").value;
-  const photoY = headerH, photoH = h - headerH - footerH;
-  if (layout === "portrait") {
-    const colW = (w - margin*2 - gap)/2;
-    drawCover(ctx, localVideo, margin, photoY, colW, photoH, true, filter);
-    drawCover(ctx, remoteVideo, margin + colW + gap, photoY, colW, photoH, false, filter);
-  } else if (layout === "classic") {
-    const cellH = (photoH - gap)/2;
-    drawCover(ctx, localVideo, margin, photoY, w - margin*2, cellH, true, filter);
-    drawCover(ctx, remoteVideo, margin, photoY + cellH + gap, w - margin*2, cellH, false, filter);
+  const p = { rose: ["#fff0f5", "#8e3d5b", "#e9a0b8"], sunset: ["#fff2e5", "#9c5639", "#e5a15c"], film: ["#f6f0e6", "#403a32", "#c9b89c"], minimal: ["#fffdfb", "#66545a", "#eadce1"] }[$("theme").value];
+  ctx.filter = "none"; ctx.fillStyle = p[0]; ctx.fillRect(0, 0, w, h);
+  drawText(ctx, "Our Little Moments", w / 2, 92, 56, p[1]);
+  drawText(ctx, "together, even when we're apart", w / 2, 145, 25, p[1], "sans-serif");
+  const f = $("filter").value, y = headH, ph = h - headH - footH;
+  if ($("layout").value === "classic") {
+    const ch = (ph - gap) / 2;
+    drawCover(ctx, localVideo, m, y, w - m * 2, ch, true, f);
+    drawCover(ctx, remoteVideo, m, y + ch + gap, w - m * 2, ch, false, f);
   } else {
-    const colW = (w - margin*2 - gap)/2;
-    drawCover(ctx, localVideo, margin, photoY, colW, photoH, true, filter);
-    drawCover(ctx, remoteVideo, margin + colW + gap, photoY, colW, photoH, false, filter);
+    const cw = (w - m * 2 - gap) / 2;
+    drawCover(ctx, localVideo, m, y, cw, ph, true, f);
+    drawCover(ctx, remoteVideo, m + cw + gap, y, cw, ph, false, f);
   }
-  ctx.fillStyle = palette.accent; ctx.fillRect(margin, h-footerH+18, w-margin*2, 3);
-  drawText(ctx, "♡  made for us  ♡", w/2, h-55, 34, palette.ink);
-  canvas.toBlob(blob => {
-    if (!blob) { setStatus("Your browser couldn't create the photo. Try again.", true); return; }
-    if (currentPhotoUrl) URL.revokeObjectURL(currentPhotoUrl);
-    currentPhotoUrl = URL.createObjectURL(blob);
-    $("photoPreview").src = currentPhotoUrl;
-    $("savePhoto").href = currentPhotoUrl;
-    $("savePhoto").hidden = false;
-    $("savePhoto").style.display = "block";
+  ctx.fillStyle = p[2]; ctx.fillRect(m, h - footH + 18, w - m * 2, 3);
+  drawText(ctx, "♡  made for us  ♡", w / 2, h - 55, 34, p[1]);
+  canvas.toBlob(b => {
+    if (!b) return camSay("Couldn't create the photo. Try again.", true);
+    if (photoUrl) URL.revokeObjectURL(photoUrl);
+    photoUrl = URL.createObjectURL(b);
+    $("photoPreview").src = photoUrl; $("savePhoto").href = photoUrl; $("savePhoto").hidden = false;
     $("previewWrap").style.display = "block";
-    setStatus("Your memory is ready. Save it to your phone 💗");
+    camSay("Your memory is ready. Save it to your phone 💗");
   }, "image/png");
 }
 
-$("createRoom").addEventListener("click", createRoom);
-$("joinRoom").addEventListener("click", joinRoom);
-$("copyRoom").addEventListener("click", copyInvite);
-$("leaveRoom").addEventListener("click", leaveRoom);
-$("startCamera").addEventListener("click", startCamera);
-$("connectCameras").addEventListener("click", connectCameras);
-$("takePhoto").addEventListener("click", takePhoto);
+$("createRoom").onclick = createRoom; $("joinRoom").onclick = joinRoom; $("copyRoom").onclick = copyInvite;
+$("leaveRoom").onclick = leaveRoom; $("startCamera").onclick = startCamera; $("connectCameras").onclick = connectCameras; $("takePhoto").onclick = takePhoto;
 
-const roomFromUrl = new URL(location.href).searchParams.get("room");
-if (roomFromUrl) {
-  roomCode.value = roomFromUrl.toUpperCase();
-  setRoomStatus("Invite link detected. Tap Join room, then turn your camera on 💗");
-}
-bootstrap();
+const fromUrl = new URL(location.href).searchParams.get("room");
+if (fromUrl) { roomCode.value = fromUrl.toUpperCase(); authReady.then(() => roomSay("Invite link detected. Tap Join room, then turn your camera on 💗")); }
 </script>
 </body>
 </html>
