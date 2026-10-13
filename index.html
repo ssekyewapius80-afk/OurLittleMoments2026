@@ -229,7 +229,7 @@ async function makePeer(sess) {
   p.ontrack = e => {
     remoteVideo.srcObject = e.streams[0] || new MediaStream([e.track]);
     remoteVideo.muted = false;
-    remoteVideo.play().then(() => { $("hearBtn").hidden = true; }).catch(() => { $("hearBtn").hidden = false; }); // phones may need one tap to allow sound
+    remoteVideo.play().then(() => { $("hearBtn").hidden = true; }).catch(() => { remoteVideo.muted = true; remoteVideo.play().catch(() => {}); $("hearBtn").hidden = false; }); // phones may need one tap to allow sound
   };
   p.onicecandidate = e => {
     if (e.candidate) addDoc(candCol(role), { ...e.candidate.toJSON(), session: sess })
@@ -424,10 +424,10 @@ const drawText = (c, t, x, y, size, color, font = "Georgia") => { c.fillStyle = 
 
 // ===== Together magic: cut each person out and place both on one shared backdrop =====
 const SEG_MODEL = "https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_segmenter/float16/latest/selfie_segmenter.tflite";
-const CW = 360, CH = 480, OW = 720, OH = 900;
-const mkCut = () => { const c = document.createElement("canvas"); c.width = CW; c.height = CH; return { c, x: c.getContext("2d", { willReadFrequently: true }) }; };
-const cuts = [mkCut(), mkCut()];
-const live = $("togetherLive"), lx = live.getContext("2d");
+const OW = 720, OH = 900, LW = 360, LH = 450; // OW/OH = saved photo size, LW/LH = lighter live preview
+const mkCut = (w, h) => { const c = document.createElement("canvas"); c.width = w; c.height = h; return { c, w, h, x: c.getContext("2d", { willReadFrequently: true }) }; };
+const liveCuts = [mkCut(192, 256), mkCut(192, 256)], hiCuts = [mkCut(360, 480), mkCut(360, 480)];
+const live = $("togetherLive"); live.width = LW; live.height = LH; const lx = live.getContext("2d");
 let seg = null, segP = null, loopOn = false, runId = 0, lastT = 0, errs = 0, bg = null, bgKey = "", customBg = null;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -438,14 +438,14 @@ function loadSeg() {
       const { ImageSegmenter, FilesetResolver } = await import(V + "/vision_bundle.mjs");
       const fs = await FilesetResolver.forVisionTasks(V + "/wasm");
       const make = d => ImageSegmenter.createFromOptions(fs, { baseOptions: { modelAssetPath: SEG_MODEL, delegate: d }, runningMode: "IMAGE", outputConfidenceMasks: true, outputCategoryMask: false });
-      try { seg = await make("GPU"); } catch { seg = await make("CPU"); }
+      try { seg = await make("CPU"); } catch { seg = await make("GPU"); } // CPU first: steadier on phones
     } catch (e) { console.error(e); seg = null; camSay("Together magic couldn't load (" + errText(e) + "). Photos will be side by side.", true); }
   })());
 }
 
 // Segment one camera and turn everything that isn't the person transparent.
-function cut(v, k) {
-  const { c, x } = cuts[k];
+function cut(v, set, k) {
+  const { c, x, w: CW, h: CH } = set[k];
   if (!v.videoWidth) { x.clearRect(0, 0, CW, CH); return; }
   drawCover(x, v, 0, 0, CW, CH, false, "none");
   seg.segment(c, r => {
@@ -487,25 +487,29 @@ function makeBg(k) {
 }
 
 // Host always on the left, guest on the right, so both phones build the same picture.
-function frame() {
+function frame(g = lx, W = LW, H = LH, set = liveCuts) {
   const hostV = role === "guest" ? remoteVideo : localVideo, guestV = role === "guest" ? localVideo : remoteVideo;
   if (seg) {
-    cut(hostV, 0); cut(guestV, 1);
+    cut(hostV, set, 0); cut(guestV, set, 1);
     const k = $("backdrop").value; if (!bg || k !== bgKey) { bg = makeBg(k); bgKey = k; }
-    lx.drawImage(bg, 0, 0);
-    const sc = 1.45, w = CW * sc, h = CH * sc;
-    lx.drawImage(cuts[0].c, 0, OH - h, w, h); lx.drawImage(cuts[1].c, OW - w, OH - h, w, h);
+    g.drawImage(bg, 0, 0, W, H);
+    const w = W * .725, h = w * 4 / 3;
+    g.drawImage(set[0].c, 0, H - h, w, h); g.drawImage(set[1].c, W - w, H - h, w, h);
   } else {
-    lx.fillStyle = "#2b1d27"; lx.fillRect(0, 0, OW, OH);
-    drawCover(lx, hostV, 0, 0, OW / 2, OH, false, "none"); drawCover(lx, guestV, OW / 2, 0, OW / 2, OH, false, "none");
+    g.fillStyle = "#2b1d27"; g.fillRect(0, 0, W, H);
+    drawCover(g, hostV, 0, 0, W / 2, H, false, "none"); drawCover(g, guestV, W / 2, 0, W / 2, H, false, "none");
   }
 }
-function tick(t, id) {
+function tick(id) {
   if (id !== runId) return;
-  requestAnimationFrame(t2 => tick(t2, id));
-  if (t - lastT < 70) return; lastT = t;
-  try { frame(); errs = 0; }
-  catch (e) { console.error(e); if (++errs > 5 && seg) { seg = null; camSay("Together magic stopped working on this phone. Photos will be side by side.", true); } }
+  let cost = 100;
+  if (!document.hidden) {
+    const t0 = performance.now();
+    try { frame(); errs = 0; }
+    catch (e) { console.error(e); if (++errs > 5 && seg) { seg = null; camSay("Together magic stopped working on this phone. Photos will be side by side.", true); } }
+    cost = performance.now() - t0;
+  }
+  setTimeout(() => tick(id), Math.max(120, cost * 3)); // leave at least 3/4 of the time free so the page stays responsive
 }
 async function startTogether() {
   if (loopOn) return; loopOn = true; const id = ++runId;
@@ -513,7 +517,7 @@ async function startTogether() {
   await loadSeg();
   if (id !== runId) return;
   $("together").classList.add("on");
-  requestAnimationFrame(t => tick(t, id));
+  setTimeout(() => tick(id), 0);
 }
 function stopTogether() { loopOn = false; runId++; $("together").classList.remove("on"); $("togetherNote").textContent = "Connect your cameras and you'll appear together here 💗"; }
 
@@ -527,8 +531,9 @@ async function takePhoto() {
     for (let i = 0; i < n; i++) {
       for (let c = i ? 2 : 3; c > 0; c--) { $("countdown").textContent = c; await sleep(800); }
       $("countdown").textContent = "📸";
-      try { frame(); } catch {}
-      const s = document.createElement("canvas"); s.width = OW; s.height = OH; s.getContext("2d").drawImage(live, 0, 0); shots.push(s);
+      const s = document.createElement("canvas"); s.width = OW; s.height = OH;
+      try { frame(s.getContext("2d"), OW, OH, hiCuts); } catch (e) { console.warn(e); s.getContext("2d").drawImage(live, 0, 0, OW, OH); }
+      shots.push(s);
       await sleep(350);
     }
     $("countdown").textContent = "💗"; buildOutput(shots);
@@ -562,12 +567,12 @@ function buildOutput(shots) {
   }, "image/png");
 }
 
-remoteVideo.addEventListener("playing", startTogether);
+["playing", "loadeddata"].forEach(ev => remoteVideo.addEventListener(ev, startTogether));
 $("backdrop").addEventListener("change", () => { $("bgFile").hidden = $("backdrop").value !== "photo"; if (!$("bgFile").hidden) $("bgFile").click(); });
 $("bgFile").addEventListener("change", e => { const f = e.target.files[0]; if (!f) return; const img = new Image(); img.onload = () => { customBg = img; bgKey = ""; }; img.src = URL.createObjectURL(f); });
 
 $("micBtn").onclick = () => { const t = stream && stream.getAudioTracks()[0]; if (!t) return; t.enabled = !t.enabled; $("micBtn").textContent = t.enabled ? "🎤 Mute" : "🔇 Unmute"; };
-$("hearBtn").onclick = () => remoteVideo.play().then(() => { $("hearBtn").hidden = true; }).catch(() => {});
+$("hearBtn").onclick = () => { remoteVideo.muted = false; remoteVideo.play().then(() => { $("hearBtn").hidden = true; }).catch(() => { remoteVideo.muted = true; remoteVideo.play().catch(() => {}); }); };
 $("createRoom").onclick = createRoom; $("joinRoom").onclick = joinRoom; $("copyRoom").onclick = copyInvite;
 $("leaveRoom").onclick = leaveRoom; $("startCamera").onclick = startCamera; $("connectCameras").onclick = connectCameras; $("takePhoto").onclick = takePhoto;
 
