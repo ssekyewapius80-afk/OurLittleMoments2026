@@ -114,7 +114,7 @@ footer{text-align:center;color:#9b8791;font-size:.8rem;padding:15px}
     <img id="photoPreview" alt="Our combined photo preview">
     <a id="savePhoto" href="#" download="our-little-moment.png">Save our photo</a>
   </div>
-  <p class="small-note">Privacy note: camera video is sent directly between the two phones when connected. The website does not upload your photos. Firestore stores room connection signals and room codes until you leave; use the rules supplied with the setup instructions.</p>
+  <p class="small-note">If joining fails, the room status now shows the actual Firebase error. A “permission-denied” error means Firestore security rules must allow authenticated room members to read and update the room. Do not make the database publicly writable without access controls. Privacy note: camera video is sent directly between the two phones when connected. The website does not upload your photos. Firestore stores room connection signals and room codes until you leave; use the rules supplied with the setup instructions.</p>
 </section>
 
 <canvas id="captureCanvas"></canvas>
@@ -310,7 +310,7 @@ async function createRoom() {
   }
 }
 
-async function joinRoom() {
+async function joinRoom(throwOnError = false) {
   $("joinRoom").disabled = true;
   setRoomStatus("Joining room…");
   try {
@@ -332,15 +332,30 @@ async function joinRoom() {
       return;
     }
     if (data.guestUid && data.guestUid !== user.uid) throw new Error("This room already has a guest. Create a new room.");
-    if (!data.guestUid) await updateDoc(ref, { guestUid: user.uid });
+    if (!data.guestUid) {
+      await updateDoc(ref, { guestUid: user.uid, status: "joined", joinedAt: serverTimestamp() });
+    }
+    const verified = await getDoc(ref);
+    if (!verified.exists() || verified.data().guestUid !== user.uid) {
+      throw new Error("Firebase did not confirm your phone joined. Check Firestore rules and try a new room.");
+    }
     activeRoom = id;
     roomRole = "guest";
     showRoomCode(id);
     listenToRoom();
-    setRoomStatus("Joined! Turn your camera on, then tap Connect our cameras 💗");
+    setRoomStatus("Joined successfully! Your phone is registered in the room. Turn your camera on, then connect 💗");
+    return true;
   } catch (error) {
-    setRoomStatus("Couldn't join the room. " + errorText(error), true);
+    activeRoom = "";
+    roomRole = "";
+    const detail = errorText(error);
+    const advice = (error && error.code === "permission-denied")
+      ? " Firebase Firestore rules are blocking room access."
+      : "";
+    setRoomStatus("Couldn't join the room. " + detail + advice, true);
     console.error("Room join failed", error);
+    if (throwOnError) throw error;
+    return false;
   } finally {
     $("joinRoom").disabled = false;
   }
@@ -501,10 +516,10 @@ async function connectCameras() {
     if (!activeRoom) {
       const queryRoom = new URL(location.href).searchParams.get("room");
       if (queryRoom) roomCode.value = queryRoom.toUpperCase();
-      if (roomCode.value.trim()) await joinRoom();
+      if (roomCode.value.trim()) await joinRoom(true);
       else throw new Error("Create a room first, or enter the code Cynthia shared with you.");
     }
-    if (!activeRoom) throw new Error("Room isn't ready yet. Check the room code and try again.");
+    if (!activeRoom) throw new Error("The room was not joined. Read the room status above for the exact reason, then fix that before connecting cameras.");
     if (!localStream) await startCamera();
     if (!localStream) throw new Error("Camera did not start. Allow camera permission first.");
     const pc = await makePeer();
@@ -705,4 +720,4 @@ if (roomFromUrl) {
 bootstrap();
 </script>
 </body>
-  </html>
+</html>
