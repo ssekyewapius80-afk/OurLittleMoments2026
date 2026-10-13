@@ -120,11 +120,11 @@ footer{text-align:center;color:#9b8791;font-size:.8rem;padding:15px}
 
 <script>
 window.__started=false;
-function showErr(m){var s=document.getElementById('roomStatus');if(s){s.textContent='Error: '+m;s.className='status error';}}
+function showErr(m){window.__err=1;var s=document.getElementById('roomStatus');if(s){s.textContent='Error: '+m;s.className='status error';}}
 window.addEventListener('error',function(e){showErr((e.message||'script failed')+(e.filename?' ('+e.filename.split('/').pop()+':'+e.lineno+')':''));});
 window.addEventListener('unhandledrejection',function(e){showErr(String((e.reason&&e.reason.message)||e.reason));});
 if(location.protocol==='file:')showErr('You opened a local file. Open your https:// website link instead.');
-setTimeout(function(){if(!window.__started)showErr('The page script did not start. Open the https:// link in Chrome or Safari (not a downloaded file or an in-app browser), and make sure the whole file was pasted.');},4000);
+setTimeout(function(){if(!window.__started&&!window.__err)showErr('The page script did not start. Open the https:// link in Chrome or Safari (not a downloaded file or an in-app browser), and make sure the whole file was pasted.');},4000);
 </script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
@@ -141,7 +141,7 @@ const firebaseConfig = {
   appId: "1:1075558147416:web:5f4cb3997a0dffc9edf12d"
 };
 // Optional but strongly recommended for phones on different networks: Metered *credential API key* (never the Secret Key).
-const 6451288b9fd32281d64b16017982d9f0e689 = "";
+const METERED_CREDENTIAL_API_KEY = "6451288b9fd32281d64b16017982d9f0e689";
 // The name of your Metered app, i.e. the part before ".metered.live" in your dashboard.
 const METERED_APP_NAME = "our-little-moments";
 
