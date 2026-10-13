@@ -83,7 +83,7 @@ footer{text-align:center;color:#9b8791;font-size:.8rem;padding:15px}
 
 <section class="card">
   <h2 class="section-title">Come into the frame</h2>
-  <p class="help">Both phones: turn the camera on. Then the room creator taps Connect our cameras. Keep this page open.</p>
+  <p class="help">Both phones: turn the camera and microphone on. Then the room creator taps Connect our cameras. Once connected you can talk and plan your poses. Use headphones to avoid echo, and keep this page open.</p>
   <div class="camera-grid">
     <div class="camera-tile" id="localTile">
       <video id="localVideo" autoplay playsinline muted></video>
@@ -91,13 +91,15 @@ footer{text-align:center;color:#9b8791;font-size:.8rem;padding:15px}
       <div class="camera-label">You</div>
     </div>
     <div class="camera-tile remote" id="remoteTile">
-      <video id="remoteVideo" autoplay playsinline muted></video>
+      <video id="remoteVideo" autoplay playsinline></video>
       <div class="camera-placeholder">Waiting for<br>your person 💗</div>
       <div class="camera-label">Your person</div>
     </div>
   </div>
   <div class="actions">
     <button id="startCamera" class="primary">Turn camera on</button>
+    <button id="micBtn" class="quiet" hidden>🎤 Mute</button>
+    <button id="hearBtn" class="secondary" hidden>🔊 Tap to hear</button>
     <button id="connectCameras" class="secondary">Connect our cameras</button>
   </div>
   <div id="cameraStatus" class="status" role="status" aria-live="polite">Camera is off.</div>
@@ -118,7 +120,7 @@ footer{text-align:center;color:#9b8791;font-size:.8rem;padding:15px}
     <img id="photoPreview" alt="Our combined photo preview">
     <a id="savePhoto" href="#" download="our-little-moment.png" hidden>Save our photo</a>
   </div>
-  <p class="small-note">Video goes directly between the two phones. Photos are never uploaded. Firestore only holds room codes and connection signals.</p>
+  <p class="small-note">Video and voice go directly between the two phones. Photos are never uploaded. Firestore only holds room codes and connection signals.</p>
 </section>
 
 <canvas id="captureCanvas"></canvas>
@@ -206,6 +208,7 @@ function closePeer() {
   remoteVideo.srcObject = null; refreshTile(remoteVideo, $("remoteTile"));
 }
 function stopCamera() {
+  $("micBtn").hidden = true;
   if (stream) stream.getTracks().forEach(t => t.stop());
   stream = null; localVideo.srcObject = null; refreshTile(localVideo, $("localTile"));
 }
@@ -225,7 +228,8 @@ async function makePeer(sess) {
   p.flush = () => { while (pending.length) p.addIceCandidate(pending.shift()).catch(() => {}); };
   p.ontrack = e => {
     remoteVideo.srcObject = e.streams[0] || new MediaStream([e.track]);
-    remoteVideo.play().catch(() => {});
+    remoteVideo.muted = false;
+    remoteVideo.play().then(() => { $("hearBtn").hidden = true; }).catch(() => { $("hearBtn").hidden = false; }); // phones may need one tap to allow sound
   };
   p.onicecandidate = e => {
     if (e.candidate) addDoc(candCol(role), { ...e.candidate.toJSON(), session: sess })
@@ -332,11 +336,17 @@ async function startCamera() {
   try {
     if (!navigator.mediaDevices?.getUserMedia) throw new Error("Camera needs a secure (https) page in Chrome or Safari.");
     if (stream) stopCamera();
-    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 960 } }, audio: false });
+    const gum = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
+    const vid = { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 960 } };
+    try { stream = await gum({ video: vid, audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } }); }
+    catch (e) { console.warn("Mic unavailable, trying camera only", e); stream = await gum({ video: vid, audio: false }); }
     localVideo.srcObject = stream;
     await localVideo.play().catch(() => {});
     refreshTile(localVideo, $("localTile"));
-    camSay("Camera is on. Next, connect your cameras.");
+    const mic = stream.getAudioTracks()[0];
+    $("micBtn").hidden = !mic; $("micBtn").textContent = "🎤 Mute";
+    if (mic) camSay("Camera and microphone are on. Next, connect your cameras.");
+    else camSay("Camera is on, but the microphone is blocked, so you won't be able to talk. Allow the microphone in your browser settings, then tap Turn camera on again.", true);
     if (role === "guest" && roomData?.offer) guestAnswer(roomData.offer);
   } catch (e) { stream = null; camSay("Camera couldn't start. Allow camera permission. " + errText(e), true); console.error(e); }
   finally { $("startCamera").disabled = false; }
@@ -556,6 +566,8 @@ remoteVideo.addEventListener("playing", startTogether);
 $("backdrop").addEventListener("change", () => { $("bgFile").hidden = $("backdrop").value !== "photo"; if (!$("bgFile").hidden) $("bgFile").click(); });
 $("bgFile").addEventListener("change", e => { const f = e.target.files[0]; if (!f) return; const img = new Image(); img.onload = () => { customBg = img; bgKey = ""; }; img.src = URL.createObjectURL(f); });
 
+$("micBtn").onclick = () => { const t = stream && stream.getAudioTracks()[0]; if (!t) return; t.enabled = !t.enabled; $("micBtn").textContent = t.enabled ? "🎤 Mute" : "🔇 Unmute"; };
+$("hearBtn").onclick = () => remoteVideo.play().then(() => { $("hearBtn").hidden = true; }).catch(() => {});
 $("createRoom").onclick = createRoom; $("joinRoom").onclick = joinRoom; $("copyRoom").onclick = copyInvite;
 $("leaveRoom").onclick = leaveRoom; $("startCamera").onclick = startCamera; $("connectCameras").onclick = connectCameras; $("takePhoto").onclick = takePhoto;
 
