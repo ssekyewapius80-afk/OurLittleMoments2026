@@ -3,145 +3,123 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#fff1f5">
+<meta name="theme-color" content="#fff4ee">
 <title>Our Little Moments 💗</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
 <style>
-:root{--pink:#d85b83;--pink-dark:#a7355b;--ink:#382832;--muted:#806c77;--line:#f0dbe3;--shadow:0 12px 34px #7c36531a}
-*{box-sizing:border-box}
-body{margin:0;background:radial-gradient(circle at 8% 0,#ffe6ee 0,transparent 30%),linear-gradient(180deg,#fff8fb,#fffdfd 65%);color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;min-height:100vh}
-button,input,select{font:inherit}
-button{cursor:pointer;border:0;border-radius:14px;padding:12px 15px;font-weight:700;transition:transform .15s,opacity .15s}
-button:active{transform:scale(.98)}button:disabled{opacity:.5;cursor:not-allowed}
-.primary{background:var(--pink);color:#fff;box-shadow:0 7px 18px #d85b8333}.secondary{background:#fff;color:var(--pink-dark);border:1px solid var(--line)}.quiet{background:#fff7fa;color:var(--ink);border:1px solid var(--line)}
-main{max-width:980px;margin:auto;padding:22px 15px 42px}
-header{text-align:center;padding:16px 8px 20px}
-.eyebrow{font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--pink-dark);font-weight:700}
-h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(2rem,8vw,3.35rem);font-weight:600;line-height:1.1;margin:9px 0;color:#603346}
-header p{color:var(--muted);max-width:540px;margin:10px auto 0;line-height:1.6}
-.card{background:#ffffffd9;border:1px solid var(--line);border-radius:24px;padding:17px;box-shadow:var(--shadow);margin:14px 0}
-.section-title{font-family:"Playfair Display",Georgia,serif;font-size:1.3rem;margin:0 0 6px}
-.help{font-size:.9rem;line-height:1.55;color:var(--muted);margin:5px 0 13px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.field{display:flex;flex-direction:column;gap:7px;min-width:0}
-label{font-size:.83rem;font-weight:700;color:#674654}
-input,select{width:100%;min-width:0;border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px;color:var(--ink);outline:none}
-input:focus,select:focus{border-color:var(--pink);box-shadow:0 0 0 3px #d85b8319}
-.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
-.actions button{flex:1 1 135px}
-.status{padding:11px 13px;background:#fff3f7;border:1px solid var(--line);border-radius:13px;color:#79475b;font-size:.88rem;line-height:1.45;overflow-wrap:anywhere;margin-top:12px}
-.status.error{background:#fff0f1;color:#9a2d43;border-color:#f0c5ce}
-.camera-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.camera-tile{position:relative;overflow:hidden;background:#2b1d27;border-radius:18px;aspect-ratio:3/4;min-height:180px}
-.camera-tile video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transform:scaleX(-1)}
-.camera-tile video{filter:var(--vf,none)}
-.camera-tile.remote video{transform:none}
-.camera-label{position:absolute;left:10px;bottom:10px;background:#24151dc9;color:#fff;padding:7px 10px;border-radius:100px;font-size:.78rem;z-index:2}
-.camera-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;color:#ffe8ef;font-family:"Playfair Display",Georgia,serif;font-size:1.2rem;pointer-events:none;z-index:1}
-.camera-tile.has-video .camera-placeholder{display:none}
-.countdown{text-align:center;font-family:"Playfair Display",Georgia,serif;font-size:clamp(2rem,10vw,4.5rem);color:var(--pink-dark);min-height:1.2em}
-#captureCanvas{display:none}
-.together{position:relative;margin:14px auto 0;max-width:420px;aspect-ratio:4/5;border-radius:18px;overflow:hidden;background:#2b1d27}
-.together canvas{position:absolute;inset:0;width:100%;height:100%;filter:var(--vf,none);visibility:hidden}
-.together.on canvas{visibility:visible}
-.together.on .camera-placeholder{display:none}
-#bgFile{margin-top:8px;font-size:.85rem}
-#previewWrap{display:none;margin-top:14px}
-#photoPreview{width:100%;max-width:560px;display:block;margin:auto;border-radius:16px;border:1px solid var(--line)}
-#savePhoto{text-align:center;text-decoration:none;background:var(--pink);color:#fff;border-radius:13px;padding:12px 16px;font-weight:700;margin:12px auto 0;width:fit-content;display:block}
-#savePhoto[hidden],#copyRoom[hidden]{display:none!important}
-.small-note{font-size:.78rem;color:#8c7882;line-height:1.5;margin:12px 0 0}
-footer{text-align:center;color:#9b8791;font-size:.8rem;padding:15px}
-@media(max-width:620px){main{padding:12px 11px 28px}.card{padding:14px;border-radius:20px}.grid2{grid-template-columns:1fr}.camera-grid{gap:8px}.camera-tile{min-height:150px;border-radius:14px}.actions button{flex-basis:calc(50% - 9px)}}
+:root{--rose:#d4577f;--rose-d:#a2315a;--cream:#fff7f0;--blush:#ffe3ea;--gold:#c79a3e;--ink:#3b2a32;--muted:#85707a;--line:#f0d9d6;--shadow:0 14px 40px #8a3a5a1f}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;background:radial-gradient(circle at 15% -5%,#ffd6e2 0,transparent 38%),radial-gradient(circle at 100% 20%,#ffeccf 0,transparent 32%),var(--cream);padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+button,input,textarea{font:inherit}
+button{cursor:pointer;border:0;border-radius:16px;padding:14px 18px;font-weight:700;transition:transform .15s,opacity .15s}
+button:active{transform:scale(.97)}button:disabled{opacity:.5}
+.primary{background:linear-gradient(135deg,var(--rose),#e8799b);color:#fff;box-shadow:0 10px 24px #d4577f40}
+.soft{background:#fff;color:var(--rose-d);border:1px solid var(--line)}
+.ghost{background:transparent;color:var(--muted)}
+main{max-width:520px;margin:auto;padding:22px 16px 48px}
+.screen[hidden]{display:none}
+.brand{font-family:"Playfair Display",Georgia,serif;font-size:1.05rem;color:var(--rose-d);text-align:center;letter-spacing:.02em}
+.eyebrow{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;text-align:center;margin-top:34px}
+h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(2.2rem,10vw,3.2rem);line-height:1.08;text-align:center;margin:10px 0;color:#5a2d40}
+h1 em{color:var(--rose);font-weight:500}
+.lead{text-align:center;color:var(--muted);line-height:1.6;margin:0 auto 24px;max-width:400px}
+.card{background:#ffffffe6;border:1px solid var(--line);border-radius:26px;padding:20px;box-shadow:var(--shadow);margin:14px 0}
+.stack{display:flex;flex-direction:column;gap:10px}
+.row{display:flex;gap:10px}.row>*{flex:1}
+input{width:100%;border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff;color:var(--ink);outline:none;text-align:center;font-weight:700;letter-spacing:.3em;text-transform:uppercase;font-size:1.1rem}
+input::placeholder{letter-spacing:.05em;font-weight:500;text-transform:none;color:#b9a3ab}
+input:focus,textarea:focus{border-color:var(--rose);box-shadow:0 0 0 3px #d4577f1f}
+.or{text-align:center;color:var(--muted);font-size:.85rem;margin:2px 0}
+.code{font-family:"Playfair Display",Georgia,serif;font-size:2.6rem;letter-spacing:.28em;text-align:center;color:var(--rose-d);margin:6px 0 2px;padding-left:.28em}
+.pill{display:inline-flex;gap:7px;align-items:center;border-radius:99px;padding:7px 13px;font-size:.82rem;font-weight:700;background:var(--blush);color:var(--rose-d)}
+.pill.ok{background:#e6f6ea;color:#2f7a45}
+.center{text-align:center}
+h2{font-family:"Playfair Display",Georgia,serif;margin:0 0 4px;font-size:1.35rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.tile{display:flex;flex-direction:column;gap:5px;text-align:left;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:20px;padding:15px;text-decoration:none;min-height:104px}
+.tile b{font-size:.98rem}.tile span{font-size:.8rem;color:var(--muted);line-height:1.4;font-weight:500}
+.tile .emo{font-size:1.6rem}
+.tile.go{border-color:#efb7c8;box-shadow:0 8px 20px #d4577f1c}
+.tile.soon{opacity:.55;pointer-events:none;background:#fffaf6}
+.q{font-family:"Playfair Display",Georgia,serif;font-size:1.55rem;line-height:1.3;text-align:center;color:#5a2d40;margin:10px 4px 18px}
+.count{font-size:.78rem;color:var(--gold);font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-align:center}
+textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:16px;padding:14px;resize:vertical;background:#fff;color:var(--ink);outline:none;line-height:1.5}
+.ans{border-radius:18px;padding:15px;background:#fff;border:1px solid var(--line);line-height:1.5;overflow-wrap:anywhere}
+.ans small{display:block;font-weight:700;color:var(--rose-d);margin-bottom:5px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+.ans.them{background:var(--blush);border-color:#f4c6d3}
+.hint{text-align:center;color:var(--muted);font-size:.9rem;line-height:1.5;margin:12px 0}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,30px);background:#3b2a32;color:#fff;padding:12px 16px;border-radius:14px;font-size:.88rem;max-width:90%;opacity:0;pointer-events:none;transition:.25s;z-index:9}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+.hearts span{position:fixed;top:-30px;font-size:18px;opacity:.5;animation:fall linear infinite;pointer-events:none}
+@keyframes fall{to{transform:translateY(110vh) rotate(40deg)}}
+@media(prefers-reduced-motion:reduce){.hearts{display:none}}
 </style>
 </head>
 <body>
+<div class="hearts" aria-hidden="true"></div>
 <main>
-<header>
-  <div class="eyebrow">A little place for us</div>
-  <h1>Our Little Moments <span aria-hidden="true">💗</span></h1>
-  <p>Even when we're far apart, let's make memories like we're right beside each other.</p>
-</header>
+  <div class="brand">Our Little Moments 💗</div>
 
-<section class="card">
-  <h2 class="section-title">Our private room</h2>
-  <p class="help">One of you creates a room and shares the link. The other opens it and taps Join room.</p>
-  <div class="grid2">
-    <div class="field"><label for="roomCode">Room code</label><input id="roomCode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Create a room or paste a code"></div>
-    <div class="field"><label for="layout">Photo style</label><select id="layout"><option value="strip">Photo strip (4 shots)</option><option value="single">Single photo</option></select></div>
-  </div>
-  <div class="actions">
-    <button id="createRoom" class="primary">Create our room 💗</button>
-    <button id="joinRoom" class="secondary">Join room</button>
-    <button id="copyRoom" class="quiet" hidden>Copy invite link</button>
-    <button id="leaveRoom" class="quiet">Leave / reset</button>
-  </div>
-  <div id="roomStatus" class="status" role="status" aria-live="polite">Connecting securely…</div>
-</section>
-
-<section class="card">
-  <h2 class="section-title">Come into the frame</h2>
-  <p class="help">Both phones: turn the camera and microphone on. Then the room creator taps Connect our cameras. Once connected you can talk and plan your poses. Use headphones to avoid echo, and keep this page open.</p>
-  <div class="camera-grid">
-    <div class="camera-tile" id="localTile">
-      <video id="localVideo" autoplay playsinline muted></video>
-      <div class="camera-placeholder">Your camera<br>will appear here</div>
-      <div class="camera-label">You</div>
+  <section id="home" class="screen">
+    <div class="eyebrow">Real dates for two phones</div>
+    <h1>Far apart, <em>still together</em></h1>
+    <p class="lead">Open a room, send your person the code, and play, talk and make memories in the same place, from anywhere.</p>
+    <div class="card stack">
+      <button id="create" class="primary">Start a room 💗</button>
+      <div class="or">or join your person</div>
+      <div class="row"><input id="joinCode" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="5-letter code"><button id="join" class="soft" style="flex:0 0 auto">Join</button></div>
     </div>
-    <div class="camera-tile remote" id="remoteTile">
-      <video id="remoteVideo" autoplay playsinline></video>
-      <div class="camera-placeholder">Waiting for<br>your person 💗</div>
-      <div class="camera-label">Your person</div>
+    <p class="hint">No account needed. Works in your phone's browser.</p>
+  </section>
+
+  <section id="lobby" class="screen" hidden>
+    <div class="card center">
+      <div class="count">Your room code</div>
+      <div class="code" id="roomCode">-----</div>
+      <div style="margin:10px 0 14px"><span class="pill" id="who">Waiting for your person…</span></div>
+      <div class="row"><button id="copy" class="primary">Copy invite link</button><button id="leave" class="ghost">Leave</button></div>
     </div>
-  </div>
-  <div class="actions">
-    <button id="startCamera" class="primary">Turn camera on</button>
-    <button id="micBtn" class="quiet" hidden>🎤 Mute</button>
-    <button id="hearBtn" class="secondary" hidden>🔊 Tap to hear</button>
-    <button id="connectCameras" class="secondary">Connect our cameras</button>
-  </div>
-  <div id="cameraStatus" class="status" role="status" aria-live="polite">Camera is off.</div>
-</section>
+    <div class="card">
+      <h2>Pick something to do</h2>
+      <div class="grid">
+        <button class="tile go" id="openCards"><span class="emo">💌</span><b>Honest Cards</b><span>Answer in private. Both answers open at once.</span></button>
+        <a class="tile go" href="index.html"><span class="emo">📸</span><b>Photobooth</b><span>Take a photo strip together.</span></a>
+        <div class="tile soon"><span class="emo">🧠</span><b>Know Me Quiz</b><span>Coming soon</span></div>
+        <div class="tile soon"><span class="emo">🎨</span><b>Draw Together</b><span>Coming soon</span></div>
+        <div class="tile soon"><span class="emo">🧩</span><b>Riddle Night</b><span>Coming soon</span></div>
+        <div class="tile soon"><span class="emo">🎲</span><b>Truth or Dare</b><span>Coming soon</span></div>
+      </div>
+    </div>
+  </section>
 
-<section class="card">
-  <h2 class="section-title">Make the memory</h2>
-  <p class="help">Once you're connected, you both appear together on one shared backdrop below. Pick a backdrop and mood, then take the photo.</p>
-  <div class="together" id="together"><canvas id="togetherLive" width="720" height="900"></canvas><div class="camera-placeholder" id="togetherNote">Connect your cameras and you'll appear together here 💗</div></div>
-  <div class="field" style="margin:14px 0 4px"><label for="backdrop">Backdrop</label><select id="backdrop"><option value="sunset">Golden sunset</option><option value="night">Night city</option><option value="cozy">Cozy café lights</option><option value="hearts">Pink hearts</option><option value="photo">My own photo…</option></select><input type="file" id="bgFile" accept="image/*" hidden></div>
-  <div class="grid2">
-    <div class="field"><label for="filter">Photo filter</label><select id="filter"><option value="none">Original</option><option value="soft">Soft romance</option><option value="vintage">Vintage</option><option value="bw">Black &amp; white</option><option value="golden">Golden hour</option><option value="pink">Pink dream</option></select></div>
-    <div class="field"><label for="theme">Frame style</label><select id="theme"><option value="rose">Romantic rose</option><option value="sunset">Golden sunset</option><option value="film">Classic film</option><option value="minimal">Soft minimal</option></select></div>
-  </div>
-  <div class="countdown" id="countdown" aria-live="polite"></div>
-  <div class="actions"><button id="takePhoto" class="primary">Take our photo 📸</button></div>
-  <div id="previewWrap">
-    <img id="photoPreview" alt="Our combined photo preview">
-    <a id="savePhoto" href="#" download="our-little-moment.png" hidden>Save our photo</a>
-  </div>
-  <p class="small-note">Video and voice go directly between the two phones. Photos are never uploaded. Firestore only holds room codes and connection signals.</p>
-</section>
-
-<canvas id="captureCanvas"></canvas>
-<footer>Made with love, for two hearts 💗</footer>
+  <section id="cards" class="screen" hidden>
+    <div class="card">
+      <div class="count" id="cardNo"></div>
+      <div class="q" id="question"></div>
+      <div id="answerBox" class="stack">
+        <textarea id="myText" maxlength="400" placeholder="Write honestly. Your person can't see this until you both answer."></textarea>
+        <button id="lock" class="primary">Lock in my answer 🔒</button>
+      </div>
+      <div id="waitBox" class="hint" hidden></div>
+      <div id="revealBox" class="stack" hidden>
+        <div class="ans"><small>You</small><span id="mine"></span></div>
+        <div class="ans them"><small>Your person</small><span id="theirs"></span></div>
+        <button id="next" class="primary">Next card →</button>
+      </div>
+    </div>
+    <div class="center"><button id="back" class="ghost">← Back to activities</button></div>
+  </section>
 </main>
+<div id="toast" role="status" aria-live="polite"></div>
 
-<script>
-window.__started=false;
-function showErr(m){window.__err=1;var s=document.getElementById('roomStatus');if(s){s.textContent='Error: '+m;s.className='status error';}}
-window.addEventListener('error',function(e){showErr((e.message||'script failed')+(e.filename?' ('+e.filename.split('/').pop()+':'+e.lineno+')':''));});
-window.addEventListener('unhandledrejection',function(e){showErr(String((e.reason&&e.reason.message)||e.reason));});
-if(location.protocol==='file:')showErr('You opened a local file. Open your https:// website link instead.');
-setTimeout(function(){if(!window.__started&&!window.__err)showErr('The page script did not start. Open the https:// link in Chrome or Safari (not a downloaded file or an in-app browser), and make sure the whole file was pasted.');},4000);
-</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-window.__started = true;
-const firebaseConfig = {
+const cfg = {
   apiKey: "AIzaSyBZc_v8rdJ9KsshNE57mZxRAheYjXNu6VM",
   authDomain: "ourlittlemoments2026.firebaseapp.com",
   projectId: "ourlittlemoments2026",
@@ -149,435 +127,136 @@ const firebaseConfig = {
   messagingSenderId: "1075558147416",
   appId: "1:1075558147416:web:5f4cb3997a0dffc9edf12d"
 };
-// Optional but strongly recommended for phones on different networks: Metered *credential API key* (never the Secret Key).
-const METERED_CREDENTIAL_API_KEY = "6451288b9fd32281d64b16017982d9f0e689";
-// The name of your Metered app, i.e. the part before ".metered.live" in your dashboard.
-const METERED_APP_NAME = "our-little-moments";
-
+const QUESTIONS = [
+  "What's a small thing I do that makes you feel loved?", "What's your favorite memory of us so far?", "What's something you've been nervous to tell me?",
+  "Describe our perfect lazy day together.", "What song reminds you of me, and why?", "What's one thing you want us to do together this year?",
+  "When did you first realize you liked me?", "What's something I do that always makes you laugh?", "What's a dream you haven't told many people?",
+  "What do you miss most about being near me?", "What's one thing you want to be braver about?", "If we could teleport anywhere tonight, where would we go?",
+  "What's your favorite thing about how we talk?", "What's something small that would make your week better?", "What's a habit of mine you secretly love?",
+  "What does home feel like to you?", "What are you most proud of yourself for lately?", "What would our dream home look like?",
+  "What's one thing you'd like to understand better about me?", "What's a tradition you want us to start?", "What's the best compliment you've ever received?",
+  "What's something you're grateful for today?", "What scares you about the future, and what excites you?", "Where do you want us to be in five years?"
+];
 const $ = id => document.getElementById(id);
-const roomCode = $("roomCode"), localVideo = $("localVideo"), remoteVideo = $("remoteVideo");
-const canvas = $("captureCanvas"), ctx = canvas.getContext("2d", { alpha: false });
-const say = (el, msg, err = false) => { el.textContent = msg; el.classList.toggle("error", err); };
-const roomSay = (m, e) => say($("roomStatus"), m, e);
-const camSay = (m, e) => say($("cameraStatus"), m, e);
-const errText = e => (e && (e.code || e.message)) ? `${e.code || "Error"}: ${e.message || ""}` : String(e);
+const app = initializeApp(cfg), auth = getAuth(app), db = getFirestore(app);
+let user = null, room = "", data = null, answers = [], offRoom = null, offAns = null, order = [];
 
-const app = initializeApp(firebaseConfig), auth = getAuth(app), db = getFirestore(app);
-let user = null, room = "", role = "", roomData = null;
-let stream = null, pc = null, session = "", answered = "", gotAnswer = "", answering = false;
-let roomUnsub = null, candUnsub = null, photoUrl = null;
+const toast = m => { const t = $("toast"); t.textContent = m; t.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove("on"), 3800); };
+const err = e => (e && (e.code || e.message)) ? `${e.code || "Error"}: ${e.message || ""}` : String(e);
+const authReady = new Promise(res => onAuthStateChanged(auth, async u => {
+  if (u) { user = u; res(u); }
+  else try { await signInAnonymously(auth); } catch (e) { res(null); toast("Sign-in failed: " + err(e)); }
+}));
+const needAuth = async () => { const u = await authReady; if (!u) throw new Error("Sign-in failed. Refresh and check Firebase Authentication."); return u; };
+const show = n => ["home", "lobby", "cards"].forEach(s => $(s).hidden = s !== n);
+const ref = () => doc(db, "rooms", room);
+const makeCode = () => { const c = "ABCDEFGHJKLMNPQRSTUVWXYZ", b = crypto.getRandomValues(new Uint8Array(5)); return Array.from(b, x => c[x % c.length]).join(""); };
+const link = () => { const u = new URL(location.href); u.search = ""; u.searchParams.set("room", room); return u.toString(); };
 
-const authReady = new Promise(resolve => {
-  onAuthStateChanged(auth, async u => {
-    if (u) { user = u; resolve(u); roomSay("Ready. Create a room or join with a code ❤️"); }
-    else try { await signInAnonymously(auth); }
-    catch (e) { resolve(null); roomSay("Sign-in failed: " + errText(e) + ". Enable Anonymous sign-in in Firebase Authentication.", true); }
-  });
-});
-const needAuth = async () => { if (!(await authReady)) throw new Error("Firebase sign-in failed. Refresh and check Firebase Authentication."); return user; };
-
-const roomRef = (id = room) => doc(db, "rooms", id);
-const candCol = r => collection(db, "rooms", room, r === "host" ? "hostCandidates" : "guestCandidates");
-const other = () => role === "host" ? "guest" : "host";
-const member = d => !!user && (d.hostUid === user.uid || d.guestUid === user.uid);
-const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-const makeRoomCode = () => { const c = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789", b = crypto.getRandomValues(new Uint8Array(8)); return Array.from(b, x => c[x % c.length]).join(""); };
-const inviteUrl = id => { const u = new URL(location.href); u.searchParams.set("room", id); return u.toString(); };
-
-// Show/hide the "waiting" placeholder based on whether real video frames are playing.
-const refreshTile = (video, tile) => tile.classList.toggle("has-video", !!video.srcObject && video.videoWidth > 0);
-[[localVideo, "localTile"], [remoteVideo, "remoteTile"]].forEach(([v, t]) =>
-  ["loadedmetadata", "loadeddata", "playing", "resize", "emptied"].forEach(ev => v.addEventListener(ev, () => refreshTile(v, $(t)))));
-
-async function getIce() {
-  const servers = [{ urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"] }];
-  const key = METERED_CREDENTIAL_API_KEY.trim();
-  if (!key) return servers;
-  try {
-    const r = await fetch("https://" + METERED_APP_NAME + ".metered.live/api/v1/turn/credentials?apiKey=" + encodeURIComponent(key));
-    if (!r.ok) throw new Error("HTTP " + r.status);
-    const d = await r.json();
-    return [...servers, ...(Array.isArray(d) ? d : d.iceServers || [])];
-  } catch (e) { console.warn("TURN unavailable", e); return servers; }
+// Same question order on both phones: shuffle with a seed made from the room code.
+function shuffled(code) {
+  let h = 2166136261; for (const ch of code) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
+  const rnd = () => { h |= 0; h = h + 0x6D2B79F5 | 0; let t = Math.imul(h ^ h >>> 15, 1 | h); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const a = QUESTIONS.map((_, i) => i);
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
 }
 
-function closePeer() {
-  if (candUnsub) candUnsub(); candUnsub = null;
-  if (pc) { try { pc.onicecandidate = pc.ontrack = pc.onconnectionstatechange = null; pc.close(); } catch {} }
-  pc = null; session = ""; stopTogether();
-  remoteVideo.srcObject = null; refreshTile(remoteVideo, $("remoteTile"));
+async function enter(id) {
+  room = id; order = shuffled(id);
+  history.replaceState(null, "", link());
+  $("roomCode").textContent = id;
+  if (offRoom) offRoom(); if (offAns) offAns();
+  offRoom = onSnapshot(ref(), s => { if (!s.exists()) { toast("This room no longer exists."); leave(); return; } data = s.data(); render(); }, e => toast("Room error: " + err(e)));
+  offAns = onSnapshot(collection(db, "rooms", room, "answers"), s => { answers = s.docs.map(d => d.data()); render(); }, e => toast("Answers error: " + err(e)));
+  show("lobby");
 }
-function stopCamera() {
-  $("micBtn").hidden = true;
-  if (stream) stream.getTracks().forEach(t => t.stop());
-  stream = null; localVideo.srcObject = null; refreshTile(localVideo, $("localTile"));
-}
-function clearPhoto() {
-  if (photoUrl) URL.revokeObjectURL(photoUrl); photoUrl = null;
-  $("previewWrap").style.display = "none"; $("savePhoto").hidden = true; $("photoPreview").removeAttribute("src");
-}
-
-// One peer connection per "session" id, so old offers/answers/candidates from earlier tries are ignored.
-async function makePeer(sess) {
-  closePeer(); session = sess;
-  const p = new RTCPeerConnection({ iceServers: await getIce(), iceCandidatePoolSize: 4 });
-  if (session !== sess) { p.close(); throw new Error("Connection restarted."); }
-  pc = p;
-  stream.getTracks().forEach(t => p.addTrack(t, stream));
-  const pending = [];
-  p.flush = () => { while (pending.length) p.addIceCandidate(pending.shift()).catch(() => {}); };
-  p.ontrack = e => {
-    remoteVideo.srcObject = e.streams[0] || new MediaStream([e.track]);
-    remoteVideo.muted = false;
-    remoteVideo.play().then(() => { $("hearBtn").hidden = true; }).catch(() => { remoteVideo.muted = true; remoteVideo.play().catch(() => {}); $("hearBtn").hidden = false; }); // phones may need one tap to allow sound
-  };
-  p.onicecandidate = e => {
-    if (e.candidate) addDoc(candCol(role), { ...e.candidate.toJSON(), session: sess })
-      .catch(err => camSay("Could not send connection signal: " + errText(err), true));
-  };
-  p.onconnectionstatechange = () => {
-    if (pc !== p) return;
-    const s = p.connectionState;
-    if (s === "connected") camSay("You're connected! Get close and make a memory 💗");
-    else if (s === "connecting") camSay("Connecting your cameras…");
-    else if (s === "failed") camSay("Connection failed. The room creator can tap Connect again. If it keeps failing, add a Metered TURN key (needed when phones are on different networks).", true);
-    else if (s === "disconnected") camSay("Connection interrupted. Waiting for the network…");
-  };
-  candUnsub = onSnapshot(candCol(other()), snap => snap.docChanges().forEach(ch => {
-    if (ch.type !== "added") return;
-    const d = ch.doc.data();
-    if (d.session !== sess || !d.candidate) return;
-    const c = { candidate: d.candidate, sdpMid: d.sdpMid, sdpMLineIndex: d.sdpMLineIndex };
-    if (p.remoteDescription) p.addIceCandidate(c).catch(() => {}); else pending.push(c);
-  }), e => camSay("Signaling error: " + errText(e), true));
-  return p;
-}
-
-async function hostOffer() {
-  const sess = newId();
-  const p = await makePeer(sess);
-  const o = await p.createOffer();
-  await p.setLocalDescription(o);
-  await updateDoc(roomRef(), { offer: { type: o.type, sdp: o.sdp, session: sess }, answer: deleteField(), status: "connecting", updatedAt: serverTimestamp() });
-  camSay("Offer sent. Waiting for the other phone (it must have its camera on)…");
-}
-async function guestAnswer(o) {
-  if (answering || !stream || !o || o.session === answered) return;
-  answering = true;
-  try {
-    const p = await makePeer(o.session);
-    await p.setRemoteDescription({ type: o.type, sdp: o.sdp });
-    p.flush();
-    const a = await p.createAnswer();
-    await p.setLocalDescription(a);
-    await updateDoc(roomRef(), { answer: { type: a.type, sdp: a.sdp, session: o.session }, updatedAt: serverTimestamp() });
-    answered = o.session;
-    camSay("Answer sent. Connecting your cameras…");
-  } catch (e) { camSay("Could not connect: " + errText(e), true); console.error(e); }
-  finally { answering = false; }
-}
-async function hostAcceptAnswer(a) {
-  if (!pc || a.session !== session || gotAnswer === a.session) return;
-  gotAnswer = a.session;
-  try { await pc.setRemoteDescription({ type: a.type, sdp: a.sdp }); pc.flush(); camSay("Answer received. Connecting your cameras…"); }
-  catch (e) { camSay("Could not accept the answer: " + errText(e), true); }
-}
-
-function listen() {
-  if (roomUnsub) roomUnsub();
-  roomUnsub = onSnapshot(roomRef(), snap => {
-    if (!snap.exists()) return roomSay("This room no longer exists. Create a new one.", true);
-    roomData = snap.data();
-    if (!member(roomData)) return roomSay("You're not a member of this room. Join again with the right code.", true);
-    roomSay(roomData.guestUid
-      ? "You're both in the room. Turn cameras on, then the room creator taps Connect 💗"
-      : "Room created. Waiting for your person to join… send them the invite link.");
-    if (role === "guest" && roomData.offer) guestAnswer(roomData.offer);
-    if (role === "host" && roomData.answer) hostAcceptAnswer(roomData.answer);
-  }, e => roomSay("Room update error: " + errText(e), true));
-}
-function showRoom(id) {
-  roomCode.value = id; $("copyRoom").hidden = false;
-  history.replaceState(null, "", inviteUrl(id));
-}
-
 async function createRoom() {
-  $("createRoom").disabled = true; roomSay("Creating your room…");
+  $("create").disabled = true;
   try {
     const u = await needAuth();
-    closePeer(); const id = makeRoomCode();
-    await setDoc(roomRef(id), { hostUid: u.uid, guestUid: null, status: "waiting", createdAt: serverTimestamp() });
-    room = id; role = "host"; answered = gotAnswer = "";
-    showRoom(id); listen();
-  } catch (e) { room = role = ""; roomSay("Couldn't create the room. " + errText(e), true); console.error(e); }
-  finally { $("createRoom").disabled = false; }
+    for (let i = 0; i < 6; i++) {
+      const id = makeCode();
+      if ((await getDoc(doc(db, "rooms", id))).exists()) continue;
+      await setDoc(doc(db, "rooms", id), { hostUid: u.uid, guestUid: null, status: "waiting", game: "lobby", card: 0, createdAt: serverTimestamp() });
+      return await enter(id);
+    }
+    throw new Error("Couldn't find a free code. Try again.");
+  } catch (e) { toast("Couldn't start the room. " + err(e)); console.error(e); }
+  finally { $("create").disabled = false; }
 }
 async function joinRoom() {
-  $("joinRoom").disabled = true; roomSay("Joining room…");
+  $("join").disabled = true;
   try {
-    const u = await needAuth();
-    const id = roomCode.value.trim().toUpperCase();
-    if (!/^[A-HJ-NP-Z2-9]{8}$/.test(id)) throw new Error("A room code is 8 letters/numbers. Check it and try again.");
-    closePeer();
-    const snap = await getDoc(roomRef(id));
-    if (!snap.exists()) throw new Error("Room not found. Ask for the newest invite link.");
-    const d = snap.data();
-    if (d.hostUid === u.uid) role = "host";
-    else if (!d.guestUid || d.guestUid === u.uid) { role = "guest"; if (!d.guestUid) await updateDoc(roomRef(id), { guestUid: u.uid }); }
-    else throw new Error("This room already has a guest. Create a new room.");
-    room = id; answered = gotAnswer = "";
-    showRoom(id); listen();
-  } catch (e) { roomSay("Couldn't join the room. " + errText(e), true); console.error(e); }
-  finally { $("joinRoom").disabled = false; }
+    const u = await needAuth(), id = $("joinCode").value.trim().toUpperCase();
+    if (!/^[A-HJ-NP-Z]{5}$/.test(id)) throw new Error("A room code is 5 letters.");
+    const s = await getDoc(doc(db, "rooms", id));
+    if (!s.exists()) throw new Error("Room not found. Check the code.");
+    const d = s.data();
+    if (d.hostUid !== u.uid && d.guestUid !== u.uid) {
+      if (d.guestUid) throw new Error("This room already has two people.");
+      await updateDoc(doc(db, "rooms", id), { guestUid: u.uid });
+    }
+    await enter(id);
+  } catch (e) { toast(err(e)); console.error(e); }
+  finally { $("join").disabled = false; }
+}
+function leave() {
+  if (offRoom) offRoom(); if (offAns) offAns(); offRoom = offAns = null;
+  room = ""; data = null; answers = [];
+  const u = new URL(location.href); u.search = ""; history.replaceState(null, "", u);
+  show("home");
 }
 
-async function startCamera() {
-  $("startCamera").disabled = true;
-  try {
-    if (!navigator.mediaDevices?.getUserMedia) throw new Error("Camera needs a secure (https) page in Chrome or Safari.");
-    if (stream) stopCamera();
-    const gum = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
-    const vid = { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 960 } };
-    try { stream = await gum({ video: vid, audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } }); }
-    catch (e) { console.warn("Mic unavailable, trying camera only", e); stream = await gum({ video: vid, audio: false }); }
-    localVideo.srcObject = stream;
-    await localVideo.play().catch(() => {});
-    refreshTile(localVideo, $("localTile"));
-    const mic = stream.getAudioTracks()[0];
-    $("micBtn").hidden = !mic; $("micBtn").textContent = "🎤 Mute";
-    if (mic) camSay("Camera and microphone are on. Next, connect your cameras.");
-    else camSay("Camera is on, but the microphone is blocked, so you won't be able to talk. Allow the microphone in your browser settings, then tap Turn camera on again.", true);
-    if (role === "guest" && roomData?.offer) guestAnswer(roomData.offer);
-  } catch (e) { stream = null; camSay("Camera couldn't start. Allow camera permission. " + errText(e), true); console.error(e); }
-  finally { $("startCamera").disabled = false; }
+function render() {
+  if (!data) return;
+  const both = !!data.guestUid;
+  $("who").textContent = both ? "Both of you are here 💗" : "Waiting for your person…";
+  $("who").classList.toggle("ok", both);
+  if (data.game === "cards") renderCards(both); else if (!$("cards").hidden) show("lobby");
 }
+function renderCards(both) {
+  show("cards");
+  const idx = data.card || 0, q = QUESTIONS[order[idx % order.length]];
+  $("cardNo").textContent = `Card ${idx + 1}`;
+  $("question").textContent = q;
+  const mine = answers.find(a => a.card === idx && a.uid === user.uid);
+  const theirs = answers.find(a => a.card === idx && a.uid !== user.uid);
+  const reveal = mine && theirs;
+  $("answerBox").hidden = !!mine;
+  $("revealBox").hidden = !reveal;
+  $("waitBox").hidden = !(mine && !theirs);
+  if (mine && !theirs) $("waitBox").textContent = both ? "Locked in 🔒 Waiting for your person to answer…" : "Locked in 🔒 Waiting for your person to join…";
+  if (reveal) { $("mine").textContent = mine.text; $("theirs").textContent = theirs.text; }
+}
+async function lock() {
+  const text = $("myText").value.trim();
+  if (!text) return toast("Write something first 💗");
+  $("lock").disabled = true;
+  try { await setDoc(doc(db, "rooms", room, "answers", `${data.card || 0}_${user.uid}`), { card: data.card || 0, uid: user.uid, text }); $("myText").value = ""; }
+  catch (e) { toast("Couldn't save your answer. " + err(e)); console.error(e); }
+  finally { $("lock").disabled = false; }
+}
+const setGame = (game, extra = {}) => updateDoc(ref(), { game, ...extra }).catch(e => toast("Couldn't update the room. " + err(e)));
 
-async function connectCameras() {
-  $("connectCameras").disabled = true;
-  try {
-    if (!room) { if (!roomCode.value.trim()) throw new Error("Create a room first, or paste the room code."); await joinRoom(); }
-    if (!room) throw new Error("Join the room first.");
-    if (!stream) await startCamera();
-    if (!stream) throw new Error("Camera did not start.");
-    if (role === "host") {
-      if (!roomData?.guestUid) throw new Error("Waiting for your person to join the room.");
-      await hostOffer();
-    } else if (roomData?.offer && roomData.offer.session !== answered) await guestAnswer(roomData.offer);
-    else camSay(roomData?.offer ? "Already answered. Ask the room creator to tap Connect again." : "Waiting for the room creator to tap Connect…");
-  } catch (e) { camSay("Couldn't connect cameras. " + errText(e), true); console.error(e); }
-  finally { $("connectCameras").disabled = false; }
-}
-
-function leaveRoom() {
-  closePeer(); if (roomUnsub) roomUnsub(); roomUnsub = null;
-  stopCamera(); clearPhoto();
-  room = role = ""; roomData = null; answered = gotAnswer = ""; roomCode.value = "";
-  $("copyRoom").hidden = true; $("countdown").textContent = "";
-  const u = new URL(location.href); u.searchParams.delete("room"); history.replaceState(null, "", u);
-  roomSay("You left the room. Create a new room or join with a code."); camSay("Camera is off.");
-}
-async function copyInvite() {
-  const id = room || roomCode.value.trim().toUpperCase();
-  if (!id) return roomSay("Create or join a room first.", true);
-  try { await navigator.clipboard.writeText(inviteUrl(id)); roomSay("Invite link copied. Send it to your person 💗"); }
-  catch { roomSay("Copy isn't available here. Share this code instead: " + id); }
-}
-
-const FILTERS = { soft: "brightness(1.06) saturate(1.12) contrast(.94)", vintage: "sepia(.34) saturate(.86) contrast(.92)", bw: "grayscale(1) contrast(1.08)", golden: "sepia(.18) saturate(1.3) brightness(1.06)", pink: "saturate(1.12) hue-rotate(325deg) brightness(1.04)" };
-const NATIVE = "filter" in ctx; // iPhone Safari has no canvas filter, so we tint pixels ourselves
-const mm = (a, b) => a.map(r => [0, 1, 2].map(j => r[0] * b[0][j] + r[1] * b[1][j] + r[2] * b[2][j]));
-const sat = s => [[.213 + .787 * s, .715 - .715 * s, .072 - .072 * s], [.213 - .213 * s, .715 + .285 * s, .072 - .072 * s], [.213 - .213 * s, .715 - .715 * s, .072 + .928 * s]];
-const sep = a => { const k = 1 - a; return [[.393 + .607 * k, .769 - .769 * k, .189 - .189 * k], [.349 - .349 * k, .686 + .314 * k, .168 - .168 * k], [.272 - .272 * k, .534 - .534 * k, .131 + .869 * k]]; };
-const hue = d => { const r = d * Math.PI / 180, c = Math.cos(r), s = Math.sin(r); return [[.213 + c * .787 - s * .213, .715 - c * .715 - s * .715, .072 - c * .072 + s * .928], [.213 - c * .213 + s * .143, .715 + c * .285 + s * .14, .072 - c * .072 - s * .283], [.213 - c * .213 - s * .787, .715 - c * .715 + s * .715, .072 + c * .928 + s * .072]]; };
-const FX = {
-  soft: { m: sat(1.12), b: 1.06, c: .94 }, vintage: { m: mm(sat(.86), sep(.34)), b: 1, c: .92 }, bw: { m: sat(0), b: 1, c: 1.08 },
-  golden: { m: mm(sat(1.3), sep(.18)), b: 1.06, c: 1 }, pink: { m: mm(hue(325), sat(1.12)), b: 1.04, c: 1 }
+$("create").onclick = createRoom;
+$("join").onclick = joinRoom;
+$("joinCode").addEventListener("keydown", e => { if (e.key === "Enter") joinRoom(); });
+$("leave").onclick = leave;
+$("openCards").onclick = () => setGame("cards");
+$("back").onclick = () => setGame("lobby");
+$("lock").onclick = lock;
+$("next").onclick = () => setGame("cards", { card: (data.card || 0) + 1 });
+$("copy").onclick = async () => {
+  try { await navigator.clipboard.writeText(link()); toast("Invite link copied. Send it to your person 💗"); }
+  catch { toast("Share this code instead: " + room); }
 };
-function tintPixels(c, x, y, w, h, f) {
-  const fx = FX[f]; if (!fx) return;
-  x = Math.round(x); y = Math.round(y); w = Math.round(w); h = Math.round(h);
-  const im = c.getImageData(x, y, w, h), d = im.data, m = fx.m;
-  for (let i = 0; i < d.length; i += 4) {
-    const r = d[i], g = d[i + 1], b = d[i + 2];
-    d[i] = ((m[0][0] * r + m[0][1] * g + m[0][2] * b) * fx.b - 128) * fx.c + 128;
-    d[i + 1] = ((m[1][0] * r + m[1][1] * g + m[1][2] * b) * fx.b - 128) * fx.c + 128;
-    d[i + 2] = ((m[2][0] * r + m[2][1] * g + m[2][2] * b) * fx.b - 128) * fx.c + 128;
-  }
-  c.putImageData(im, x, y);
-}
-// Live preview: apply the chosen filter to both camera tiles right away
-const setLiveFilter = () => document.documentElement.style.setProperty("--vf", FILTERS[$("filter").value] || "none");
-$("filter").addEventListener("change", setLiveFilter);
-$("filter").addEventListener("input", setLiveFilter);
-function drawCover(c, v, x, y, w, h, mirror, filter) {
-  if (!v.videoWidth) { c.fillStyle = "#f6dbe5"; c.fillRect(x, y, w, h); return; }
-  const s = Math.max(w / v.videoWidth, h / v.videoHeight), sw = w / s, sh = h / s;
-  const sx = (v.videoWidth - sw) / 2, sy = (v.videoHeight - sh) / 2;
-  c.save(); c.beginPath(); c.rect(x, y, w, h); c.clip();
-  if (NATIVE) c.filter = FILTERS[filter] || "none";
-  if (mirror) { c.translate(x + w, y); c.scale(-1, 1); c.drawImage(v, sx, sy, sw, sh, 0, 0, w, h); }
-  else c.drawImage(v, sx, sy, sw, sh, x, y, w, h);
-  c.restore();
-  if (!NATIVE) tintPixels(c, x, y, w, h, filter);
-}
-const drawText = (c, t, x, y, size, color, font = "Georgia") => { c.fillStyle = color; c.font = `600 ${size}px ${font}`; c.textAlign = "center"; c.fillText(t, x, y); };
-
-// ===== Together magic: cut each person out and place both on one shared backdrop =====
-const SEG_MODEL = "https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_segmenter/float16/latest/selfie_segmenter.tflite";
-const OW = 720, OH = 900, LW = 360, LH = 450; // OW/OH = saved photo size, LW/LH = lighter live preview
-const mkCut = (w, h) => { const c = document.createElement("canvas"); c.width = w; c.height = h; return { c, w, h, x: c.getContext("2d", { willReadFrequently: true }) }; };
-const liveCuts = [mkCut(192, 256), mkCut(192, 256)], hiCuts = [mkCut(360, 480), mkCut(360, 480)];
-const live = $("togetherLive"); live.width = LW; live.height = LH; const lx = live.getContext("2d");
-let seg = null, segP = null, loopOn = false, runId = 0, lastT = 0, errs = 0, bg = null, bgKey = "", customBg = null;
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-
-function loadSeg() {
-  return segP || (segP = (async () => {
-    try {
-      const V = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
-      const { ImageSegmenter, FilesetResolver } = await import(V + "/vision_bundle.mjs");
-      const fs = await FilesetResolver.forVisionTasks(V + "/wasm");
-      const make = d => ImageSegmenter.createFromOptions(fs, { baseOptions: { modelAssetPath: SEG_MODEL, delegate: d }, runningMode: "IMAGE", outputConfidenceMasks: true, outputCategoryMask: false });
-      try { seg = await make("CPU"); } catch { seg = await make("GPU"); } // CPU first: steadier on phones
-    } catch (e) { console.error(e); seg = null; camSay("Together magic couldn't load (" + errText(e) + "). Photos will be side by side.", true); }
-  })());
-}
-
-// Segment one camera and turn everything that isn't the person transparent.
-function cut(v, set, k) {
-  const { c, x, w: CW, h: CH } = set[k];
-  if (!v.videoWidth) { x.clearRect(0, 0, CW, CH); return; }
-  drawCover(x, v, 0, 0, CW, CH, false, "none");
-  seg.segment(c, r => {
-    const mask = r.confidenceMasks[r.confidenceMasks.length - 1], m = mask.getAsFloat32Array(), mw = mask.width, mh = mask.height;
-    let ce = 0, nc = 0, ed = 0, ne = 0; // person is usually centered; if edges look more "person" than the middle, flip the mask
-    for (let j = 0; j < mh; j += 8) for (let i = 0; i < mw; i += 8) {
-      const p = m[j * mw + i], fx = i / mw, fy = j / mh;
-      if (fx > .3 && fx < .7 && fy > .3 && fy < .8) { ce += p; nc++; } else if (fx < .1 || fx > .9 || fy < .1) { ed += p; ne++; }
-    }
-    const inv = ne && nc && ed / ne > ce / nc;
-    const im = x.getImageData(0, 0, CW, CH), d = im.data;
-    for (let j = 0; j < CH; j++) {
-      const row = Math.min(mh - 1, (j * mh / CH) | 0) * mw;
-      for (let i = 0; i < CW; i++) {
-        let p = m[row + Math.min(mw - 1, (i * mw / CW) | 0)]; if (inv) p = 1 - p;
-        p = (p - .35) / .3; d[(j * CW + i) * 4 + 3] = p <= 0 ? 0 : p >= 1 ? 255 : p * 255;
-      }
-    }
-    x.putImageData(im, 0, 0);
-  });
-}
-
-function makeBg(k) {
-  const c = document.createElement("canvas"); c.width = OW; c.height = OH;
-  const g = c.getContext("2d"); let s = 7;
-  const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
-  const grad = (a, b, d) => { const q = g.createLinearGradient(0, 0, 0, OH); q.addColorStop(0, a); q.addColorStop(.55, b); q.addColorStop(1, d); g.fillStyle = q; g.fillRect(0, 0, OW, OH); };
-  const glow = (x, y, r, col) => { const q = g.createRadialGradient(x, y, 0, x, y, r); q.addColorStop(0, col); q.addColorStop(1, "rgba(0,0,0,0)"); g.fillStyle = q; g.fillRect(x - r, y - r, r * 2, r * 2); };
-  if (k === "photo" && customBg) { const sc = Math.max(OW / customBg.width, OH / customBg.height), w = customBg.width * sc, h = customBg.height * sc; g.drawImage(customBg, (OW - w) / 2, (OH - h) / 2, w, h); }
-  else if (k === "night") {
-    grad("#0c1030", "#2b2a6b", "#7a4a86"); g.fillStyle = "#fff";
-    for (let i = 0; i < 90; i++) { g.globalAlpha = rnd() * .8 + .2; g.fillRect(rnd() * OW, rnd() * OH * .5, 2, 2); }
-    g.globalAlpha = 1; glow(560, 170, 110, "rgba(255,246,216,.7)");
-    for (let x = 0; x < OW; x += 48) { const h = 160 + rnd() * 300; g.fillStyle = "#140f2e"; g.fillRect(x, OH - h, 44, h); g.fillStyle = "#ffd66b"; for (let y = OH - h + 14; y < OH - 10; y += 26) if (rnd() > .55) g.fillRect(x + 8 + (rnd() > .5 ? 18 : 0), y, 8, 10); }
-  } else if (k === "cozy") { grad("#3a2418", "#6b4126", "#2a170f"); for (let i = 0; i < 38; i++) glow(rnd() * OW, rnd() * OH, 24 + rnd() * 70, "rgba(255,200,110," + (.18 + rnd() * .3) + ")"); }
-  else if (k === "hearts") { grad("#ffe3ec", "#ffc2d6", "#ff9fbd"); g.textAlign = "center"; for (let i = 0; i < 42; i++) { g.globalAlpha = .25 + rnd() * .4; g.fillStyle = rnd() > .5 ? "#fff" : "#e0557f"; g.font = (28 + rnd() * 70) + "px sans-serif"; g.fillText("♥", rnd() * OW, rnd() * OH); } g.globalAlpha = 1; }
-  else { grad("#ffb36b", "#ff7a8a", "#7a4a9c"); glow(360, 420, 330, "rgba(255,241,184,.4)"); g.fillStyle = "#fff4c2"; g.beginPath(); g.arc(360, 420, 120, 0, 7); g.fill(); }
-  return c;
-}
-
-// Host always on the left, guest on the right, so both phones build the same picture.
-function frame(g = lx, W = LW, H = LH, set = liveCuts) {
-  const hostV = role === "guest" ? remoteVideo : localVideo, guestV = role === "guest" ? localVideo : remoteVideo;
-  if (seg) {
-    cut(hostV, set, 0); cut(guestV, set, 1);
-    const k = $("backdrop").value; if (!bg || k !== bgKey) { bg = makeBg(k); bgKey = k; }
-    g.drawImage(bg, 0, 0, W, H);
-    const w = W * .725, h = w * 4 / 3;
-    g.drawImage(set[0].c, 0, H - h, w, h); g.drawImage(set[1].c, W - w, H - h, w, h);
-  } else {
-    g.fillStyle = "#2b1d27"; g.fillRect(0, 0, W, H);
-    drawCover(g, hostV, 0, 0, W / 2, H, false, "none"); drawCover(g, guestV, W / 2, 0, W / 2, H, false, "none");
-  }
-}
-function tick(id) {
-  if (id !== runId) return;
-  let cost = 100;
-  if (!document.hidden) {
-    const t0 = performance.now();
-    try { frame(); errs = 0; }
-    catch (e) { console.error(e); if (++errs > 5 && seg) { seg = null; camSay("Together magic stopped working on this phone. Photos will be side by side.", true); } }
-    cost = performance.now() - t0;
-  }
-  setTimeout(() => tick(id), Math.max(120, cost * 3)); // leave at least 3/4 of the time free so the page stays responsive
-}
-async function startTogether() {
-  if (loopOn) return; loopOn = true; const id = ++runId;
-  $("togetherNote").textContent = "Getting the magic ready… (the first time takes a moment)";
-  await loadSeg();
-  if (id !== runId) return;
-  $("together").classList.add("on");
-  setTimeout(() => tick(id), 0);
-}
-function stopTogether() { loopOn = false; runId++; $("together").classList.remove("on"); $("togetherNote").textContent = "Connect your cameras and you'll appear together here 💗"; }
-
-async function takePhoto() {
-  if (!stream || !localVideo.videoWidth) return camSay("Turn your camera on before taking a photo.", true);
-  if (!remoteVideo.videoWidth) return camSay("Connect your person's camera first so the photo can place you together.", true);
-  $("takePhoto").disabled = true; clearPhoto();
-  const n = $("layout").value === "single" ? 1 : 4, shots = [];
-  try {
-    if (!loopOn) await startTogether();
-    for (let i = 0; i < n; i++) {
-      for (let c = i ? 2 : 3; c > 0; c--) { $("countdown").textContent = c; await sleep(800); }
-      $("countdown").textContent = "📸";
-      const s = document.createElement("canvas"); s.width = OW; s.height = OH;
-      try { frame(s.getContext("2d"), OW, OH, hiCuts); } catch (e) { console.warn(e); s.getContext("2d").drawImage(live, 0, 0, OW, OH); }
-      shots.push(s);
-      await sleep(350);
-    }
-    $("countdown").textContent = "💗"; buildOutput(shots);
-  } catch (e) { console.error(e); camSay("Photo failed: " + errText(e), true); }
-  finally { $("takePhoto").disabled = false; }
-}
-function buildOutput(shots) {
-  const n = shots.length, one = n === 1, m = one ? 50 : 44, fw = one ? 1000 : 640, fh = Math.round(fw * OH / OW), gap = 18, head = one ? 150 : m, foot = one ? 130 : 120;
-  const w = fw + m * 2, h = head + n * fh + (n - 1) * gap + foot;
-  canvas.width = w; canvas.height = h;
-  const p = { rose: ["#fff0f5", "#8e3d5b", "#e9a0b8"], sunset: ["#fff2e5", "#9c5639", "#e5a15c"], film: ["#f6f0e6", "#403a32", "#c9b89c"], minimal: ["#fffdfb", "#66545a", "#eadce1"] }[$("theme").value];
-  ctx.fillStyle = p[0]; ctx.fillRect(0, 0, w, h);
-  if (one) { drawText(ctx, "Our Little Moments", w / 2, 86, 52, p[1]); drawText(ctx, "together, even when we're apart", w / 2, 128, 24, p[1], "sans-serif"); }
-  const f = $("filter").value;
-  shots.forEach((s, i) => {
-    const y = head + i * (fh + gap);
-    ctx.save(); if (NATIVE) ctx.filter = FILTERS[f] || "none"; ctx.drawImage(s, m, y, fw, fh); ctx.restore();
-    if (!NATIVE) tintPixels(ctx, m, y, fw, fh, f);
-    if (!one) { ctx.fillStyle = "rgba(0,0,0,.35)"; ctx.fillRect(m + 12, y + 12, 56, 34); drawText(ctx, String(i + 1).padStart(2, "0"), m + 40, y + 37, 22, "#fff", "monospace"); }
-  });
-  ctx.fillStyle = p[2]; ctx.fillRect(m, h - foot + 14, w - m * 2, 3);
-  drawText(ctx, one ? "♡  made for us  ♡" : "us · " + (room || "together"), w / 2, h - foot / 2 + 12, one ? 34 : 28, p[1], one ? "Georgia" : "monospace");
-  $("photoPreview").style.maxWidth = one ? "560px" : "340px";
-  canvas.toBlob(b => {
-    if (!b) return camSay("Couldn't create the photo. Try again.", true);
-    if (photoUrl) URL.revokeObjectURL(photoUrl);
-    photoUrl = URL.createObjectURL(b);
-    $("photoPreview").src = photoUrl; $("savePhoto").href = photoUrl; $("savePhoto").hidden = false;
-    $("previewWrap").style.display = "block";
-    camSay("Your memory is ready. Save it to your phone 💗");
-  }, "image/png");
-}
-
-["playing", "loadeddata"].forEach(ev => remoteVideo.addEventListener(ev, startTogether));
-$("backdrop").addEventListener("change", () => { $("bgFile").hidden = $("backdrop").value !== "photo"; if (!$("bgFile").hidden) $("bgFile").click(); });
-$("bgFile").addEventListener("change", e => { const f = e.target.files[0]; if (!f) return; const img = new Image(); img.onload = () => { customBg = img; bgKey = ""; }; img.src = URL.createObjectURL(f); });
-
-$("micBtn").onclick = () => { const t = stream && stream.getAudioTracks()[0]; if (!t) return; t.enabled = !t.enabled; $("micBtn").textContent = t.enabled ? "🎤 Mute" : "🔇 Unmute"; };
-$("hearBtn").onclick = () => { remoteVideo.muted = false; remoteVideo.play().then(() => { $("hearBtn").hidden = true; }).catch(() => { remoteVideo.muted = true; remoteVideo.play().catch(() => {}); }); };
-$("createRoom").onclick = createRoom; $("joinRoom").onclick = joinRoom; $("copyRoom").onclick = copyInvite;
-$("leaveRoom").onclick = leaveRoom; $("startCamera").onclick = startCamera; $("connectCameras").onclick = connectCameras; $("takePhoto").onclick = takePhoto;
 
 const fromUrl = new URL(location.href).searchParams.get("room");
-if (fromUrl) { roomCode.value = fromUrl.toUpperCase(); authReady.then(() => roomSay("Invite link detected. Tap Join room, then turn your camera on 💗")); }
+if (fromUrl) $("joinCode").value = fromUrl.toUpperCase().slice(0, 5);
+
+const hearts = document.querySelector(".hearts");
+for (let i = 0; i < 9; i++) { const s = document.createElement("span"); s.textContent = ["💗", "🤍", "💞"][i % 3]; s.style.left = Math.random() * 100 + "vw"; s.style.animationDuration = 14 + Math.random() * 14 + "s"; s.style.animationDelay = -Math.random() * 20 + "s"; hearts.appendChild(s); }
 </script>
 </body>
 </html>
