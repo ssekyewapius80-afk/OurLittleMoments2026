@@ -85,7 +85,7 @@ textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:
       <h2>Pick something to do</h2>
       <div class="grid">
         <button class="tile go" id="openCards"><span class="emo">💌</span><b>Honest Cards</b><span>Answer in private. Both answers open at once.</span></button>
-        <a class="tile go" href="index.html"><span class="emo">📸</span><b>Photobooth</b><span>Take a photo strip together.</span></a>
+        <a class="tile go" id="boothLink" href="index.html"><span class="emo">📸</span><b>Photobooth</b><span>Take a photo strip together.</span></a>
         <div class="tile soon"><span class="emo">🧠</span><b>Know Me Quiz</b><span>Coming soon</span></div>
         <div class="tile soon"><span class="emo">🎨</span><b>Draw Together</b><span>Coming soon</span></div>
         <div class="tile soon"><span class="emo">🧩</span><b>Riddle Night</b><span>Coming soon</span></div>
@@ -165,7 +165,7 @@ function shuffled(code) {
 async function enter(id) {
   room = id; order = shuffled(id);
   history.replaceState(null, "", link());
-  $("roomCode").textContent = id;
+  $("roomCode").textContent = id; $("boothLink").href = "index.html?room=" + id;
   if (offRoom) offRoom(); if (offAns) offAns();
   offRoom = onSnapshot(ref(), s => { if (!s.exists()) { toast("This room no longer exists."); leave(); return; } data = s.data(); render(); }, e => toast("Room error: " + err(e)));
   offAns = onSnapshot(collection(db, "rooms", room, "answers"), s => { answers = s.docs.map(d => d.data()); render(); }, e => toast("Answers error: " + err(e)));
@@ -253,7 +253,7 @@ $("copy").onclick = async () => {
 };
 
 const fromUrl = new URL(location.href).searchParams.get("room");
-if (fromUrl) $("joinCode").value = fromUrl.toUpperCase().slice(0, 5);
+if (fromUrl) { $("joinCode").value = fromUrl.toUpperCase().slice(0, 5); authReady.then(u => { if (u) joinRoom(); }); }
 
 const hearts = document.querySelector(".hearts");
 for (let i = 0; i < 9; i++) { const s = document.createElement("span"); s.textContent = ["💗", "🤍", "💞"][i % 3]; s.style.left = Math.random() * 100 + "vw"; s.style.animationDuration = 14 + Math.random() * 14 + "s"; s.style.animationDelay = -Math.random() * 20 + "s"; hearts.appendChild(s); }
