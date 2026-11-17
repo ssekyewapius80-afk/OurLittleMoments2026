@@ -1,262 +1,3106 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#fff4ee">
-<title>Our Little Moments 💗</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
-<style>
-:root{--rose:#d4577f;--rose-d:#a2315a;--cream:#fff7f0;--blush:#ffe3ea;--gold:#c79a3e;--ink:#3b2a32;--muted:#85707a;--line:#f0d9d6;--shadow:0 14px 40px #8a3a5a1f}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;min-height:100vh;color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;background:radial-gradient(circle at 15% -5%,#ffd6e2 0,transparent 38%),radial-gradient(circle at 100% 20%,#ffeccf 0,transparent 32%),var(--cream);padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
-button,input,textarea{font:inherit}
-button{cursor:pointer;border:0;border-radius:16px;padding:14px 18px;font-weight:700;transition:transform .15s,opacity .15s}
-button:active{transform:scale(.97)}button:disabled{opacity:.5}
-.primary{background:linear-gradient(135deg,var(--rose),#e8799b);color:#fff;box-shadow:0 10px 24px #d4577f40}
-.soft{background:#fff;color:var(--rose-d);border:1px solid var(--line)}
-.ghost{background:transparent;color:var(--muted)}
-main{max-width:520px;margin:auto;padding:22px 16px 48px}
-.screen[hidden]{display:none}
-.brand{font-family:"Playfair Display",Georgia,serif;font-size:1.05rem;color:var(--rose-d);text-align:center;letter-spacing:.02em}
-.eyebrow{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;text-align:center;margin-top:34px}
-h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(2.2rem,10vw,3.2rem);line-height:1.08;text-align:center;margin:10px 0;color:#5a2d40}
-h1 em{color:var(--rose);font-weight:500}
-.lead{text-align:center;color:var(--muted);line-height:1.6;margin:0 auto 24px;max-width:400px}
-.card{background:#ffffffe6;border:1px solid var(--line);border-radius:26px;padding:20px;box-shadow:var(--shadow);margin:14px 0}
-.stack{display:flex;flex-direction:column;gap:10px}
-.row{display:flex;gap:10px}.row>*{flex:1}
-input{width:100%;border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff;color:var(--ink);outline:none;text-align:center;font-weight:700;letter-spacing:.3em;text-transform:uppercase;font-size:1.1rem}
-input::placeholder{letter-spacing:.05em;font-weight:500;text-transform:none;color:#b9a3ab}
-input:focus,textarea:focus{border-color:var(--rose);box-shadow:0 0 0 3px #d4577f1f}
-.or{text-align:center;color:var(--muted);font-size:.85rem;margin:2px 0}
-.code{font-family:"Playfair Display",Georgia,serif;font-size:2.6rem;letter-spacing:.28em;text-align:center;color:var(--rose-d);margin:6px 0 2px;padding-left:.28em}
-.pill{display:inline-flex;gap:7px;align-items:center;border-radius:99px;padding:7px 13px;font-size:.82rem;font-weight:700;background:var(--blush);color:var(--rose-d)}
-.pill.ok{background:#e6f6ea;color:#2f7a45}
-.center{text-align:center}
-h2{font-family:"Playfair Display",Georgia,serif;margin:0 0 4px;font-size:1.35rem}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.tile{display:flex;flex-direction:column;gap:5px;text-align:left;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:20px;padding:15px;text-decoration:none;min-height:104px}
-.tile b{font-size:.98rem}.tile span{font-size:.8rem;color:var(--muted);line-height:1.4;font-weight:500}
-.tile .emo{font-size:1.6rem}
-.tile.go{border-color:#efb7c8;box-shadow:0 8px 20px #d4577f1c}
-.tile.soon{opacity:.55;pointer-events:none;background:#fffaf6}
-.q{font-family:"Playfair Display",Georgia,serif;font-size:1.55rem;line-height:1.3;text-align:center;color:#5a2d40;margin:10px 4px 18px}
-.count{font-size:.78rem;color:var(--gold);font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-align:center}
-textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:16px;padding:14px;resize:vertical;background:#fff;color:var(--ink);outline:none;line-height:1.5}
-.ans{border-radius:18px;padding:15px;background:#fff;border:1px solid var(--line);line-height:1.5;overflow-wrap:anywhere}
-.ans small{display:block;font-weight:700;color:var(--rose-d);margin-bottom:5px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
-.ans.them{background:var(--blush);border-color:#f4c6d3}
-.hint{text-align:center;color:var(--muted);font-size:.9rem;line-height:1.5;margin:12px 0}
-#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,30px);background:#3b2a32;color:#fff;padding:12px 16px;border-radius:14px;font-size:.88rem;max-width:90%;opacity:0;pointer-events:none;transition:.25s;z-index:9}
-#toast.on{opacity:1;transform:translate(-50%,0)}
-.hearts span{position:fixed;top:-30px;font-size:18px;opacity:.5;animation:fall linear infinite;pointer-events:none}
-@keyframes fall{to{transform:translateY(110vh) rotate(40deg)}}
-@media(prefers-reduced-motion:reduce){.hearts{display:none}}
-</style>
-</head>
-<body>
-<div class="hearts" aria-hidden="true"></div>
-<main>
-  <div class="brand">Our Little Moments 💗</div>
+```react
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { initializeApp, getApps, deleteApp } from 'firebase/app';
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInAnonymously,
+  signInWithCustomToken,
+  signOut
+} from 'firebase/auth';
+import {
+  getFirestore,
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  onSnapshot,
+  serverTimestamp,
+  arrayUnion,
+  arrayRemove,
+  Timestamp
+} from 'firebase/firestore';
+import {
+  Send,
+  Search,
+  Users,
+  UserPlus,
+  Settings,
+  Shield,
+  Moon,
+  Sun,
+  Pin,
+  VolumeX,
+  Volume2,
+  Archive,
+  Reply,
+  Forward,
+  Edit3,
+  Trash2,
+  Check,
+  CheckCheck,
+  Plus,
+  X,
+  ArrowLeft,
+  MoreVertical,
+  Sparkles,
+  Lock,
+  Eye,
+  EyeOff,
+  Terminal,
+  Copy,
+  Download,
+  Bell,
+  BellOff,
+  LogOut,
+  Crown,
+  UserMinus,
+  Info,
+  MessageSquare,
+  Sliders,
+  CheckCircle2,
+  AlertCircle,
+  Zap,
+  Globe
+} from 'lucide-react';
 
-  <section id="home" class="screen">
-    <div class="eyebrow">Real dates for two phones</div>
-    <h1>Far apart, <em>still together</em></h1>
-    <p class="lead">Open a room, send your person the code, and play, talk and make memories in the same place, from anywhere.</p>
-    <div class="card stack">
-      <button id="create" class="primary">Start a room 💗</button>
-      <div class="or">or join your person</div>
-      <div class="row"><input id="joinCode" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="5-letter code"><button id="join" class="soft" style="flex:0 0 auto">Join</button></div>
-    </div>
-    <p class="hint">No account needed. Works in your phone's browser.</p>
-  </section>
+/**
+ * ============================================================================
+ * VYRO — PHASE 1: CORE MESSAGING, AUTH, PROFILES, CONTACTS, GROUPS & PWA
+ * Tagline: "Your world. Your rules."
+ * ============================================================================
+ */
 
-  <section id="lobby" class="screen" hidden>
-    <div class="card center">
-      <div class="count">Your room code</div>
-      <div class="code" id="roomCode">-----</div>
-      <div style="margin:10px 0 14px"><span class="pill" id="who">Waiting for your person…</span></div>
-      <div class="row"><button id="copy" class="primary">Copy invite link</button><button id="leave" class="ghost">Leave</button></div>
-    </div>
-    <div class="card">
-      <h2>Pick something to do</h2>
-      <div class="grid">
-        <button class="tile go" id="openCards"><span class="emo">💌</span><b>Honest Cards</b><span>Answer in private. Both answers open at once.</span></button>
-        <a class="tile go" id="boothLink" href="index.html"><span class="emo">📸</span><b>Photobooth</b><span>Take a photo strip together.</span></a>
-        <div class="tile soon"><span class="emo">🧠</span><b>Know Me Quiz</b><span>Coming soon</span></div>
-        <div class="tile soon"><span class="emo">🎨</span><b>Draw Together</b><span>Coming soon</span></div>
-        <div class="tile soon"><span class="emo">🧩</span><b>Riddle Night</b><span>Coming soon</span></div>
-        <div class="tile soon"><span class="emo">🎲</span><b>Truth or Dare</b><span>Coming soon</span></div>
-      </div>
-    </div>
-  </section>
+// ----------------------------------------------------------------------------
+// 1. PWA MANIFEST & SERVICE WORKER BOOTSTRAP (Android Chrome Installable)
+// ----------------------------------------------------------------------------
+const injectPwaSupport = () => {
+  try {
+    const manifest = {
+      name: 'VYRO — Your world. Your rules.',
+      short_name: 'VYRO',
+      description: 'Futuristic, privacy-first real-time messaging platform.',
+      start_url: '.',
+      display: 'standalone',
+      background_color: '#07090E',
+      theme_color: '#06B6D4',
+      orientation: 'portrait-primary',
+      icons: [
+        {
+          src: 'data:image/svg+xml;utf8,' + encodeURIComponent(
+            `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <defs>
+                <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#06B6D4"/>
+                  <stop offset="100%" stop-color="#8B5CF6"/>
+                </linearGradient>
+              </defs>
+              <rect width="512" height="512" rx="112" fill="#07090E"/>
+              <path d="M136 144L256 384L376 144H314L256 268L198 144H136Z" fill="url(#g)"/>
+            </svg>`
+          ),
+          sizes: '512x512',
+          type: 'image/svg+xml',
+          purpose: 'any maskable'
+        }
+      ]
+    };
 
-  <section id="cards" class="screen" hidden>
-    <div class="card">
-      <div class="count" id="cardNo"></div>
-      <div class="q" id="question"></div>
-      <div id="answerBox" class="stack">
-        <textarea id="myText" maxlength="400" placeholder="Write honestly. Your person can't see this until you both answer."></textarea>
-        <button id="lock" class="primary">Lock in my answer 🔒</button>
-      </div>
-      <div id="waitBox" class="hint" hidden></div>
-      <div id="revealBox" class="stack" hidden>
-        <div class="ans"><small>You</small><span id="mine"></span></div>
-        <div class="ans them"><small>Your person</small><span id="theirs"></span></div>
-        <button id="next" class="primary">Next card →</button>
-      </div>
-    </div>
-    <div class="center"><button id="back" class="ghost">← Back to activities</button></div>
-  </section>
-</main>
-<div id="toast" role="status" aria-live="polite"></div>
+    const existingManifest = document.querySelector('link[rel="manifest"]');
+    if (!existingManifest) {
+      const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+      const manifestURL = URL.createObjectURL(blob);
+      const link = document.createElement('link');
+      link.rel = 'manifest';
+      link.href = manifestURL;
+      document.head.appendChild(link);
+    }
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-
-const cfg = {
-  apiKey: "AIzaSyBZc_v8rdJ9KsshNE57mZxRAheYjXNu6VM",
-  authDomain: "ourlittlemoments2026.firebaseapp.com",
-  projectId: "ourlittlemoments2026",
-  storageBucket: "ourlittlemoments2026.firebasestorage.app",
-  messagingSenderId: "1075558147416",
-  appId: "1:1075558147416:web:5f4cb3997a0dffc9edf12d"
+    // Set mobile theme-color meta tag
+    let themeMeta = document.querySelector('meta[name="theme-color"]');
+    if (!themeMeta) {
+      themeMeta = document.createElement('meta');
+      themeMeta.name = 'theme-color';
+      document.head.appendChild(themeMeta);
+    }
+    themeMeta.content = '#07090E';
+  } catch (e) {
+    // Non-blocking in sandboxed iframes
+  }
 };
-const QUESTIONS = [
-  "What's a small thing I do that makes you feel loved?", "What's your favorite memory of us so far?", "What's something you've been nervous to tell me?",
-  "Describe our perfect lazy day together.", "What song reminds you of me, and why?", "What's one thing you want us to do together this year?",
-  "When did you first realize you liked me?", "What's something I do that always makes you laugh?", "What's a dream you haven't told many people?",
-  "What do you miss most about being near me?", "What's one thing you want to be braver about?", "If we could teleport anywhere tonight, where would we go?",
-  "What's your favorite thing about how we talk?", "What's something small that would make your week better?", "What's a habit of mine you secretly love?",
-  "What does home feel like to you?", "What are you most proud of yourself for lately?", "What would our dream home look like?",
-  "What's one thing you'd like to understand better about me?", "What's a tradition you want us to start?", "What's the best compliment you've ever received?",
-  "What's something you're grateful for today?", "What scares you about the future, and what excites you?", "Where do you want us to be in five years?"
+
+// ----------------------------------------------------------------------------
+// 2. VISUAL TOKENS, ACCENT PALETTES & WALLPAPERS
+// ----------------------------------------------------------------------------
+const ACCENT_THEMES = {
+  cyan: {
+    id: 'cyan',
+    name: 'Electric Cyan',
+    primary: 'bg-cyan-500',
+    primaryHover: 'hover:bg-cyan-400',
+    text: 'text-cyan-400',
+    textLight: 'text-cyan-600',
+    border: 'border-cyan-500/40',
+    bubble: 'from-cyan-500 to-blue-600',
+    glow: 'shadow-cyan-500/25',
+    ring: 'focus:ring-cyan-500/50'
+  },
+  violet: {
+    id: 'violet',
+    name: 'Plasma Violet',
+    primary: 'bg-violet-600',
+    primaryHover: 'hover:bg-violet-500',
+    text: 'text-violet-400',
+    textLight: 'text-violet-600',
+    border: 'border-violet-500/40',
+    bubble: 'from-violet-600 to-fuchsia-600',
+    glow: 'shadow-violet-500/25',
+    ring: 'focus:ring-violet-500/50'
+  },
+  emerald: {
+    id: 'emerald',
+    name: 'Matrix Emerald',
+    primary: 'bg-emerald-500',
+    primaryHover: 'hover:bg-emerald-400',
+    text: 'text-emerald-400',
+    textLight: 'text-emerald-600',
+    border: 'border-emerald-500/40',
+    bubble: 'from-emerald-500 to-teal-600',
+    glow: 'shadow-emerald-500/25',
+    ring: 'focus:ring-emerald-500/50'
+  },
+  amber: {
+    id: 'amber',
+    name: 'Solar Amber',
+    primary: 'bg-amber-500',
+    primaryHover: 'hover:bg-amber-400',
+    text: 'text-amber-400',
+    textLight: 'text-amber-600',
+    border: 'border-amber-500/40',
+    bubble: 'from-amber-500 to-orange-600',
+    glow: 'shadow-amber-500/25',
+    ring: 'focus:ring-amber-500/50'
+  }
+};
+
+const AVATAR_GRADIENTS = [
+  'from-cyan-500 to-blue-600',
+  'from-violet-600 to-fuchsia-600',
+  'from-emerald-500 to-teal-600',
+  'from-amber-500 to-rose-600',
+  'from-indigo-500 to-cyan-500',
+  'from-pink-500 to-violet-600'
 ];
-const $ = id => document.getElementById(id);
-const app = initializeApp(cfg), auth = getAuth(app), db = getFirestore(app);
-let user = null, room = "", data = null, answers = [], offRoom = null, offAns = null, order = [];
 
-const toast = m => { const t = $("toast"); t.textContent = m; t.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove("on"), 3800); };
-const err = e => (e && (e.code || e.message)) ? `${e.code || "Error"}: ${e.message || ""}` : String(e);
-const authReady = new Promise(res => onAuthStateChanged(auth, async u => {
-  if (u) { user = u; res(u); }
-  else try { await signInAnonymously(auth); } catch (e) { res(null); toast("Sign-in failed: " + err(e)); }
-}));
-const needAuth = async () => { const u = await authReady; if (!u) throw new Error("Sign-in failed. Refresh and check Firebase Authentication."); return u; };
-const show = n => ["home", "lobby", "cards"].forEach(s => $(s).hidden = s !== n);
-const ref = () => doc(db, "rooms", room);
-const makeCode = () => { const c = "ABCDEFGHJKLMNPQRSTUVWXYZ", b = crypto.getRandomValues(new Uint8Array(5)); return Array.from(b, x => c[x % c.length]).join(""); };
-const link = () => { const u = new URL(location.href); u.search = ""; u.searchParams.set("room", room); return u.toString(); };
-
-// Same question order on both phones: shuffle with a seed made from the room code.
-function shuffled(code) {
-  let h = 2166136261; for (const ch of code) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
-  const rnd = () => { h |= 0; h = h + 0x6D2B79F5 | 0; let t = Math.imul(h ^ h >>> 15, 1 | h); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
-  const a = QUESTIONS.map((_, i) => i);
-  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
-  return a;
-}
-
-async function enter(id) {
-  room = id; order = shuffled(id);
-  history.replaceState(null, "", link());
-  $("roomCode").textContent = id; $("boothLink").href = "index.html?room=" + id;
-  if (offRoom) offRoom(); if (offAns) offAns();
-  offRoom = onSnapshot(ref(), s => { if (!s.exists()) { toast("This room no longer exists."); leave(); return; } data = s.data(); render(); }, e => toast("Room error: " + err(e)));
-  offAns = onSnapshot(collection(db, "rooms", room, "answers"), s => { answers = s.docs.map(d => d.data()); render(); }, e => toast("Answers error: " + err(e)));
-  show("lobby");
-}
-async function createRoom() {
-  $("create").disabled = true;
-  try {
-    const u = await needAuth();
-    for (let i = 0; i < 6; i++) {
-      const id = makeCode();
-      if ((await getDoc(doc(db, "rooms", id))).exists()) continue;
-      await setDoc(doc(db, "rooms", id), { hostUid: u.uid, guestUid: null, status: "waiting", game: "lobby", card: 0, createdAt: serverTimestamp() });
-      return await enter(id);
+const CHAT_WALLPAPERS = {
+  obsidianGrid: {
+    id: 'obsidianGrid',
+    name: 'Neural Mesh',
+    darkStyle: {
+      backgroundColor: '#07090E',
+      backgroundImage:
+        'radial-gradient(rgba(6, 182, 212, 0.11) 1px, transparent 1px), radial-gradient(rgba(139, 92, 246, 0.08) 1px, #07090E 1px)',
+      backgroundSize: '28px 28px',
+      backgroundPosition: '0 0, 14px 14px'
+    },
+    lightStyle: {
+      backgroundColor: '#F4F6FB',
+      backgroundImage:
+        'radial-gradient(rgba(14, 116, 144, 0.12) 1px, transparent 1px)',
+      backgroundSize: '24px 24px'
     }
-    throw new Error("Couldn't find a free code. Try again.");
-  } catch (e) { toast("Couldn't start the room. " + err(e)); console.error(e); }
-  finally { $("create").disabled = false; }
-}
-async function joinRoom() {
-  $("join").disabled = true;
-  try {
-    const u = await needAuth(), id = $("joinCode").value.trim().toUpperCase();
-    if (!/^[A-HJ-NP-Z]{5}$/.test(id)) throw new Error("A room code is 5 letters.");
-    const s = await getDoc(doc(db, "rooms", id));
-    if (!s.exists()) throw new Error("Room not found. Check the code.");
-    const d = s.data();
-    if (d.hostUid !== u.uid && d.guestUid !== u.uid) {
-      if (d.guestUid) throw new Error("This room already has two people.");
-      await updateDoc(doc(db, "rooms", id), { guestUid: u.uid });
+  },
+  nebula: {
+    id: 'nebula',
+    name: 'Deep Nebula',
+    darkStyle: {
+      background:
+        'radial-gradient(circle at 15% 20%, rgba(6, 182, 212, 0.14), transparent 45%), radial-gradient(circle at 85% 80%, rgba(139, 92, 246, 0.16), transparent 45%), #07090E'
+    },
+    lightStyle: {
+      background:
+        'radial-gradient(circle at 15% 20%, rgba(6, 182, 212, 0.12), transparent 50%), radial-gradient(circle at 85% 80%, rgba(139, 92, 246, 0.12), transparent 50%), #F8FAFC'
     }
-    await enter(id);
-  } catch (e) { toast(err(e)); console.error(e); }
-  finally { $("join").disabled = false; }
-}
-function leave() {
-  if (offRoom) offRoom(); if (offAns) offAns(); offRoom = offAns = null;
-  room = ""; data = null; answers = [];
-  const u = new URL(location.href); u.search = ""; history.replaceState(null, "", u);
-  show("home");
-}
-
-function render() {
-  if (!data) return;
-  const both = !!data.guestUid;
-  $("who").textContent = both ? "Both of you are here 💗" : "Waiting for your person…";
-  $("who").classList.toggle("ok", both);
-  if (data.game === "cards") renderCards(both); else if (!$("cards").hidden) show("lobby");
-}
-function renderCards(both) {
-  show("cards");
-  const idx = data.card || 0, q = QUESTIONS[order[idx % order.length]];
-  $("cardNo").textContent = `Card ${idx + 1}`;
-  $("question").textContent = q;
-  const mine = answers.find(a => a.card === idx && a.uid === user.uid);
-  const theirs = answers.find(a => a.card === idx && a.uid !== user.uid);
-  const reveal = mine && theirs;
-  $("answerBox").hidden = !!mine;
-  $("revealBox").hidden = !reveal;
-  $("waitBox").hidden = !(mine && !theirs);
-  if (mine && !theirs) $("waitBox").textContent = both ? "Locked in 🔒 Waiting for your person to answer…" : "Locked in 🔒 Waiting for your person to join…";
-  if (reveal) { $("mine").textContent = mine.text; $("theirs").textContent = theirs.text; }
-}
-async function lock() {
-  const text = $("myText").value.trim();
-  if (!text) return toast("Write something first 💗");
-  $("lock").disabled = true;
-  try { await setDoc(doc(db, "rooms", room, "answers", `${data.card || 0}_${user.uid}`), { card: data.card || 0, uid: user.uid, text }); $("myText").value = ""; }
-  catch (e) { toast("Couldn't save your answer. " + err(e)); console.error(e); }
-  finally { $("lock").disabled = false; }
-}
-const setGame = (game, extra = {}) => updateDoc(ref(), { game, ...extra }).catch(e => toast("Couldn't update the room. " + err(e)));
-
-$("create").onclick = createRoom;
-$("join").onclick = joinRoom;
-$("joinCode").addEventListener("keydown", e => { if (e.key === "Enter") joinRoom(); });
-$("leave").onclick = leave;
-$("openCards").onclick = () => setGame("cards");
-$("back").onclick = () => setGame("lobby");
-$("lock").onclick = lock;
-$("next").onclick = () => setGame("cards", { card: (data.card || 0) + 1 });
-$("copy").onclick = async () => {
-  try { await navigator.clipboard.writeText(link()); toast("Invite link copied. Send it to your person 💗"); }
-  catch { toast("Share this code instead: " + room); }
+  },
+  pure: {
+    id: 'pure',
+    name: 'Stealth Minimal',
+    darkStyle: { backgroundColor: '#06080C' },
+    lightStyle: { backgroundColor: '#FFFFFF' }
+  }
 };
 
-const fromUrl = new URL(location.href).searchParams.get("room");
-if (fromUrl) { $("joinCode").value = fromUrl.toUpperCase().slice(0, 5); authReady.then(u => { if (u) joinRoom(); }); }
+const QUICK_REACTIONS = ['⚡', '🔥', '❤️', '😂', '👍', '👀'];
 
-const hearts = document.querySelector(".hearts");
-for (let i = 0; i < 9; i++) { const s = document.createElement("span"); s.textContent = ["💗", "🤍", "💞"][i % 3]; s.style.left = Math.random() * 100 + "vw"; s.style.animationDuration = 14 + Math.random() * 14 + "s"; s.style.animationDelay = -Math.random() * 20 + "s"; hearts.appendChild(s); }
-</script>
-</body>
-</html>
+// ----------------------------------------------------------------------------
+// 3. PRODUCTION SECURITY RULES & DEPLOYMENT BLUEPRINTS (PHASE 1-4 READY)
+// ----------------------------------------------------------------------------
+const BLUEPRINT_DOCS = {
+  firestoreRules: `rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    // Scoped Artifact Path (or map to root collections in standalone project)
+    match /artifacts/{appId}/public/data {
+      // User Profiles: Anyone authenticated can discover users; only owner writes
+      match /vyro_users/{userId} {
+        allow read: if isSignedIn();
+        allow create, update: if isOwner(userId)
+          && request.resource.data.username is string
+          && request.resource.data.username.size() >= 3
+          && request.resource.data.username.size() <= 24;
+        allow delete: if isOwner(userId);
+      }
+
+      // Username uniqueness lock registry
+      match /vyro_usernames/{handle} {
+        allow read: if isSignedIn();
+        allow create: if isSignedIn()
+          && !exists(/databases/$(database)/documents/artifacts/$(appId)/public/data/vyro_usernames/$(handle))
+          && request.resource.data.uid == request.auth.uid;
+        allow delete: if isSignedIn() && resource.data.uid == request.auth.uid;
+      }
+
+      // Conversations (1-on-1 and Groups): Strictly restricted to participants
+      match /vyro_chats/{chatId} {
+        allow read: if isSignedIn() && request.auth.uid in resource.data.participants;
+        allow create: if isSignedIn()
+          && request.auth.uid in request.resource.data.participants
+          && request.resource.data.participants.size() >= 2;
+        allow update: if isSignedIn() && request.auth.uid in resource.data.participants;
+        allow delete: if isSignedIn() && request.auth.uid in resource.data.admins;
+
+        // Messages inside a conversation
+        match /messages/{messageId} {
+          allow read: if isSignedIn()
+            && request.auth.uid in get(/databases/$(database)/documents/artifacts/$(appId)/public/data/vyro_chats/$(chatId)).data.participants;
+          allow create: if isSignedIn()
+            && request.auth.uid in get(/databases/$(database)/documents/artifacts/$(appId)/public/data/vyro_chats/$(chatId)).data.participants
+            && request.resource.data.senderId == request.auth.uid;
+          allow update: if isSignedIn()
+            && request.auth.uid in get(/databases/$(database)/documents/artifacts/$(appId)/public/data/vyro_chats/$(chatId)).data.participants;
+          allow delete: if false; // Use recall update so audit trail remains honest
+        }
+      }
+    }
+  }
+}`,
+  storageRules: `rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Phase 2 Media Vault: Only chat participants can upload/read media <= 25MB
+    match /vyro_media/{chatId}/{senderId}/{fileName} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null
+        && request.auth.uid == senderId
+        && request.resource.size < 25 * 1024 * 1024;
+    }
+    match /vyro_avatars/{userId}/{fileName} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+  }
+}`,
+  androidTwa: `# VYRO — Android Play Store Packaging (TWA / Bubblewrap)
+# 1. Host VYRO on Firebase Hosting with HTTPS:
+firebase init hosting
+firebase deploy --only hosting
+
+# 2. Initialize Trusted Web Activity (TWA) wrapper:
+npm install -g @bubblewrap/cli
+bubblewrap init --manifest=https://your-vyro-domain.web.app/manifest.json
+
+# 3. Link Digital Asset Links (.well-known/assetlinks.json) with your SHA-256 keystore fingerprint
+# 4. Build signed Android App Bundle (.aab) for Google Play Console:
+bubblewrap build`
+};
+
+// ----------------------------------------------------------------------------
+// 4. HELPER UTILITIES
+// ----------------------------------------------------------------------------
+const formatTime = (ts) => {
+  if (!ts) return '';
+  const date = ts?.toDate ? ts.toDate() : new Date(ts);
+  if (isNaN(date.getTime())) return '';
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+};
+
+const formatRelativeDate = (ts) => {
+  if (!ts) return '';
+  const date = ts?.toDate ? ts.toDate() : new Date(ts);
+  if (isNaN(date.getTime())) return '';
+  const now = new Date();
+  const diffMs = now - date;
+  const diffMins = Math.floor(diffMs / 60000);
+  if (diffMins < 1) return 'now';
+  if (diffMins < 60) return `${diffMins}m`;
+  const diffHrs = Math.floor(diffMins / 60);
+  if (diffHrs < 24) return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+};
+
+const getInitials = (name) => {
+  if (!name) return 'VY';
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[1][0]).toUpperCase();
+};
+
+const sanitizeHandle = (raw) =>
+  raw.toLowerCase().replace(/[^a-z0-9_]/g, '').slice(0, 20);
+
+// ----------------------------------------------------------------------------
+// 5. MAIN APPLICATION COMPONENT
+// ----------------------------------------------------------------------------
+export default function App() {
+  // Inject PWA support on mount
+  useEffect(() => {
+    injectPwaSupport();
+  }, []);
+
+  // --- Firebase Instance State ---
+  const [firebaseServices, setFirebaseServices] = useState(null);
+  const [configError, setConfigError] = useState('');
+  const [customConfigInput, setCustomConfigInput] = useState('');
+  const [showConfigModal, setShowConfigModal] = useState(false);
+  const [activeAppId, setActiveAppId] = useState(
+    typeof __app_id !== 'undefined' ? __app_id : 'vyro-prod-v1'
+  );
+
+  // Initialize default environment Firebase config
+  useEffect(() => {
+    try {
+      const envConfig =
+        typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+      if (envConfig && envConfig.apiKey) {
+        const app = getApps().length ? getApps()[0] : initializeApp(envConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        setFirebaseServices({ app, auth, db, projectId: envConfig.projectId || 'environment' });
+      } else {
+        setShowConfigModal(true);
+      }
+    } catch (err) {
+      setConfigError('Failed to parse environment Firebase config: ' + err.message);
+      setShowConfigModal(true);
+    }
+  }, []);
+
+  // Connect custom Firebase project config pasted by user
+  const handleConnectCustomFirebase = async () => {
+    setConfigError('');
+    try {
+      // Allow pasting raw JSON or JS object snippet
+      let cleaned = customConfigInput.trim();
+      const firstBrace = cleaned.indexOf('{');
+      const lastBrace = cleaned.lastIndexOf('}');
+      if (firstBrace !== -1 && lastBrace !== -1) {
+        cleaned = cleaned.slice(firstBrace, lastBrace + 1);
+      }
+      // Quote unquoted keys if user pasted JS object instead of strict JSON
+      cleaned = cleaned.replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":');
+      cleaned = cleaned.replace(/'/g, '"');
+      const parsed = JSON.parse(cleaned);
+      if (!parsed.apiKey || !parsed.projectId) {
+        throw new Error('Config must include at least apiKey and projectId.');
+      }
+      for (const existing of getApps()) {
+        await deleteApp(existing);
+      }
+      const app = initializeApp(parsed, 'vyro-custom-' + Date.now());
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+      setActiveAppId('vyro-standalone');
+      setFirebaseServices({ app, auth, db, projectId: parsed.projectId });
+      setShowConfigModal(false);
+      showToast(`Connected to Firebase project: ${parsed.projectId}`, 'success');
+    } catch (err) {
+      setConfigError('Invalid Firebase Web Config JSON: ' + err.message);
+    }
+  };
+
+  // --- Auth & User Profile State ---
+  const [authUser, setAuthUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [userProfile, setUserProfile] = useState(null);
+  const [profileLoading, setProfileLoading] = useState(false);
+
+  // Onboarding & Auth UI State
+  const [onboardingStep, setOnboardingStep] = useState(0); // 0,1,2 = intro slides; 3 = auth screen
+  const [authMode, setAuthMode] = useState('login'); // 'login' | 'register'
+  const [emailInput, setEmailInput] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
+  const [authSubmitting, setAuthSubmitting] = useState(false);
+
+  // Profile Creation / Setup State
+  const [setupDisplayName, setSetupDisplayName] = useState('');
+  const [setupUsername, setSetupUsername] = useState('');
+  const [setupBio, setSetupBio] = useState('Encrypted thoughts. Zero noise.');
+  const [setupGradient, setSetupGradient] = useState(AVATAR_GRADIENTS[0]);
+  const [setupSubmitting, setSetupSubmitting] = useState(false);
+
+  // --- Theme & Visual Customization State ---
+  const [darkMode, setDarkMode] = useState(true);
+  const [accentKey, setAccentKey] = useState('cyan');
+  const [wallpaperKey, setWallpaperKey] = useState('obsidianGrid');
+  const accent = ACCENT_THEMES[accentKey] || ACCENT_THEMES.cyan;
+
+  // --- Directory, Chats & Messages State ---
+  const [allUsers, setAllUsers] = useState([]);
+  const [chats, setChats] = useState([]);
+  const [activeChatId, setActiveChatId] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [messagesLoading, setMessagesLoading] = useState(false);
+
+  // --- Navigation & Modals State ---
+  const [sidebarTab, setSidebarTab] = useState('all'); // 'all' | 'unread' | 'groups' | 'archived'
+  const [chatFilterQuery, setChatFilterQuery] = useState('');
+  const [activeDrawer, setActiveDrawer] = useState(null); // null | 'directory' | 'newGroup' | 'settings' | 'chatInfo' | 'blueprint'
+  const [inChatSearchOpen, setInChatSearchOpen] = useState(false);
+  const [inChatSearchQuery, setInChatSearchQuery] = useState('');
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const [pwaInstallPrompt, setPwaInstallPrompt] = useState(null);
+
+  // --- Composer & Message Actions State ---
+  const [draftText, setDraftText] = useState('');
+  const [replyTarget, setReplyTarget] = useState(null);
+  const [editingMessage, setEditingMessage] = useState(null);
+  const [forwardingMessage, setForwardingMessage] = useState(null);
+  const [activeMessageMenu, setActiveMessageMenu] = useState(null);
+
+  // --- New Group Modal State ---
+  const [groupName, setGroupName] = useState('');
+  const [groupDesc, setGroupDesc] = useState('');
+  const [selectedGroupMembers, setSelectedGroupMembers] = useState([]);
+
+  // --- People Search State ---
+  const [peopleSearchQuery, setPeopleSearchQuery] = useState('');
+
+  // --- Toast Feedback System (Never use alert()) ---
+  const [toast, setToast] = useState(null);
+  const showToast = useCallback((message, type = 'info') => {
+    setToast({ message, type, id: Date.now() });
+    setTimeout(() => {
+      setToast((prev) => (prev && Date.now() - prev.id >= 3200 ? null : prev));
+    }, 3400);
+  }, []);
+
+  // Capture Android Chrome PWA install prompt
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault();
+      setPwaInstallPrompt(e);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstallPwa = async () => {
+    if (!pwaInstallPrompt) {
+      showToast(
+        'Open browser menu (⋮) → "Add to Home Screen" or "Install App" to install VYRO.',
+        'info'
+      );
+      return;
+    }
+    pwaInstallPrompt.prompt();
+    const choice = await pwaInstallPrompt.userChoice;
+    if (choice.outcome === 'accepted') {
+      showToast('VYRO installed to your home screen!', 'success');
+      setPwaInstallPrompt(null);
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // 6. FIREBASE AUTHENTICATION LISTENER & INITIAL TOKEN HANDSHAKE
+  // --------------------------------------------------------------------------
+  useEffect(() => {
+    if (!firebaseServices?.auth) return;
+    const { auth } = firebaseServices;
+
+    let unsubAuth = () => {};
+    const initAuth = async () => {
+      try {
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          await signInWithCustomToken(auth, __initial_auth_token);
+        }
+      } catch (err) {
+        // Fallback to standard login screen if custom token isn't applicable
+      }
+      unsubAuth = onAuthStateChanged(auth, (user) => {
+        setAuthUser(user);
+        setAuthLoading(false);
+        if (!user) {
+          setUserProfile(null);
+          setChats([]);
+          setActiveChatId(null);
+        }
+      });
+    };
+
+    initAuth();
+    return () => unsubAuth();
+  }, [firebaseServices]);
+
+  // --------------------------------------------------------------------------
+  // 7. REAL-TIME USER PROFILE & DIRECTORY SUBSCRIPTIONS
+  // --------------------------------------------------------------------------
+  const publicCollection = useCallback(
+    (colName) => {
+      if (!firebaseServices?.db) return null;
+      return collection(
+        firebaseServices.db,
+        'artifacts',
+        activeAppId,
+        'public',
+        'data',
+        colName
+      );
+    },
+    [firebaseServices, activeAppId]
+  );
+
+  const publicDoc = useCallback(
+    (colName, docId) => {
+      if (!firebaseServices?.db) return null;
+      return doc(
+        firebaseServices.db,
+        'artifacts',
+        activeAppId,
+        'public',
+        'data',
+        colName,
+        docId
+      );
+    },
+    [firebaseServices, activeAppId]
+  );
+
+  // Subscribe to current user's profile doc
+  useEffect(() => {
+    if (!authUser || !firebaseServices?.db) return;
+    setProfileLoading(true);
+    const userRef = publicDoc('vyro_users', authUser.uid);
+
+    // Update online presence
+    updateDoc(userRef, {
+      online: true,
+      lastSeen: serverTimestamp()
+    }).catch(() => {});
+
+    const unsub = onSnapshot(
+      userRef,
+      (snap) => {
+        if (snap.exists()) {
+          const data = { id: snap.id, ...snap.data() };
+          setUserProfile(data);
+          if (data.themePrefs?.accent) setAccentKey(data.themePrefs.accent);
+          if (data.themePrefs?.wallpaper) setWallpaperKey(data.themePrefs.wallpaper);
+          if (typeof data.themePrefs?.darkMode === 'boolean') {
+            setDarkMode(data.themePrefs.darkMode);
+          }
+        } else {
+          setUserProfile(null);
+        }
+        setProfileLoading(false);
+      },
+      (err) => {
+        console.error('Profile listener error:', err);
+        setProfileLoading(false);
+      }
+    );
+
+    const handleVisibility = () => {
+      if (!authUser) return;
+      updateDoc(userRef, {
+        online: document.visibilityState === 'visible',
+        lastSeen: serverTimestamp()
+      }).catch(() => {});
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      unsub();
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, [authUser, firebaseServices, publicDoc]);
+
+  // Subscribe to all VYRO users directory (single collection query; filtered in JS)
+  useEffect(() => {
+    if (!authUser || !firebaseServices?.db) return;
+    const usersCol = publicCollection('vyro_users');
+    const unsub = onSnapshot(
+      usersCol,
+      (snap) => {
+        const list = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        setAllUsers(list);
+      },
+      (err) => console.error('Directory listener error:', err)
+    );
+    return () => unsub();
+  }, [authUser, firebaseServices, publicCollection]);
+
+  // --------------------------------------------------------------------------
+  // 8. REAL-TIME CONVERSATIONS LISTENER (1-ON-1 & GROUPS)
+  // --------------------------------------------------------------------------
+  const prevUnreadRef = useRef({});
+
+  useEffect(() => {
+    if (!authUser || !firebaseServices?.db) return;
+    const chatsCol = publicCollection('vyro_chats');
+
+    const unsub = onSnapshot(
+      chatsCol,
+      (snap) => {
+        const myChats = snap.docs
+          .map((d) => ({ id: d.id, ...d.data() }))
+          .filter((c) => Array.isArray(c.participants) && c.participants.includes(authUser.uid));
+
+        // Sort: pinned first, then latest message timestamp descending
+        myChats.sort((a, b) => {
+          const aPinned = Boolean(a.pinnedBy?.[authUser.uid]);
+          const bPinned = Boolean(b.pinnedBy?.[authUser.uid]);
+          if (aPinned !== bPinned) return aPinned ? -1 : 1;
+          const aTime = a.lastMessageAt?.toMillis ? a.lastMessageAt.toMillis() : 0;
+          const bTime = b.lastMessageAt?.toMillis ? b.lastMessageAt.toMillis() : 0;
+          return bTime - aTime;
+        });
+
+        // Browser notification trigger on new incoming message
+        if (notificationsEnabled && Notification.permission === 'granted') {
+          myChats.forEach((c) => {
+            const prevTs = prevUnreadRef.current[c.id];
+            const currTs = c.lastMessageAt?.toMillis ? c.lastMessageAt.toMillis() : 0;
+            if (
+              prevTs &&
+              currTs > prevTs &&
+              c.lastSenderId !== authUser.uid &&
+              !c.mutedBy?.[authUser.uid] &&
+              (document.hidden || c.id !== activeChatId)
+            ) {
+              new Notification(`VYRO • ${c.lastSenderName || 'New Message'}`, {
+                body: c.lastMessageText || 'Sent a message',
+                tag: c.id
+              });
+            }
+            prevUnreadRef.current[c.id] = currTs;
+          });
+        } else {
+          myChats.forEach((c) => {
+            prevUnreadRef.current[c.id] = c.lastMessageAt?.toMillis
+              ? c.lastMessageAt.toMillis()
+              : 0;
+          });
+        }
+
+        setChats(myChats);
+      },
+      (err) => console.error('Chats listener error:', err)
+    );
+
+    return () => unsub();
+  }, [authUser, firebaseServices, publicCollection, notificationsEnabled, activeChatId]);
+
+  // --------------------------------------------------------------------------
+  // 9. REAL-TIME MESSAGES SUBSCRIPTION FOR ACTIVE CHAT + READ RECEIPTS
+  // --------------------------------------------------------------------------
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    if (!authUser || !activeChatId || !firebaseServices?.db) {
+      setMessages([]);
+      return;
+    }
+    setMessagesLoading(true);
+    const msgsCol = collection(
+      firebaseServices.db,
+      'artifacts',
+      activeAppId,
+      'public',
+      'data',
+      'vyro_chats',
+      activeChatId,
+      'messages'
+    );
+
+    const unsub = onSnapshot(
+      msgsCol,
+      (snap) => {
+        const list = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        list.sort((a, b) => {
+          const aMs = a.createdAt?.toMillis ? a.createdAt.toMillis() : Date.now();
+          const bMs = b.createdAt?.toMillis ? b.createdAt.toMillis() : Date.now();
+          return aMs - bMs;
+        });
+        setMessages(list);
+        setMessagesLoading(false);
+
+        // Mark chat read for current user
+        const chatRef = publicDoc('vyro_chats', activeChatId);
+        updateDoc(chatRef, {
+          [`lastReadAt.${authUser.uid}`]: serverTimestamp(),
+          [`unreadCount.${authUser.uid}`]: 0
+        }).catch(() => {});
+      },
+      (err) => {
+        console.error('Messages listener error:', err);
+        setMessagesLoading(false);
+      }
+    );
+
+    return () => unsub();
+  }, [authUser, activeChatId, firebaseServices, activeAppId, publicDoc]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages.length, activeChatId]);
+
+  // --------------------------------------------------------------------------
+  // 10. TYPING INDICATOR DEBOUNCE HANDLER
+  // --------------------------------------------------------------------------
+  const typingTimeoutRef = useRef(null);
+
+  const handleDraftChange = (val) => {
+    setDraftText(val);
+    if (!activeChatId || !authUser) return;
+    const chatRef = publicDoc('vyro_chats', activeChatId);
+    updateDoc(chatRef, {
+      [`typing.${authUser.uid}`]: val.trim().length > 0
+    }).catch(() => {});
+
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    typingTimeoutRef.current = setTimeout(() => {
+      updateDoc(chatRef, {
+        [`typing.${authUser.uid}`]: false
+      }).catch(() => {});
+    }, 2200);
+  };
+
+  // --------------------------------------------------------------------------
+  // 11. AUTHENTICATION & PROFILE CREATION HANDLERS
+  // --------------------------------------------------------------------------
+  const handleEmailAuth = async (e) => {
+    e.preventDefault();
+    if (!firebaseServices?.auth) return;
+    if (!emailInput.trim() || passwordInput.length < 6) {
+      showToast('Enter a valid email and a password of at least 6 characters.', 'error');
+      return;
+    }
+    setAuthSubmitting(true);
+    try {
+      if (authMode === 'login') {
+        await signInWithEmailAndPassword(
+          firebaseServices.auth,
+          emailInput.trim(),
+          passwordInput
+        );
+        showToast('Welcome back to VYRO.', 'success');
+      } else {
+        await createUserWithEmailAndPassword(
+          firebaseServices.auth,
+          emailInput.trim(),
+          passwordInput
+        );
+        showToast('Account created! Claim your @handle next.', 'success');
+      }
+    } catch (err) {
+      showToast(err.message.replace('Firebase: ', ''), 'error');
+    } finally {
+      setAuthSubmitting(false);
+    }
+  };
+
+  const handleInstantGuestAuth = async () => {
+    if (!firebaseServices?.auth) return;
+    setAuthSubmitting(true);
+    try {
+      await signInAnonymously(firebaseServices.auth);
+      showToast('Authenticated via Instant Passkey.', 'success');
+    } catch (err) {
+      showToast('Auth error: ' + err.message, 'error');
+    } finally {
+      setAuthSubmitting(false);
+    }
+  };
+
+  const handleCompleteProfileSetup = async (e) => {
+    e.preventDefault();
+    if (!authUser || !firebaseServices?.db) return;
+    const cleanHandle = sanitizeHandle(setupUsername);
+    if (cleanHandle.length < 3) {
+      showToast('Username must be at least 3 characters (letters, numbers, _).', 'error');
+      return;
+    }
+    if (!setupDisplayName.trim()) {
+      showToast('Please enter a display name.', 'error');
+      return;
+    }
+
+    setSetupSubmitting(true);
+    try {
+      const handleRef = publicDoc('vyro_usernames', cleanHandle);
+      const handleSnap = await getDoc(handleRef);
+      if (handleSnap.exists() && handleSnap.data().uid !== authUser.uid) {
+        showToast(`@${cleanHandle} is already claimed. Choose another handle.`, 'error');
+        setSetupSubmitting(false);
+        return;
+      }
+
+      await setDoc(handleRef, {
+        uid: authUser.uid,
+        claimedAt: serverTimestamp()
+      });
+
+      const userRef = publicDoc('vyro_users', authUser.uid);
+      await setDoc(userRef, {
+        uid: authUser.uid,
+        username: cleanHandle,
+        displayName: setupDisplayName.trim(),
+        bio: setupBio.trim() || 'Your world. Your rules.',
+        avatarGradient: setupGradient,
+        contacts: [],
+        blockedUsers: [],
+        online: true,
+        lastSeen: serverTimestamp(),
+        createdAt: serverTimestamp(),
+        themePrefs: {
+          darkMode,
+          accent: accentKey,
+          wallpaper: wallpaperKey
+        }
+      });
+
+      showToast(`Identity @${cleanHandle} activated!`, 'success');
+    } catch (err) {
+      showToast('Failed to save profile: ' + err.message, 'error');
+    } finally {
+      setSetupSubmitting(false);
+    }
+  };
+
+  const handleUpdateThemePrefs = async (updates) => {
+    const nextDark = updates.darkMode !== undefined ? updates.darkMode : darkMode;
+    const nextAccent = updates.accent || accentKey;
+    const nextWall = updates.wallpaper || wallpaperKey;
+    setDarkMode(nextDark);
+    setAccentKey(nextAccent);
+    setWallpaperKey(nextWall);
+
+    if (authUser && userProfile) {
+      const userRef = publicDoc('vyro_users', authUser.uid);
+      await updateDoc(userRef, {
+        themePrefs: {
+          darkMode: nextDark,
+          accent: nextAccent,
+          wallpaper: nextWall
+        }
+      }).catch(() => {});
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // 12. CONTACTS & CONVERSATION CREATION (1-ON-1 & GROUPS)
+  // --------------------------------------------------------------------------
+  const usersMap = useMemo(() => {
+    const map = {};
+    allUsers.forEach((u) => {
+      map[u.uid || u.id] = u;
+    });
+    return map;
+  }, [allUsers]);
+
+  const toggleContact = async (targetUid) => {
+    if (!authUser || !userProfile) return;
+    const isContact = (userProfile.contacts || []).includes(targetUid);
+    const userRef = publicDoc('vyro_users', authUser.uid);
+    try {
+      await updateDoc(userRef, {
+        contacts: isContact ? arrayRemove(targetUid) : arrayUnion(targetUid)
+      });
+      showToast(isContact ? 'Removed from contacts' : 'Added to contacts', 'success');
+    } catch (err) {
+      showToast('Could not update contacts: ' + err.message, 'error');
+    }
+  };
+
+  const startDirectChat = async (targetUser) => {
+    if (!authUser || !userProfile) return;
+    const targetUid = targetUser.uid || targetUser.id;
+    if (targetUid === authUser.uid) {
+      showToast('You cannot message yourself in a 1-on-1 chat.', 'info');
+      return;
+    }
+
+    // Check if 1-on-1 chat already exists
+    const existing = chats.find(
+      (c) =>
+        c.type === 'direct' &&
+        c.participants.length === 2 &&
+        c.participants.includes(targetUid)
+    );
+    if (existing) {
+      setActiveChatId(existing.id);
+      setActiveDrawer(null);
+      return;
+    }
+
+    try {
+      const chatsCol = publicCollection('vyro_chats');
+      const docRef = await addDoc(chatsCol, {
+        type: 'direct',
+        participants: [authUser.uid, targetUid],
+        admins: [authUser.uid, targetUid],
+        createdAt: serverTimestamp(),
+        lastMessageAt: serverTimestamp(),
+        lastMessageText: 'Conversation initialized',
+        lastSenderId: authUser.uid,
+        lastSenderName: userProfile.displayName,
+        unreadCount: {
+          [authUser.uid]: 0,
+          [targetUid]: 0
+        },
+        typing: {
+          [authUser.uid]: false,
+          [targetUid]: false
+        },
+        pinnedBy: {},
+        mutedBy: {},
+        archivedBy: {}
+      });
+      setActiveChatId(docRef.id);
+      setActiveDrawer(null);
+      showToast(`Started chat with ${targetUser.displayName}`, 'success');
+    } catch (err) {
+      showToast('Error starting chat: ' + err.message, 'error');
+    }
+  };
+
+  const handleCreateGroup = async (e) => {
+    e.preventDefault();
+    if (!authUser || !userProfile) return;
+    if (!groupName.trim()) {
+      showToast('Enter a group name.', 'error');
+      return;
+    }
+    if (selectedGroupMembers.length === 0) {
+      showToast('Select at least 1 member to form a group.', 'error');
+      return;
+    }
+
+    const participants = Array.from(new Set([authUser.uid, ...selectedGroupMembers]));
+    const unreadCount = {};
+    const typing = {};
+    participants.forEach((uid) => {
+      unreadCount[uid] = uid === authUser.uid ? 0 : 1;
+      typing[uid] = false;
+    });
+
+    try {
+      const chatsCol = publicCollection('vyro_chats');
+      const docRef = await addDoc(chatsCol, {
+        type: 'group',
+        name: groupName.trim(),
+        description: groupDesc.trim() || 'VYRO Encrypted Space',
+        avatarGradient: AVATAR_GRADIENTS[Math.floor(Math.random() * AVATAR_GRADIENTS.length)],
+        participants,
+        admins: [authUser.uid],
+        createdBy: authUser.uid,
+        createdAt: serverTimestamp(),
+        lastMessageAt: serverTimestamp(),
+        lastMessageText: `${userProfile.displayName} created "${groupName.trim()}"`,
+        lastSenderId: authUser.uid,
+        lastSenderName: userProfile.displayName,
+        unreadCount,
+        typing,
+        pinnedBy: {},
+        mutedBy: {},
+        archivedBy: {}
+      });
+
+      // Add system welcome message inside group
+      const msgsCol = collection(
+        firebaseServices.db,
+        'artifacts',
+        activeAppId,
+        'public',
+        'data',
+        'vyro_chats',
+        docRef.id,
+        'messages'
+      );
+      await addDoc(msgsCol, {
+        senderId: authUser.uid,
+        senderName: userProfile.displayName,
+        text: `Created group "${groupName.trim()}" with ${participants.length} members.`,
+        type: 'system',
+        createdAt: serverTimestamp(),
+        reactions: {}
+      });
+
+      setGroupName('');
+      setGroupDesc('');
+      setSelectedGroupMembers([]);
+      setActiveChatId(docRef.id);
+      setActiveDrawer(null);
+      showToast('Group created!', 'success');
+    } catch (err) {
+      showToast('Failed to create group: ' + err.message, 'error');
+    }
+  };
+
+  // Group Administration Actions
+  const handleToggleAdmin = async (chat, targetUid) => {
+    const isAdmin = (chat.admins || []).includes(targetUid);
+    const chatRef = publicDoc('vyro_chats', chat.id);
+    try {
+      await updateDoc(chatRef, {
+        admins: isAdmin ? arrayRemove(targetUid) : arrayUnion(targetUid)
+      });
+      showToast(isAdmin ? 'Admin role revoked' : 'Promoted to Group Admin', 'success');
+    } catch (err) {
+      showToast('Action failed: ' + err.message, 'error');
+    }
+  };
+
+  const handleRemoveGroupMember = async (chat, targetUid) => {
+    const chatRef = publicDoc('vyro_chats', chat.id);
+    try {
+      await updateDoc(chatRef, {
+        participants: arrayRemove(targetUid),
+        admins: arrayRemove(targetUid)
+      });
+      showToast('Member removed from group', 'info');
+    } catch (err) {
+      showToast('Action failed: ' + err.message, 'error');
+    }
+  };
+
+  const handleLeaveGroup = async (chat) => {
+    const chatRef = publicDoc('vyro_chats', chat.id);
+    try {
+      await updateDoc(chatRef, {
+        participants: arrayRemove(authUser.uid),
+        admins: arrayRemove(authUser.uid)
+      });
+      setActiveChatId(null);
+      setActiveDrawer(null);
+      showToast('You left the group', 'info');
+    } catch (err) {
+      showToast('Error leaving group: ' + err.message, 'error');
+    }
+  };
+
+  // Pin / Mute / Archive Conversation
+  const toggleChatFlag = async (chat, flagField) => {
+    const current = Boolean(chat[flagField]?.[authUser.uid]);
+    const chatRef = publicDoc('vyro_chats', chat.id);
+    try {
+      await updateDoc(chatRef, {
+        [`${flagField}.${authUser.uid}`]: !current
+      });
+    } catch (err) {
+      showToast('Update failed: ' + err.message, 'error');
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // 13. MESSAGING ACTIONS (SEND, REPLY, EDIT, RECALL, REACT, FORWARD)
+  // --------------------------------------------------------------------------
+  const handleSendMessage = async (e) => {
+    e?.preventDefault();
+    const trimmed = draftText.trim();
+    if (!trimmed || !activeChatId || !authUser || !userProfile) return;
+
+    const chat = chats.find((c) => c.id === activeChatId);
+    if (!chat) return;
+
+    const msgsCol = collection(
+      firebaseServices.db,
+      'artifacts',
+      activeAppId,
+      'public',
+      'data',
+      'vyro_chats',
+      activeChatId,
+      'messages'
+    );
+
+    // Handle Edit Mode
+    if (editingMessage) {
+      try {
+        const msgRef = doc(msgsCol, editingMessage.id);
+        await updateDoc(msgRef, {
+          text: trimmed,
+          edited: true,
+          editedAt: serverTimestamp()
+        });
+        setEditingMessage(null);
+        setDraftText('');
+        showToast('Message edited', 'success');
+      } catch (err) {
+        showToast('Edit failed: ' + err.message, 'error');
+      }
+      return;
+    }
+
+    // Standard / Reply Send
+    const optimisticText = trimmed;
+    const currentReply = replyTarget;
+    setDraftText('');
+    setReplyTarget(null);
+
+    try {
+      await addDoc(msgsCol, {
+        senderId: authUser.uid,
+        senderName: userProfile.displayName,
+        senderHandle: userProfile.username,
+        text: optimisticText,
+        type: 'text',
+        createdAt: serverTimestamp(),
+        edited: false,
+        recalled: false,
+        reactions: {},
+        replyTo: currentReply
+          ? {
+              id: currentReply.id,
+              senderName: currentReply.senderName,
+              text: currentReply.recalled ? 'Recalled message' : currentReply.text.slice(0, 120)
+            }
+          : null
+      });
+
+      // Increment unread counts for other participants
+      const unreadUpdates = {};
+      (chat.participants || []).forEach((pid) => {
+        if (pid !== authUser.uid) {
+          unreadUpdates[`unreadCount.${pid}`] = (chat.unreadCount?.[pid] || 0) + 1;
+        }
+      });
+
+      const chatRef = publicDoc('vyro_chats', activeChatId);
+      await updateDoc(chatRef, {
+        lastMessageText: optimisticText,
+        lastMessageAt: serverTimestamp(),
+        lastSenderId: authUser.uid,
+        lastSenderName: userProfile.displayName,
+        [`typing.${authUser.uid}`]: false,
+        ...unreadUpdates
+      });
+    } catch (err) {
+      showToast('Send failed: ' + err.message, 'error');
+    }
+  };
+
+  const handleToggleReaction = async (message, emoji) => {
+    if (!activeChatId || !authUser) return;
+    const msgRef = doc(
+      firebaseServices.db,
+      'artifacts',
+      activeAppId,
+      'public',
+      'data',
+      'vyro_chats',
+      activeChatId,
+      'messages',
+      message.id
+    );
+    const currentReactors = message.reactions?.[emoji] || [];
+    const hasReacted = currentReactors.includes(authUser.uid);
+    try {
+      await updateDoc(msgRef, {
+        [`reactions.${emoji}`]: hasReacted
+          ? arrayRemove(authUser.uid)
+          : arrayUnion(authUser.uid)
+      });
+      setActiveMessageMenu(null);
+    } catch (err) {
+      showToast('Reaction error: ' + err.message, 'error');
+    }
+  };
+
+  const handleRecallMessage = async (message) => {
+    if (!activeChatId || !authUser || message.senderId !== authUser.uid) return;
+    const msgRef = doc(
+      firebaseServices.db,
+      'artifacts',
+      activeAppId,
+      'public',
+      'data',
+      'vyro_chats',
+      activeChatId,
+      'messages',
+      message.id
+    );
+    try {
+      await updateDoc(msgRef, {
+        text: '',
+        recalled: true,
+        recalledAt: serverTimestamp(),
+        replyTo: null
+      });
+      const chatRef = publicDoc('vyro_chats', activeChatId);
+      await updateDoc(chatRef, {
+        lastMessageText: '🚫 Message recalled by sender'
+      }).catch(() => {});
+      setActiveMessageMenu(null);
+      showToast(
+        'Message recalled from Firestore. Note: Recipients who already viewed or captured it locally may have seen it.',
+        'info'
+      );
+    } catch (err) {
+      showToast('Recall failed: ' + err.message, 'error');
+    }
+  };
+
+  const handleForwardMessage = async (targetChatId) => {
+    if (!forwardingMessage || !authUser || !userProfile) return;
+    const targetChat = chats.find((c) => c.id === targetChatId);
+    if (!targetChat) return;
+
+    try {
+      const msgsCol = collection(
+        firebaseServices.db,
+        'artifacts',
+        activeAppId,
+        'public',
+        'data',
+        'vyro_chats',
+        targetChatId,
+        'messages'
+      );
+      await addDoc(msgsCol, {
+        senderId: authUser.uid,
+        senderName: userProfile.displayName,
+        senderHandle: userProfile.username,
+        text: forwardingMessage.text,
+        type: 'text',
+        forwarded: true,
+        createdAt: serverTimestamp(),
+        reactions: {}
+      });
+
+      const unreadUpdates = {};
+      (targetChat.participants || []).forEach((pid) => {
+        if (pid !== authUser.uid) {
+          unreadUpdates[`unreadCount.${pid}`] = (targetChat.unreadCount?.[pid] || 0) + 1;
+        }
+      });
+
+      const chatRef = publicDoc('vyro_chats', targetChatId);
+      await updateDoc(chatRef, {
+        lastMessageText: `↪ ${forwardingMessage.text}`,
+        lastMessageAt: serverTimestamp(),
+        lastSenderId: authUser.uid,
+        lastSenderName: userProfile.displayName,
+        ...unreadUpdates
+      });
+
+      setForwardingMessage(null);
+      setActiveChatId(targetChatId);
+      showToast('Message forwarded!', 'success');
+    } catch (err) {
+      showToast('Forward failed: ' + err.message, 'error');
+    }
+  };
+
+  const handleEnableBrowserNotifications = async () => {
+    if (!('Notification' in window)) {
+      showToast('Browser notifications are not supported in this webview.', 'error');
+      return;
+    }
+    const perm = await Notification.requestPermission();
+    if (perm === 'granted') {
+      setNotificationsEnabled(true);
+      showToast('Real-time push notifications enabled!', 'success');
+    } else {
+      showToast('Notification permission denied by browser.', 'error');
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // 14. COMPUTED DISPLAY HELPERS FOR CHATS & MESSAGES
+  // --------------------------------------------------------------------------
+  const getChatDisplayMeta = useCallback(
+    (chat) => {
+      if (!chat || !authUser) {
+        return { title: 'Chat', subtitle: '', gradient: AVATAR_GRADIENTS[0], online: false };
+      }
+      if (chat.type === 'group') {
+        const typingNames = (chat.participants || [])
+          .filter((uid) => uid !== authUser.uid && chat.typing?.[uid])
+          .map((uid) => usersMap[uid]?.displayName || 'Someone');
+        return {
+          title: chat.name || 'VYRO Group',
+          subtitle:
+            typingNames.length > 0
+              ? `${typingNames.join(', ')} typing...`
+              : `${(chat.participants || []).length} members`,
+          gradient: chat.avatarGradient || AVATAR_GRADIENTS[1],
+          online: false,
+          isGroup: true
+        };
+      }
+      const peerUid = (chat.participants || []).find((uid) => uid !== authUser.uid);
+      const peer = usersMap[peerUid];
+      const isPeerTyping = Boolean(peerUid && chat.typing?.[peerUid]);
+      return {
+        title: peer?.displayName || 'VYRO User',
+        subtitle: isPeerTyping
+          ? 'typing...'
+          : peer?.online
+          ? 'Online'
+          : peer?.username
+          ? `@${peer.username}`
+          : 'Offline',
+        gradient: peer?.avatarGradient || AVATAR_GRADIENTS[0],
+        online: Boolean(peer?.online),
+        peer,
+        isGroup: false
+      };
+    },
+    [authUser, usersMap]
+  );
+
+  const filteredChats = useMemo(() => {
+    if (!authUser) return [];
+    return chats.filter((chat) => {
+      const isArchived = Boolean(chat.archivedBy?.[authUser.uid]);
+      if (sidebarTab === 'archived') {
+        if (!isArchived) return false;
+      } else {
+        if (isArchived) return false;
+        if (sidebarTab === 'unread' && !(chat.unreadCount?.[authUser.uid] > 0)) return false;
+        if (sidebarTab === 'groups' && chat.type !== 'group') return false;
+      }
+      if (chatFilterQuery.trim()) {
+        const meta = getChatDisplayMeta(chat);
+        const q = chatFilterQuery.toLowerCase();
+        const matchTitle = meta.title.toLowerCase().includes(q);
+        const matchMsg = (chat.lastMessageText || '').toLowerCase().includes(q);
+        return matchTitle || matchMsg;
+      }
+      return true;
+    });
+  }, [chats, authUser, sidebarTab, chatFilterQuery, getChatDisplayMeta]);
+
+  const activeChat = useMemo(
+    () => chats.find((c) => c.id === activeChatId) || null,
+    [chats, activeChatId]
+  );
+
+  const visibleMessages = useMemo(() => {
+    if (!inChatSearchOpen || !inChatSearchQuery.trim()) return messages;
+    const q = inChatSearchQuery.toLowerCase();
+    return messages.filter((m) => (m.text || '').toLowerCase().includes(q));
+  }, [messages, inChatSearchOpen, inChatSearchQuery]);
+
+  // Compute read receipt state for sender's message
+  const getReadState = (msg, chat) => {
+    if (!chat || !authUser || msg.senderId !== authUser.uid) return null;
+    const msgMs = msg.createdAt?.toMillis ? msg.createdAt.toMillis() : 0;
+    if (!msgMs) return 'sending';
+    const otherParticipants = (chat.participants || []).filter((uid) => uid !== authUser.uid);
+    const allRead =
+      otherParticipants.length > 0 &&
+      otherParticipants.every((uid) => {
+        const readTs = chat.lastReadAt?.[uid];
+        const readMs = readTs?.toMillis ? readTs.toMillis() : 0;
+        return readMs >= msgMs;
+      });
+    return allRead ? 'read' : 'delivered';
+  };
+
+  // --------------------------------------------------------------------------
+  // 15. RENDER: THEME SURFACE CLASSES
+  // --------------------------------------------------------------------------
+  const surfaceBg = darkMode ? 'bg-[#07090E] text-slate-100' : 'bg-slate-50 text-slate-900';
+  const panelBg = darkMode
+    ? 'bg-[#0D111A]/95 border-slate-800/80'
+    : 'bg-white/95 border-slate-200';
+  const cardBg = darkMode
+    ? 'bg-slate-900/80 border-slate-800 hover:border-slate-700'
+    : 'bg-slate-100/80 border-slate-200 hover:border-slate-300';
+  const mutedText = darkMode ? 'text-slate-400' : 'text-slate-500';
+  const inputBg = darkMode
+    ? 'bg-slate-900/90 border-slate-800 text-slate-100 placeholder-slate-500'
+    : 'bg-slate-100 border-slate-200 text-slate-900 placeholder-slate-400';
+
+  // --------------------------------------------------------------------------
+  // 16. RENDER: LOADING SCREEN
+  // --------------------------------------------------------------------------
+  if (authLoading || (authUser && profileLoading)) {
+    return (
+      <div className={`min-h-screen flex flex-col items-center justify-center p-6 ${surfaceBg}`}>
+        <div className="relative flex items-center justify-center w-20 h-20 mb-6">
+          <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-cyan-500 to-violet-600 opacity-25 blur-xl animate-pulse" />
+          <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-500 to-violet-600 flex items-center justify-center shadow-lg">
+            <Zap className="w-8 h-8 text-white animate-pulse" />
+          </div>
+        </div>
+        <h1 className="text-xl font-bold tracking-wider uppercase">VYRO</h1>
+        <p className={`text-sm mt-1 ${mutedText}`}>Synchronizing encrypted workspace...</p>
+      </div>
+    );
+  }
+
+  // --------------------------------------------------------------------------
+  // 17. RENDER: ONBOARDING & AUTHENTICATION FLOW
+  // --------------------------------------------------------------------------
+  if (!authUser) {
+    const slides = [
+      {
+        badge: 'PHASE 1 • LIVE ARCHITECTURE',
+        title: 'Your world. Your rules.',
+        desc: 'A high-velocity messaging engine engineered for radical privacy, zero noise, and complete visual sovereignty.',
+        icon: <Zap className="w-8 h-8 text-cyan-400" />
+      },
+      {
+        badge: 'GRANULAR PRIVACY CONTROL',
+        title: 'Own your digital footprint.',
+        desc: 'Independent presence controls, honest message recall, and strict participant-locked Firestore security rules.',
+        icon: <Shield className="w-8 h-8 text-violet-400" />
+      },
+      {
+        badge: 'ADAPTIVE VISUAL ENGINE',
+        title: 'Crafted for speed & clarity.',
+        desc: 'Lightweight Android PWA architecture with customizable themes, wallpapers, and instant real-time sync.',
+        icon: <Sparkles className="w-8 h-8 text-emerald-400" />
+      }
+    ];
+
+    return (
+      <div className={`min-h-screen flex flex-col justify-between p-4 sm:p-8 ${surfaceBg}`}>
+        {/* Top Bar */}
+        <div className="max-w-lg w-full mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-violet-600 flex items-center justify-center font-black text-white shadow-md">
+              V
+            </div>
+            <span className="font-extrabold tracking-widest text-lg">VYRO</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowConfigModal(true)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-medium border flex items-center gap-1.5 transition ${cardBg}`}
+              title="Configure Firebase Project"
+            >
+              <Terminal className="w-3.5 h-3.5 text-cyan-400" />
+              <span>{firebaseServices?.projectId || 'Connect Firebase'}</span>
+            </button>
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className={`p-2 rounded-xl border transition ${cardBg}`}
+              aria-label="Toggle Theme"
+            >
+              {darkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Center Onboarding / Auth Card */}
+        <div className="max-w-lg w-full mx-auto my-auto py-6">
+          {onboardingStep < 3 ? (
+            <div className={`rounded-3xl border p-6 sm:p-8 shadow-2xl transition-all ${panelBg}`}>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold tracking-wider bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-6">
+                {slides[onboardingStep].badge}
+              </div>
+
+              <div className="w-16 h-16 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center mb-6 shadow-inner">
+                {slides[onboardingStep].icon}
+              </div>
+
+              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-3">
+                {slides[onboardingStep].title}
+              </h1>
+              <p className={`text-sm sm:text-base leading-relaxed mb-8 ${mutedText}`}>
+                {slides[onboardingStep].desc}
+              </p>
+
+              {/* Progress Dots */}
+              <div className="flex items-center gap-2 mb-8">
+                {[0, 1, 2].map((idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setOnboardingStep(idx)}
+                    className={`h-2 rounded-full transition-all ${
+                      onboardingStep === idx
+                        ? 'w-8 bg-gradient-to-r from-cyan-400 to-violet-500'
+                        : 'w-2 bg-slate-700'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setOnboardingStep(3)}
+                  className={`px-4 py-3 rounded-2xl text-sm font-semibold border transition ${cardBg}`}
+                >
+                  Skip
+                </button>
+                <button
+                  onClick={() => setOnboardingStep((s) => s + 1)}
+                  className="flex-1 py-3 px-6 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-cyan-500 to-violet-600 hover:opacity-95 shadow-lg shadow-cyan-500/20 transition"
+                >
+                  {onboardingStep === 2 ? 'Enter VYRO' : 'Continue'}
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className={`rounded-3xl border p-6 sm:p-8 shadow-2xl ${panelBg}`}>
+              <div className="mb-6">
+                <span className="text-xs font-bold tracking-widest uppercase text-cyan-400">
+                  Identity Gateway
+                </span>
+                <h2 className="text-2xl font-extrabold mt-1">
+                  {authMode === 'login' ? 'Sign in to VYRO' : 'Create VYRO Account'}
+                </h2>
+                <p className={`text-xs mt-1 ${mutedText}`}>
+                  Your world. Your rules. Real-time Firebase authentication.
+                </p>
+              </div>
+
+              {/* Mode Switcher */}
+              <div className={`grid grid-cols-2 p-1 rounded-2xl border mb-6 ${inputBg}`}>
+                <button
+                  type="button"
+                  onClick={() => setAuthMode('login')}
+                  className={`py-2 rounded-xl text-xs font-bold transition ${
+                    authMode === 'login'
+                      ? 'bg-gradient-to-r from-cyan-500 to-violet-600 text-white shadow'
+                      : mutedText
+                  }`}
+                >
+                  Sign In
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAuthMode('register')}
+                  className={`py-2 rounded-xl text-xs font-bold transition ${
+                    authMode === 'register'
+                      ? 'bg-gradient-to-r from-cyan-500 to-violet-600 text-white shadow'
+                      : mutedText
+                  }`}
+                >
+                  Create Account
+                </button>
+              </div>
+
+              <form onSubmit={handleEmailAuth} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold mb-1.5">Email Address</label>
+                  <input
+                    type="email"
+                    required
+                    value={emailInput}
+                    onChange={(e) => setEmailInput(e.target.value)}
+                    placeholder="you@domain.com"
+                    className={`w-full px-4 py-3 rounded-2xl border text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${inputBg}`}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold mb-1.5">Password</label>
+                  <input
+                    type="password"
+                    required
+                    minLength={6}
+                    value={passwordInput}
+                    onChange={(e) => setPasswordInput(e.target.value)}
+                    placeholder="Min. 6 characters"
+                    className={`w-full px-4 py-3 rounded-2xl border text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${inputBg}`}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={authSubmitting}
+                  className="w-full py-3.5 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-cyan-500 to-violet-600 hover:opacity-95 shadow-lg shadow-cyan-500/20 transition disabled:opacity-50"
+                >
+                  {authSubmitting
+                    ? 'Authenticating...'
+                    : authMode === 'login'
+                    ? 'Launch Workspace'
+                    : 'Register & Claim Handle'}
+                </button>
+              </form>
+
+              <div className="relative my-6 flex items-center justify-center">
+                <div className="border-t border-slate-800 w-full" />
+                <span className={`px-3 text-xs uppercase tracking-wider ${mutedText}`}>or</span>
+                <div className="border-t border-slate-800 w-full" />
+              </div>
+
+              <button
+                type="button"
+                onClick={handleInstantGuestAuth}
+                disabled={authSubmitting}
+                className={`w-full py-3 rounded-2xl text-xs font-bold border flex items-center justify-center gap-2 transition ${cardBg}`}
+              >
+                <Zap className="w-4 h-4 text-cyan-400" />
+                <span>Instant Passkey Session (No Email Required)</span>
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className={`max-w-lg w-full mx-auto text-center text-xs ${mutedText}`}>
+          VYRO Messaging Engine • Android Installable PWA • End-to-End Architecture
+        </div>
+
+        {/* Firebase Config Modal */}
+        {showConfigModal && (
+          <FirebaseConfigModal
+            darkMode={darkMode}
+            panelBg={panelBg}
+            inputBg={inputBg}
+            mutedText={mutedText}
+            customConfigInput={customConfigInput}
+            setCustomConfigInput={setCustomConfigInput}
+            configError={configError}
+            onConnect={handleConnectCustomFirebase}
+            onClose={() => firebaseServices && setShowConfigModal(false)}
+            canClose={Boolean(firebaseServices)}
+          />
+        )}
+
+        <ToastBanner toast={toast} />
+      </div>
+    );
+  }
+
+  // --------------------------------------------------------------------------
+  // 18. RENDER: PROFILE & @USERNAME SETUP (FIRST-TIME USER)
+  // --------------------------------------------------------------------------
+  if (!userProfile) {
+    return (
+      <div className={`min-h-screen flex items-center justify-center p-4 ${surfaceBg}`}>
+        <div className={`max-w-md w-full rounded-3xl border p-6 sm:p-8 shadow-2xl ${panelBg}`}>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <span className="text-xs font-bold tracking-widest uppercase text-cyan-400">
+                Step 2 of 2 • Identity
+              </span>
+              <h2 className="text-2xl font-extrabold mt-1">Claim Your @Handle</h2>
+            </div>
+            <div
+              className={`w-14 h-14 rounded-2xl bg-gradient-to-tr ${setupGradient} flex items-center justify-center text-white font-extrabold text-lg shadow-lg`}
+            >
+              {getInitials(setupDisplayName || setupUsername || 'VY')}
+            </div>
+          </div>
+
+          <form onSubmit={handleCompleteProfileSetup} className="space-y-4">
+            <div>
+              <label className="block text-xs font-semibold mb-1.5">Display Name</label>
+              <input
+                type="text"
+                required
+                maxLength={32}
+                value={setupDisplayName}
+                onChange={(e) => setSetupDisplayName(e.target.value)}
+                placeholder="e.g. Nova Vance"
+                className={`w-full px-4 py-3 rounded-2xl border text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${inputBg}`}
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold mb-1.5">Unique @Username</label>
+              <div className="relative">
+                <span className="absolute left-4 top-3.5 text-sm font-bold text-cyan-400">@</span>
+                <input
+                  type="text"
+                  required
+                  minLength={3}
+                  maxLength={20}
+                  value={setupUsername}
+                  onChange={(e) => setSetupUsername(sanitizeHandle(e.target.value))}
+                  placeholder="novavance"
+                  className={`w-full pl-9 pr-4 py-3 rounded-2xl border text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${inputBg}`}
+                />
+              </div>
+              <p className={`text-[11px] mt-1 ${mutedText}`}>
+                Other VYRO users find you via @{setupUsername || 'username'}.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold mb-1.5">Status / Bio</label>
+              <input
+                type="text"
+                maxLength={80}
+                value={setupBio}
+                onChange={(e) => setSetupBio(e.target.value)}
+                placeholder="Your world. Your rules."
+                className={`w-full px-4 py-3 rounded-2xl border text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${inputBg}`}
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold mb-2">Avatar Signature</label>
+              <div className="flex items-center gap-2.5">
+                {AVATAR_GRADIENTS.map((grad) => (
+                  <button
+                    key={grad}
+                    type="button"
+                    onClick={() => setSetupGradient(grad)}
+                    className={`w-9 h-9 rounded-xl bg-gradient-to-tr ${grad} transition-transform ${
+                      setupGradient === grad ? 'scale-110 ring-2 ring-white' : 'opacity-70'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={setupSubmitting}
+              className="w-full py-3.5 mt-2 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-cyan-500 to-violet-600 hover:opacity-95 shadow-lg transition disabled:opacity-50"
+            >
+              {setupSubmitting ? 'Securing Handle...' : 'Activate VYRO Profile'}
+            </button>
+          </form>
+        </div>
+        <ToastBanner toast={toast} />
+      </div>
+    );
+  }
+
+  // --------------------------------------------------------------------------
+  // 19. RENDER: MAIN MESSAGING WORKSPACE (RESPONSIVE MOBILE + DESKTOP)
+  // --------------------------------------------------------------------------
+  const activeChatMeta = activeChat ? getChatDisplayMeta(activeChat) : null;
+  const activeWallpaper =
+    CHAT_WALLPAPERS[wallpaperKey]?.[darkMode ? 'darkStyle' : 'lightStyle'] || {};
+
+  return (
+    <div className={`h-screen w-screen overflow-hidden flex ${surfaceBg}`}>
+      {/* ====================================================================
+          LEFT SIDEBAR: CONVERSATIONS, FILTERS, QUICK ACTIONS
+         ==================================================================== */}
+      <aside
+        className={`${
+          activeChatId ? 'hidden md:flex' : 'flex'
+        } w-full md:w-[370px] lg:w-[400px] flex-col border-r shrink-0 ${panelBg}`}
+      >
+        {/* Top Brand & Action Bar */}
+        <div className="p-4 flex items-center justify-between border-b border-slate-800/40">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setActiveDrawer('settings')}
+              className="relative group focus:outline-none"
+              title="Profile & Settings"
+            >
+              <div
+                className={`w-10 h-10 rounded-2xl bg-gradient-to-tr ${
+                  userProfile.avatarGradient || AVATAR_GRADIENTS[0]
+                } flex items-center justify-center text-white font-extrabold text-sm shadow-md`}
+              >
+                {getInitials(userProfile.displayName)}
+              </div>
+              <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-[#0D111A]" />
+            </button>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <h1 className="font-black tracking-wider text-base">VYRO</h1>
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-cyan-500/15 text-cyan-400">
+                  PHASE 1
+                </span>
+              </div>
+              <p className={`text-xs truncate max-w-[150px] ${mutedText}`}>
+                @{userProfile.username}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => setActiveDrawer('directory')}
+              className={`p-2.5 rounded-xl border transition ${cardBg}`}
+              title="Find People & Contacts"
+            >
+              <UserPlus className="w-4 h-4 text-cyan-400" />
+            </button>
+            <button
+              onClick={() => setActiveDrawer('newGroup')}
+              className={`p-2.5 rounded-xl border transition ${cardBg}`}
+              title="Create Group Chat"
+            >
+              <Users className="w-4 h-4 text-violet-400" />
+            </button>
+            <button
+              onClick={() => setActiveDrawer('settings')}
+              className={`p-2.5 rounded-xl border transition ${cardBg}`}
+              title="Settings & Customization"
+            >
+              <Settings className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Search & Filter Tabs */}
+        <div className="p-3 space-y-2.5 border-b border-slate-800/30">
+          <div className="relative">
+            <Search className={`w-4 h-4 absolute left-3.5 top-3 ${mutedText}`} />
+            <input
+              type="text"
+              value={chatFilterQuery}
+              onChange={(e) => setChatFilterQuery(e.target.value)}
+              placeholder="Search conversations..."
+              className={`w-full pl-10 pr-4 py-2.5 rounded-2xl border text-xs focus:outline-none focus:ring-2 ${accent.ring} ${inputBg}`}
+            />
+          </div>
+
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+            {[
+              { id: 'all', label: 'All' },
+              { id: 'unread', label: 'Unread' },
+              { id: 'groups', label: 'Groups' },
+              { id: 'archived', label: 'Archived' }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setSidebarTab(tab.id)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap ${
+                  sidebarTab === tab.id
+                    ? `${accent.primary} text-white shadow`
+                    : `${mutedText} hover:bg-slate-800/40`
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Conversation List */}
+        <div className="flex-1 overflow-y-auto p-2 space-y-1">
+          {filteredChats.length === 0 ? (
+            <div className="h-full flex flex-col items-center justify-center text-center p-6">
+              <div className="w-14 h-14 rounded-2xl bg-slate-800/50 flex items-center justify-center mb-3">
+                <MessageSquare className="w-6 h-6 text-cyan-400" />
+              </div>
+              <p className="text-sm font-bold">No conversations here</p>
+              <p className={`text-xs mt-1 max-w-[230px] ${mutedText}`}>
+                Search registered VYRO users by @username or start a new encrypted group.
+              </p>
+              <button
+                onClick={() => setActiveDrawer('directory')}
+                className={`mt-4 px-4 py-2 rounded-xl text-xs font-bold text-white ${accent.primary} shadow`}
+              >
+                Find People on VYRO
+              </button>
+            </div>
+          ) : (
+            filteredChats.map((chat) => {
+              const meta = getChatDisplayMeta(chat);
+              const isSelected = chat.id === activeChatId;
+              const unread = chat.unreadCount?.[authUser.uid] || 0;
+              const isPinned = Boolean(chat.pinnedBy?.[authUser.uid]);
+              const isMuted = Boolean(chat.mutedBy?.[authUser.uid]);
+
+              return (
+                <div
+                  key={chat.id}
+                  onClick={() => setActiveChatId(chat.id)}
+                  className={`group relative flex items-center gap-3 p-3 rounded-2xl cursor-pointer transition-all ${
+                    isSelected
+                      ? darkMode
+                        ? 'bg-slate-800/90 border border-cyan-500/30 shadow-md'
+                        : 'bg-cyan-50 border border-cyan-200'
+                      : 'hover:bg-slate-800/30 border border-transparent'
+                  }`}
+                >
+                  {/* Avatar */}
+                  <div className="relative shrink-0">
+                    <div
+                      className={`w-12 h-12 rounded-2xl bg-gradient-to-tr ${meta.gradient} flex items-center justify-center text-white font-extrabold text-sm shadow`}
+                    >
+                      {meta.isGroup ? (
+                        <Users className="w-5 h-5" />
+                      ) : (
+                        getInitials(meta.title)
+                      )}
+                    </div>
+                    {meta.online && (
+                      <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-[#0D111A]" />
+                    )}
+                  </div>
+
+                  {/* Title & Last Message */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span className="font-bold text-sm truncate">{meta.title}</span>
+                        {isPinned && <Pin className="w-3 h-3 text-cyan-400 shrink-0" />}
+                        {isMuted && <VolumeX className="w-3 h-3 text-slate-500 shrink-0" />}
+                      </div>
+                      <span className={`text-[11px] shrink-0 ${mutedText}`}>
+                        {formatRelativeDate(chat.lastMessageAt)}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between gap-2 mt-1">
+                      <p
+                        className={`text-xs truncate ${
+                          meta.subtitle === 'typing...'
+                            ? 'text-cyan-400 font-semibold'
+                            : mutedText
+                        }`}
+                      >
+                        {meta.subtitle === 'typing...'
+                          ? 'typing...'
+                          : chat.lastMessageText || 'No messages yet'}
+                      </p>
+                      {unread > 0 && (
+                        <span
+                          className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold text-white shrink-0 ${accent.primary}`}
+                        >
+                          {unread}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+      </aside>
+
+      {/* ====================================================================
+          RIGHT STAGE: ACTIVE CONVERSATION STREAM OR WELCOME CANVAS
+         ==================================================================== */}
+      <main
+        className={`${
+          activeChatId ? 'flex' : 'hidden md:flex'
+        } flex-1 flex-col relative overflow-hidden`}
+        style={activeWallpaper}
+      >
+        {!activeChat ? (
+          /* Empty Desktop Stage */
+          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-cyan-500/20 to-violet-600/20 border border-cyan-500/30 flex items-center justify-center mb-5 shadow-2xl">
+              <Zap className="w-10 h-10 text-cyan-400" />
+            </div>
+            <h2 className="text-2xl font-black tracking-tight">Your world. Your rules.</h2>
+            <p className={`text-sm max-w-md mt-2 leading-relaxed ${mutedText}`}>
+              Select a conversation on the left, discover real VYRO members by @handle, or launch
+              a multi-admin group space.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
+              <button
+                onClick={() => setActiveDrawer('directory')}
+                className="px-5 py-2.5 rounded-2xl text-xs font-bold text-white bg-gradient-to-r from-cyan-500 to-violet-600 shadow-lg"
+              >
+                + New Direct Chat
+              </button>
+              <button
+                onClick={() => setActiveDrawer('newGroup')}
+                className={`px-5 py-2.5 rounded-2xl text-xs font-bold border ${cardBg}`}
+              >
+                + Create Group
+              </button>
+              <button
+                onClick={() => setActiveDrawer('blueprint')}
+                className={`px-5 py-2.5 rounded-2xl text-xs font-bold border flex items-center gap-1.5 ${cardBg}`}
+              >
+                <Shield className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Security & Rules</span>
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Chat Header */}
+            <header
+              className={`px-4 py-3 border-b backdrop-blur-md flex items-center justify-between gap-2 z-10 ${panelBg}`}
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <button
+                  onClick={() => setActiveChatId(null)}
+                  className="md:hidden p-2 rounded-xl hover:bg-slate-800/50"
+                  aria-label="Back to chats"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                </button>
+                <div
+                  onClick={() => setActiveDrawer('chatInfo')}
+                  className="flex items-center gap-3 cursor-pointer min-w-0"
+                >
+                  <div
+                    className={`w-10 h-10 rounded-2xl bg-gradient-to-tr ${activeChatMeta.gradient} flex items-center justify-center text-white font-extrabold text-sm shrink-0`}
+                  >
+                    {activeChatMeta.isGroup ? (
+                      <Users className="w-5 h-5" />
+                    ) : (
+                      getInitials(activeChatMeta.title)
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <h2 className="font-bold text-sm sm:text-base truncate">
+                      {activeChatMeta.title}
+                    </h2>
+                    <p
+                      className={`text-xs truncate ${
+                        activeChatMeta.subtitle.includes('typing')
+                          ? 'text-cyan-400 font-semibold'
+                          : mutedText
+                      }`}
+                    >
+                      {activeChatMeta.subtitle}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Chat Header Controls */}
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => {
+                    setInChatSearchOpen(!inChatSearchOpen);
+                    setInChatSearchQuery('');
+                  }}
+                  className={`p-2 rounded-xl transition ${
+                    inChatSearchOpen ? `${accent.primary} text-white` : 'hover:bg-slate-800/40'
+                  }`}
+                  title="Search in conversation"
+                >
+                  <Search className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => toggleChatFlag(activeChat, 'pinnedBy')}
+                  className="p-2 rounded-xl hover:bg-slate-800/40"
+                  title="Pin / Unpin conversation"
+                >
+                  <Pin
+                    className={`w-4 h-4 ${
+                      activeChat.pinnedBy?.[authUser.uid] ? 'text-cyan-400' : ''
+                    }`}
+                  />
+                </button>
+                <button
+                  onClick={() => toggleChatFlag(activeChat, 'mutedBy')}
+                  className="p-2 rounded-xl hover:bg-slate-800/40"
+                  title="Mute / Unmute notifications"
+                >
+                  {activeChat.mutedBy?.[authUser.uid] ? (
+                    <VolumeX className="w-4 h-4 text-amber-400" />
+                  ) : (
+                    <Volume2 className="w-4 h-4" />
+                  )}
+                </button>
+                <button
+                  onClick={() => toggleChatFlag(activeChat, 'archivedBy')}
+                  className="p-2 rounded-xl hover:bg-slate-800/40"
+                  title="Archive / Unarchive conversation"
+                >
+                  <Archive
+                    className={`w-4 h-4 ${
+                      activeChat.archivedBy?.[authUser.uid] ? 'text-violet-400' : ''
+                    }`}
+                  />
+                </button>
+                <button
+                  onClick={() => setActiveDrawer('chatInfo')}
+                  className="p-2 rounded-xl hover:bg-slate-800/40"
+                  title="Conversation & Group Details"
+                >
+                  <Info className="w-4 h-4" />
+                </button>
+              </div>
+            </header>
+
+            {/* In-Chat Search Bar */}
+            {inChatSearchOpen && (
+              <div className={`px-4 py-2 border-b flex items-center gap-2 ${panelBg}`}>
+                <Search className="w-4 h-4 text-cyan-400" />
+                <input
+                  type="text"
+                  autoFocus
+                  value={inChatSearchQuery}
+                  onChange={(e) => setInChatSearchQuery(e.target.value)}
+                  placeholder="Filter messages in this chat..."
+                  className="flex-1 bg-transparent text-xs focus:outline-none"
+                />
+                <button
+                  onClick={() => {
+                    setInChatSearchOpen(false);
+                    setInChatSearchQuery('');
+                  }}
+                  className="p-1"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+
+            {/* Message Feed */}
+            <div
+              className="flex-1 overflow-y-auto px-3 sm:px-6 py-4 space-y-3"
+              onClick={() => setActiveMessageMenu(null)}
+            >
+              {messagesLoading ? (
+                <div className="space-y-3 py-8">
+                  {[1, 2, 3].map((n) => (
+                    <div
+                      key={n}
+                      className={`h-14 w-2/3 rounded-2xl animate-pulse ${
+                        n % 2 === 0 ? 'ml-auto bg-cyan-500/10' : 'bg-slate-800/50'
+                      }`}
+                    />
+                  ))}
+                </div>
+              ) : visibleMessages.length === 0 ? (
+                <div className="h-full flex flex-col items-center justify-center text-center py-12">
+                  <div className="px-4 py-2 rounded-2xl bg-slate-900/80 border border-slate-800 text-xs text-slate-400 max-w-xs">
+                    Messages are synchronized in real time via Firestore and protected by strict
+                    participant access rules.
+                  </div>
+                </div>
+              ) : (
+                visibleMessages.map((msg) => {
+                  if (msg.type === 'system') {
+                    return (
+                      <div key={msg.id} className="flex justify-center my-2">
+                        <span className="px-3 py-1 rounded-full text-[11px] bg-slate-800/70 text-slate-300 border border-slate-700/50">
+                          {msg.text}
+                        </span>
+                      </div>
+                    );
+                  }
+
+                  const isMine = msg.senderId === authUser.uid;
+                  const readState = getReadState(msg, activeChat);
+                  const reactionEntries = Object.entries(msg.reactions || {}).filter(
+                    ([, uids]) => Array.isArray(uids) && uids.length > 0
+                  );
+
+                  return (
+                    <div
+                      key={msg.id}
+                      className={`group flex flex-col ${isMine ? 'items-end' : 'items-start'}`}
+                    >
+                      {/* Sender Name in Group Chats */}
+                      {!isMine && activeChat.type === 'group' && (
+                        <span className="text-[11px] font-semibold text-cyan-400 ml-2 mb-1">
+                          {msg.senderName}
+                        </span>
+                      )}
+
+                      <div className="relative flex items-end gap-1.5 max-w-[85%] sm:max-w-[70%]">
+                        {/* Quick Hover / Tap Action Trigger */}
+                        {isMine && !msg.recalled && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveMessageMenu(
+                                activeMessageMenu === msg.id ? null : msg.id
+                              );
+                            }}
+                            className="opacity-70 sm:opacity-0 group-hover:opacity-100 p-1.5 rounded-xl bg-slate-800/70 text-slate-300 hover:text-white transition"
+                            title="Message options"
+                          >
+                            <MoreVertical className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+
+                        {/* Message Bubble */}
+                        <div
+                          className={`rounded-2xl px-4 py-2.5 shadow-md transition-all ${
+                            msg.recalled
+                              ? 'bg-slate-800/60 border border-slate-700/60 italic text-slate-400 text-xs'
+                              : isMine
+                              ? `bg-gradient-to-br ${accent.bubble} text-white rounded-br-sm`
+                              : darkMode
+                              ? 'bg-[#131926] border border-slate-800 text-slate-100 rounded-bl-sm'
+                              : 'bg-white border border-slate-200 text-slate-900 rounded-bl-sm'
+                          }`}
+                        >
+                          {/* Forwarded Tag */}
+                          {msg.forwarded && !msg.recalled && (
+                            <div className="flex items-center gap-1 text-[10px] opacity-80 mb-1">
+                              <Forward className="w-3 h-3" />
+                              <span>Forwarded</span>
+                            </div>
+                          )}
+
+                          {/* Quoted Reply Preview */}
+                          {msg.replyTo && !msg.recalled && (
+                            <div
+                              className={`mb-1.5 px-2.5 py-1.5 rounded-xl text-xs border-l-2 ${
+                                isMine
+                                  ? 'bg-black/20 border-white/70 text-white/90'
+                                  : 'bg-slate-800/60 border-cyan-400 text-slate-300'
+                              }`}
+                            >
+                              <div className="font-bold text-[10px]">
+                                {msg.replyTo.senderName}
+                              </div>
+                              <div className="truncate opacity-85">{msg.replyTo.text}</div>
+                            </div>
+                          )}
+
+                          {/* Message Body */}
+                          <p className="text-sm whitespace-pre-wrap break-words leading-relaxed">
+                            {msg.recalled
+                              ? '🚫 Message recalled by sender'
+                              : msg.text}
+                          </p>
+
+                          {/* Footer: Timestamp, Edited, Read Receipt */}
+                          <div
+                            className={`flex items-center justify-end gap-1.5 mt-1 text-[10px] ${
+                              isMine ? 'text-white/80' : mutedText
+                            }`}
+                          >
+                            {msg.edited && !msg.recalled && <span>edited</span>}
+                            <span>{formatTime(msg.createdAt)}</span>
+                            {isMine && !msg.recalled && (
+                              <span>
+                                {readState === 'read' ? (
+                                  <CheckCheck className="w-3.5 h-3.5 text-cyan-200" />
+                                ) : (
+                                  <Check className="w-3.5 h-3.5" />
+                                )}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        {!isMine && !msg.recalled && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveMessageMenu(
+                                activeMessageMenu === msg.id ? null : msg.id
+                              );
+                            }}
+                            className="opacity-70 sm:opacity-0 group-hover:opacity-100 p-1.5 rounded-xl bg-slate-800/70 text-slate-300 hover:text-white transition"
+                            title="Message options"
+                          >
+                            <MoreVertical className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+
+                        {/* Context Action Popover */}
+                        {activeMessageMenu === msg.id && !msg.recalled && (
+                          <div
+                            onClick={(e) => e.stopPropagation()}
+                            className={`absolute bottom-full mb-2 ${
+                              isMine ? 'right-0' : 'left-0'
+                            } z-30 w-56 rounded-2xl border p-2 shadow-2xl ${panelBg}`}
+                          >
+                            {/* Quick Reaction Row */}
+                            <div className="flex items-center justify-between px-1 py-1.5 border-b border-slate-800/60 mb-1">
+                              {QUICK_REACTIONS.map((emoji) => (
+                                <button
+                                  key={emoji}
+                                  onClick={() => handleToggleReaction(msg, emoji)}
+                                  className="text-base hover:scale-125 transition p-1"
+                                >
+                                  {emoji}
+                                </button>
+                              ))}
+                            </div>
+
+                            <button
+                              onClick={() => {
+                                setReplyTarget(msg);
+                                setEditingMessage(null);
+                                setActiveMessageMenu(null);
+                              }}
+                              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold hover:bg-slate-800/60"
+                            >
+                              <Reply className="w-3.5 h-3.5 text-cyan-400" />
+                              <span>Reply</span>
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                setForwardingMessage(msg);
+                                setActiveMessageMenu(null);
+                              }}
+                              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold hover:bg-slate-800/60"
+                            >
+                              <Forward className="w-3.5 h-3.5 text-violet-400" />
+                              <span>Forward</span>
+                            </button>
+
+                            {isMine && (
+                              <>
+                                <button
+                                  onClick={() => {
+                                    setEditingMessage(msg);
+                                    setDraftText(msg.text);
+                                    setReplyTarget(null);
+                                    setActiveMessageMenu(null);
+                                  }}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold hover:bg-slate-800/60"
+                                >
+                                  <Edit3 className="w-3.5 h-3.5 text-amber-400" />
+                                  <span>Edit Message</span>
+                                </button>
+
+                                <button
+                                  onClick={() => handleRecallMessage(msg)}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-400 hover:bg-rose-500/10"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                  <span>Recall Message</span>
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Reaction Pills */}
+                      {reactionEntries.length > 0 && !msg.recalled && (
+                        <div className="flex flex-wrap items-center gap-1 mt-1 px-1">
+                          {reactionEntries.map(([emoji, uids]) => {
+                            const iReacted = uids.includes(authUser.uid);
+                            return (
+                              <button
+                                key={emoji}
+                                onClick={() => handleToggleReaction(msg, emoji)}
+                                className={`px-2 py-0.5 rounded-full text-xs flex items-center gap-1 border transition ${
+                                  iReacted
+                                    ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-300'
+                                    : 'bg-slate-900/80 border-slate-800 text-slate-300'
+                                }`}
+                              >
+                                <span>{emoji}</span>
+                                <span className="text-[10px] font-bold">{uids.length}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Reply / Edit Context Banner */}
+            {(replyTarget || editingMessage) && (
+              <div
+                className={`px-4 py-2 border-t flex items-center justify-between gap-3 ${panelBg}`}
+              >
+                <div className="flex items-center gap-2.5 min-w-0">
+                  {editingMessage ? (
+                    <Edit3 className="w-4 h-4 text-amber-400 shrink-0" />
+                  ) : (
+                    <Reply className="w-4 h-4 text-cyan-400 shrink-0" />
+                  )}
+                  <div className="min-w-0">
+                    <div className="text-xs font-bold">
+                      {editingMessage
+                        ? 'Editing message'
+                        : `Replying to ${replyTarget.senderName}`}
+                    </div>
+                    <div className={`text-xs truncate ${mutedText}`}>
+                      {editingMessage ? editingMessage.text : replyTarget.text}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    setReplyTarget(null);
+                    setEditingMessage(null);
+                    setDraftText('');
+                  }}
+                  className="p-1.5 rounded-xl hover:bg-slate-800/60"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+
+            {/* Message Input Composer */}
+            <form
+              onSubmit={handleSendMessage}
+              className={`p-3 sm:p-4 border-t backdrop-blur-md flex items-center gap-2 ${panelBg}`}
+            >
+              <input
+                type="text"
+                value={draftText}
+                onChange={(e) => handleDraftChange(e.target.value)}
+                placeholder={
+                  editingMessage
+                    ? 'Update your message...'
+                    : `Message ${activeChatMeta.title}...`
+                }
+                className={`flex-1 px-4 py-3 rounded-2xl border text-sm focus:outline-none focus:ring-2 ${accent.ring} ${inputBg}`}
+              />
+              <button
+                type="submit"
+                disabled={!draftText.trim()}
+                className={`p-3.5 rounded-2xl text-white ${accent.primary} ${accent.primaryHover} shadow-lg transition disabled:opacity-40`}
+                aria-label="Send message"
+              >
+                <Send className="w-4 h-4" />
+              </button>
+            </form>
+          </>
+        )}
+      </main>
+
+      {/* ====================================================================
+          SLIDE-OVER DRAWERS & MODALS (DIRECTORY, GROUPS, SETTINGS, BLUEPRINT)
+         ==================================================================== */}
+
+      {/* 1. PEOPLE DIRECTORY & CONTACTS DRAWER */}
+      {activeDrawer === 'directory' && (
+        <DrawerModal
+          title="Discover People & Contacts"
+          subtitle="Search real registered VYRO accounts by @username or name"
+          onClose={() => setActiveDrawer(null)}
+          panelBg={panelBg}
+          mutedText={mutedText}
+        >
+          <div className="relative mb-4">
+            <Search className={`w-4 h-4 absolute left-3.5 top-3 ${mutedText}`} />
+            <input
+              type="text"
+              autoFocus
+              value={peopleSearchQuery}
+              onChange={(e) => setPeopleSearchQuery(e.target.value)}
+              placeholder="Search @username or display name..."
+              className={`w-full pl-10 pr-4 py-2.5 rounded-2xl border text-xs focus:outline-none ${inputBg}`}
+            />
+          </div>
+
+          <div className="space-y-2 max-h-[60vh] overflow-y-auto">
+            {allUsers
+              .filter((u) => (u.uid || u.id) !== authUser.uid)
+              .filter((u) => {
+                if (!peopleSearchQuery.trim()) return true;
+                const q = peopleSearchQuery.toLowerCase().replace(/^@/, '');
+                return (
+                  (u.username || '').toLowerCase().includes(q) ||
+                  (u.displayName || '').toLowerCase().includes(q)
+                );
+              })
+              .map((person) => {
+                const pUid = person.uid || person.id;
+                const isContact = (userProfile.contacts || []).includes(pUid);
+                return (
+                  <div
+                    key={pUid}
+                    className={`p-3 rounded-2xl border flex items-center justify-between gap-3 ${cardBg}`}
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div
+                        className={`w-10 h-10 rounded-2xl bg-gradient-to-tr ${
+                          person.avatarGradient || AVATAR_GRADIENTS[0]
+                        } flex items-center justify-center text-white font-bold text-xs shrink-0`}
+                      >
+                        {getInitials(person.displayName)}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-bold text-sm truncate">{person.displayName}</div>
+                        <div className="text-xs text-cyan-400 truncate">@{person.username}</div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <button
+                        onClick={() => toggleContact(pUid)}
+                        className={`px-2.5 py-1.5 rounded-xl text-xs font-semibold border ${
+                          isContact
+                            ? 'border-emerald-500/40 text-emerald-400 bg-emerald-500/10'
+                            : 'border-slate-700 text-slate-300'
+                        }`}
+                      >
+                        {isContact ? 'Saved' : '+ Contact'}
+                      </button>
+                      <button
+                        onClick={() => startDirectChat(person)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-bold text-white ${accent.primary}`}
+                      >
+                        Message
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+
+            {allUsers.filter((u) => (u.uid || u.id) !== authUser.uid).length === 0 && (
+              <div className={`text-center py-8 text-xs ${mutedText}`}>
+                No other users registered in this project yet. Open VYRO in an incognito window or
+                second device to register another @handle and test live 1-on-1 messaging!
+              </div>
+            )}
+          </div>
+        </DrawerModal>
+      )}
+
+      {/* 2. CREATE NEW GROUP DRAWER */}
+      {activeDrawer === 'newGroup' && (
+        <DrawerModal
+          title="Create Group Space"
+          subtitle="Multi-member real-time chat with admin role controls"
+          onClose={() => setActiveDrawer(null)}
+          panelBg={panelBg}
+          mutedText={mutedText}
+        >
+          <form onSubmit={handleCreateGroup} className="space-y-4">
+            <div>
+              <label className="block text-xs font-semibold mb-1">Group Name</label>
+              <input
+                type="text"
+                required
+                value={groupName}
+                onChange={(e) => setGroupName(e.target.value)}
+                placeholder="e.g. Core Engineering"
+                className={`w-full px-4 py-2.5 rounded-2xl border text-xs ${inputBg}`}
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold mb-1">Description</label>
+              <input
+                type="text"
+                value={groupDesc}
+                onChange={(e) => setGroupDesc(e.target.value)}
+                placeholder="Purpose of this space..."
+                className={`w-full px-4 py-2.5 rounded-2xl border text-xs ${inputBg}`}
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold mb-2">
+                Select Members ({selectedGroupMembers.length} selected)
+              </label>
+              <div className="space-y-1.5 max-h-52 overflow-y-auto">
+                {allUsers
+                  .filter((u) => (u.uid || u.id) !== authUser.uid)
+                  .map((u) => {
+                    const uid = u.uid || u.id;
+                    const checked = selectedGroupMembers.includes(uid);
+                    return (
+                      <div
+                        key={uid}
+                        onClick={() =>
+                          setSelectedGroupMembers((prev) =>
+                            checked ? prev.filter((id) => id !== uid) : [...prev, uid]
+                          )
+                        }
+                        className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer ${
+                          checked ? 'border-cyan-500 bg-cyan-500/10' : cardBg
+                        }`}
+                      >
+                        <div>
+                          <div className="text-xs font-bold">{u.displayName}</div>
+                          <div className="text-[11px] text-cyan-400">@{u.username}</div>
+                        </div>
+                        <div
+                          className={`w-5 h-5 rounded-lg flex items-center justify-center ${
+                            checked ? 'bg-cyan-500 text-white' : 'border border-slate-600'
+                          }`}
+                        >
+                          {checked && <Check className="w-3.5 h-3.5" />}
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-3 rounded-2xl font-bold text-xs text-white bg-gradient-to-r from-cyan-500 to-violet-600 shadow-lg"
+            >
+              Launch Group Chat
+            </button>
+          </form>
+        </DrawerModal>
+      )}
+
+      {/* 3. CHAT & GROUP ADMINISTRATION INFO DRAWER */}
+      {activeDrawer === 'chatInfo' && activeChat && (
+        <DrawerModal
+          title={activeChatMeta.title}
+          subtitle={
+            activeChat.type === 'group'
+              ? activeChat.description || 'VYRO Group Space'
+              : `@${activeChatMeta.peer?.username || 'user'}`
+          }
+          onClose={() => setActiveDrawer(null)}
+          panelBg={panelBg}
+          mutedText={mutedText}
+        >
+          {activeChat.type === 'group' ? (
+            <div className="space-y-4">
+              <div className="text-xs font-bold uppercase tracking-wider text-cyan-400">
+                Participants ({(activeChat.participants || []).length})
+              </div>
+              <div className="space-y-2 max-h-64 overflow-y-auto">
+                {(activeChat.participants || []).map((pid) => {
+                  const member = usersMap[pid];
+                  const isMemberAdmin = (activeChat.admins || []).includes(pid);
+                  const amIAdmin = (activeChat.admins || []).includes(authUser.uid);
+
+                  return (
+                    <div
+                      key={pid}
+                      className={`p-2.5 rounded-2xl border flex items-center justify-between gap-2 ${cardBg}`}
+                    >
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs font-bold truncate">
+                            {member?.displayName || pid.slice(0, 8)}
+                          </span>
+                          {isMemberAdmin && (
+                            <span className="px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 text-[10px] font-bold flex items-center gap-0.5">
+                              <Crown className="w-2.5 h-2.5" /> Admin
+                            </span>
+                          )}
+                        </div>
+                        <div className={`text-[11px] ${mutedText}`}>
+                          @{member?.username || 'member'}
+                        </div>
+                      </div>
+
+                      {amIAdmin && pid !== authUser.uid && (
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={() => handleToggleAdmin(activeChat, pid)}
+                            className="px-2 py-1 rounded-lg text-[10px] font-bold border border-slate-700 hover:border-cyan-400"
+                          >
+                            {isMemberAdmin ? 'Demote' : 'Make Admin'}
+                          </button>
+                          <button
+                            onClick={() => handleRemoveGroupMember(activeChat, pid)}
+                            className="p-1.5 rounded-lg text-rose-400 hover:bg-rose-500/10"
+                            title="Remove member"
+                          >
+                            <UserMinus className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              <button
+                onClick={() => handleLeaveGroup(activeChat)}
+                className="w-full py-2.5 rounded-2xl text-xs font-bold text-rose-400 border border-rose-500/30 hover:bg-rose-500/10"
+              >
+                Leave Group
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <div className={`p-4 rounded-2xl border ${cardBg}`}>
+                <div className="text-xs font-bold text-cyan-400 mb-1">Bio</div>
+                <p className="text-xs">
+                  {activeChatMeta.peer?.bio || 'Your world. Your rules.'}
+                </p>
+              </div>
+              <div className={`p-4 rounded-2xl border text-xs space-y-1.5 ${cardBg}`}>
+                <div className="font-bold flex items-center gap-1.5 text-emerald-400">
+                  <Shield className="w-4 h-4" />
+                  <span>Phase 1 Security Scope</span>
+                </div>
+                <p className={mutedText}>
+                  Messages in this conversation are restricted strictly to participants via
+                  Firestore rules. True client-side E2EE key exchange arrives in Phase 3.
+                </p>
+              </div>
+            </div>
+          )}
+        </DrawerModal>
+      )}
+
+      {/* 4. SETTINGS, CUSTOMIZATION & PWA INSTALL DRAWER */}
+      {activeDrawer === 'settings' && (
+        <DrawerModal
+          title="VYRO Control Center"
+          subtitle={`Signed in as @${userProfile.username}`}
+          onClose={() => setActiveDrawer(null)}
+          panelBg={panelBg}
+          mutedText={mutedText}
+        >
+          <div className="space-y-5 max-h-[70vh] overflow-y-auto pr-1">
+            {/* Appearance Mode */}
+            <div>
+              <div className="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">
+                Visual Theme Mode
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={() => handleUpdateThemePrefs({ darkMode: true })}
+                  className={`p-3 rounded-2xl border text-xs font-bold flex items-center justify-center gap-2 ${
+                    darkMode ? 'border-cyan-500 bg-cyan-500/10 text-cyan-400' : cardBg
+                  }`}
+                >
+                  <Moon className="w-4 h-4" /> Obsidian Dark
+                </button>
+                <button
+                  onClick={() => handleUpdateThemePrefs({ darkMode: false })}
+                  className={`p-3 rounded-2xl border text-xs font-bold flex items-center justify-center gap-2 ${
+                    !darkMode ? 'border-cyan-500 bg-cyan-500/10 text-cyan-600' : cardBg
+                  }`}
+                >
+                  <Sun className="w-4 h-4" /> Alabaster Light
+                </button>
+              </div>
+            </div>
+
+            {/* Accent Palette */}
+            <div>
+              <div className="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">
+                Accent Energy
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {Object.values(ACCENT_THEMES).map((th) => (
+                  <button
+                    key={th.id}
+                    onClick={() => handleUpdateThemePrefs({ accent: th.id })}
+                    className={`p-2.5 rounded-2xl border text-xs font-bold flex items-center gap-2 ${
+                      accentKey === th.id ? 'border-cyan-400 bg-slate-800/60' : cardBg
+                    }`}
+                  >
+                    <span className={`w-3.5 h-3.5 rounded-full ${th.primary}`} />
+                    <span>{th.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Chat Wallpaper */}
+            <div>
+              <div className="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">
+                Chat Canvas Wallpaper
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {Object.values(CHAT_WALLPAPERS).map((wp) => (
+                  <button
+                    key={wp.id}
+                    onClick={() => handleUpdateThemePrefs({ wallpaper: wp.id })}
+                    className={`p-2.5 rounded-2xl border text-xs font-bold ${
+                      wallpaperKey === wp.id ? 'border-cyan-400 bg-slate-800/60' : cardBg
+                    }`}
+                  >
+                    {wp.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Notifications & Android PWA Install */}
+            <div className="space-y-2">
+              <div className="text-xs font-bold uppercase tracking-wider text-cyan-400">
+                Device & Notifications
+              </div>
+              <button
+                onClick={handleEnableBrowserNotifications}
+                className={`w-full p-3 rounded-2xl border text-xs font-bold flex items-center justify-between ${cardBg}`}
+              >
+                <span className="flex items-center gap-2">
+                  <Bell className="w-4 h-4 text-cyan-400" />
+                  <span>Browser Push Notifications</span>
+                </span>
+                <span className="text-[11px] text-emerald-400">
+                  {notificationsEnabled ? 'Active' : 'Enable'}
+                </span>
+              </button>
+
+              <button
+                onClick={handleInstallPwa}
+                className={`w-full p-3 rounded-2xl border text-xs font-bold flex items-center justify-between ${cardBg}`}
+              >
+                <span className="flex items-center gap-2">
+                  <Download className="w-4 h-4 text-violet-400" />
+                  <span>Install Android / Desktop PWA</span>
+                </span>
+                <span className="text-[11px] text-cyan-400">Install</span>
+              </button>
+            </div>
+
+            {/* Developer Blueprint & Firebase Project Switcher */}
+            <div className="space-y-2">
+              <div className="text-xs font-bold uppercase tracking-wider text-cyan-400">
+                Architecture & Backend
+              </div>
+              <button
+                onClick={() => setActiveDrawer('blueprint')}
+                className={`w-full p-3 rounded-2xl border text-xs font-bold flex items-center justify-between ${cardBg}`}
+              >
+                <span className="flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-emerald-400" />
+                  <span>Firestore Rules & Play Store TWA Guide</span>
+                </span>
+                <span className="text-[11px] text-cyan-400">View</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setActiveDrawer(null);
+                  setShowConfigModal(true);
+                }}
+                className={`w-full p-3 rounded-2xl border text-xs font-bold flex items-center justify-between ${cardBg}`}
+              >
+                <span className="flex items-center gap-2">
+                  <Terminal className="w-4 h-4 text-amber-400" />
+                  <span>Switch Firebase Project</span>
+                </span>
+                <span className="text-[11px] truncate max-w-[110px]">
+                  {firebaseServices?.projectId}
+                </span>
+              </button>
+            </div>
+
+            {/* Sign Out */}
+            <button
+              onClick={() => signOut(firebaseServices.auth)}
+              className="w-full py-3 rounded-2xl text-xs font-bold text-rose-400 border border-rose-500/30 hover:bg-rose-500/10 flex items-center justify-center gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Sign Out of VYRO</span>
+            </button>
+          </div>
+        </DrawerModal>
+      )}
+
+      {/* 5. SECURITY RULES & PLAY STORE PACKAGING BLUEPRINT MODAL */}
+      {activeDrawer === 'blueprint' && (
+        <DrawerModal
+          title="VYRO Security & Deployment Blueprint"
+          subtitle="Production Firestore Rules, Storage Rules & Android TWA Packaging"
+          onClose={() => setActiveDrawer(null)}
+          panelBg={panelBg}
+          mutedText={mutedText}
+        >
+          <BlueprintViewer
+            cardBg={cardBg}
+            mutedText={mutedText}
+            onCopy={(txt) => {
+              const el = document.createElement('textarea');
+              el.value = txt;
+              document.body.appendChild(el);
+              el.select();
+              document.execCommand('copy');
+              document.body.removeChild(el);
+              showToast('Copied to clipboard!', 'success');
+            }}
+          />
+        </DrawerModal>
+      )}
+
+      {/* 6. FORWARD MESSAGE MODAL */}
+      {forwardingMessage && (
+        <DrawerModal
+          title="Forward Message"
+          subtitle="Choose destination conversation"
+          onClose={() => setForwardingMessage(null)}
+          panelBg={panelBg}
+          mutedText={mutedText}
+        >
+          <div className="space-y-2 max-h-64 overflow-y-auto">
+            {chats.map((c) => {
+              const meta = getChatDisplayMeta(c);
+              return (
+                <button
+                  key={c.id}
+                  onClick={() => handleForwardMessage(c.id)}
+                  className={`w-full p-3 rounded-2xl border flex items-center justify-between text-left ${cardBg}`}
+                >
+                  <span className="text-xs font-bold">{meta.title}</span>
+                  <Forward className="w-4 h-4 text-cyan-400" />
+                </button>
+              );
+            })}
+          </div>
+        </DrawerModal>
+      )}
+
+      {/* FIREBASE PROJECT CONFIG MODAL */}
+      {showConfigModal && (
+        <FirebaseConfigModal
+          darkMode={darkMode}
+          panelBg={panelBg}
+          inputBg={inputBg}
+          mutedText={mutedText}
+          customConfigInput={customConfigInput}
+          setCustomConfigInput={setCustomConfigInput}
+          configError={configError}
+          onConnect={handleConnectCustomFirebase}
+          onClose={() => firebaseServices && setShowConfigModal(false)}
+          canClose={Boolean(firebaseServices)}
+        />
+      )}
+
+      <ToastBanner toast={toast} />
+    </div>
+  );
+}
+
+// ----------------------------------------------------------------------------
+// 6. REUSABLE UI SUB-COMPONENTS
+// ----------------------------------------------------------------------------
+function DrawerModal({ title, subtitle, onClose, children, panelBg, mutedText }) {
+  return (
+    <div
+      className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={`w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl border p-5 sm:p-6 shadow-2xl ${panelBg}`}
+      >
+        <div className="flex items-start justify-between gap-3 mb-4">
+          <div>
+            <h3 className="text-base sm:text-lg font-extrabold">{title}</h3>
+            {subtitle && <p className={`text-xs mt-0.5 ${mutedText}`}>{subtitle}</p>}
+          </div>
+          <button
+            onClick={onClose}
+            className="p-2 rounded-xl hover:bg-slate-800/60"
+            aria-label="Close modal"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function FirebaseConfigModal({
+  panelBg,
+  inputBg,
+  mutedText,
+  customConfigInput,
+  setCustomConfigInput,
+  configError,
+  onConnect,
+  onClose,
+  canClose
+}) {
+  return (
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+      <div className={`max-w-lg w-full rounded-3xl border p-6 shadow-2xl ${panelBg}`}>
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Terminal className="w-5 h-5 text-cyan-400" />
+            <h3 className="text-base font-extrabold">Connect Firebase Project</h3>
+          </div>
+          {canClose && (
+            <button onClick={onClose} className="p-1.5 rounded-xl hover:bg-slate-800">
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+        <p className={`text-xs leading-relaxed mb-4 ${mutedText}`}>
+          Paste your Firebase Web App <code className="text-cyan-400">firebaseConfig</code> object
+          from Firebase Console → Project Settings to connect VYRO to your own live project.
+        </p>
+        <textarea
+          rows={7}
+          value={customConfigInput}
+          onChange={(e) => setCustomConfigInput(e.target.value)}
+          placeholder={`{\n  "apiKey": "AIzaSy...",\n  "authDomain": "vyro-app.firebaseapp.com",\n  "projectId": "vyro-app",\n  "storageBucket": "vyro-app.appspot.com",\n  "messagingSenderId": "123456789",\n  "appId": "1:123456789:web:abcdef"\n}`}
+          className={`w-full p-3.5 rounded-2xl border font-mono text-xs focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${inputBg}`}
+        />
+        {configError && (
+          <p className="text-xs text-rose-400 mt-2 flex items-center gap-1.5">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{configError}</span>
+          </p>
+        )}
+        <button
+          onClick={onConnect}
+          className="w-full mt-4 py-3 rounded-2xl font-bold text-xs text-white bg-gradient-to-r from-cyan-500 to-violet-600 shadow-lg"
+        >
+          Initialize Real-Time Connection
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function BlueprintViewer({ cardBg, mutedText, onCopy }) {
+  const [tab, setTab] = useState('firestoreRules');
+  const codeText = BLUEPRINT_DOCS[tab];
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center gap-1.5">
+        {[
+          { id: 'firestoreRules', label: 'firestore.rules' },
+          { id: 'storageRules', label: 'storage.rules' },
+          { id: 'androidTwa', label: 'Play Store TWA' }
+        ].map((t) => (
+          <button
+            key={t.id}
+            onClick={() => setTab(t.id)}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition ${
+              tab === t.id ? 'border-cyan-500 bg-cyan-500/15 text-cyan-400' : cardBg
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="relative">
+        <button
+          onClick={() => onCopy(codeText)}
+          className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-lg bg-slate-800 text-xs font-bold text-cyan-400 flex items-center gap-1 hover:bg-slate-700"
+        >
+          <Copy className="w-3 h-3" /> Copy
+        </button>
+        <pre className="p-3.5 rounded-2xl bg-[#05070B] border border-slate-800 text-[11px] font-mono text-slate-300 overflow-x-auto max-h-64">
+          {codeText}
+        </pre>
+      </div>
+      <p className={`text-[11px] ${mutedText}`}>
+        Deploy these rules in Firebase Console → Firestore / Storage → Rules to enforce
+        participant-only access on the backend.
+      </p>
+    </div>
+  );
+}
+
+function ToastBanner({ toast }) {
+  if (!toast) return null;
+  const styles =
+    toast.type === 'error'
+      ? 'bg-rose-950/95 border-rose-500/50 text-rose-200'
+      : toast.type === 'success'
+      ? 'bg-emerald-950/95 border-emerald-500/50 text-emerald-200'
+      : 'bg-slate-900/95 border-cyan-500/50 text-cyan-100';
+
+  return (
+    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[60] max-w-md w-[92%]">
+      <div
+        className={`px-4 py-3 rounded-2xl border shadow-2xl backdrop-blur-md text-xs font-semibold flex items-center gap-2.5 ${styles}`}
+      >
+        <CheckCircle2 className="w-4 h-4 shrink-0" />
+        <span>{toast.message}</span>
+      </div>
+    </div>
+  );
+}
+```
